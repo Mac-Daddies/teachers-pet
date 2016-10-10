@@ -130,5 +130,28 @@ angular.module('TeachersPetApp', [])
         };
 
 
+        $scope.addStudent = function(newStudentFirstName, newStudentLastName, newStudentParentEmail) {
+            console.log("In addStudent function in ng controller");
+
+            var newStudentInfo = {
+                firstName: newStudentFirstName,
+                lastName: newStudentLastName,
+                parentEmail: newStudentParentEmail,
+                course: $scope.currentClass
+            }
+
+            $http.post("/addstudent.json", newStudentInfo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.allStudents = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
 
    });
