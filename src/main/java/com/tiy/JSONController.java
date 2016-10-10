@@ -88,10 +88,6 @@ public class JSONController {
 
         Iterable<Assignment> assignmentIterable = assignmentRepository.findAllByCourseId(course.getId());
 
-        for(Assignment assignment: assignmentIterable){
-            assignmentArrayList.add(assignment);
-        }
-
         ArrayList<Student> studentArrayList = new ArrayList<>();
 
         Iterable<Student> studentIterable = studentRepository.findAllByCourse(course);
@@ -99,6 +95,10 @@ public class JSONController {
         for(Student student: studentIterable){
             studentArrayList.add(student);
         }
+        for(Assignment assignment: assignmentIterable){
+            assignmentArrayList.add(assignment);
+        }
+
 
         AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList,assignmentArrayList);
 
