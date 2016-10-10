@@ -2,8 +2,8 @@ angular.module('TeachersPetApp', [])
    .controller('SampleController', function($scope, $http) {
 
         $scope.home = function() {
-            $http.get("/");
-        }
+            $scope.loginContainer = null;
+        };
 
         $scope.login = function(loginEmail, loginPassword) {
             console.log("In login function in ng controller");
