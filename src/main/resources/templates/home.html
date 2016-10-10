@@ -52,10 +52,19 @@
             <h2>My Classes: </h2>
             <ol>
                 <span ng-repeat="course in allCourses">
-                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} </li>
+                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} <input type="button" ng-click="gradebook(course)" value="Gradebook"/> </li>
                 </span>
             </ol>
 
+        </div>
+
+        <div ng-if="currentClass">
+            <h3>{{currentClass.name}}'s assignments: </h3>
+            <ul>
+                <span ng-repeat="assmt in allAssignments">
+                    <li>{{assmt.name}}, due on {{assmt.dueDate}} </li>
+                </span>
+            </ul>
         </div>
     </span>
 
