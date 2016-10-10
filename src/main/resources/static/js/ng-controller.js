@@ -72,7 +72,7 @@ angular.module('TeachersPetApp', [])
                 teacher: $scope.teacherWhoIsLoggedIn
             }
 
-            $http.post("/addClass.json", newClassInfo)
+            $http.post("/addclass.json", newClassInfo)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);

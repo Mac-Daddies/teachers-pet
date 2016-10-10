@@ -1,11 +1,16 @@
 package com.tiy;
 
 import org.apache.commons.logging.Log;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 @RestController
 
 public class JSONController {
@@ -60,11 +65,19 @@ public class JSONController {
         return loginContainer;
     }
     @RequestMapping(path = "/addclass.json", method = RequestMethod.POST)
-    public Course addcourse(@RequestBody Course course){
+    public ArrayList<Course> addcourse(@RequestBody Course course){
         courseRepository.save(course);
+        Course allCourse;
 
-        System.out.println(course.getGradeLevel());
-        return course;
+        ArrayList<Course> courseArrayList = new ArrayList<Course>();
+
+        Iterable<Course> courseIterable = courseRepository.findAllByTeacher(course.getTeacher());
+
+        for(Course thisClass : courseIterable){
+            courseArrayList.add(thisClass);
+        }
+
+        return courseArrayList;
     }
 
 
