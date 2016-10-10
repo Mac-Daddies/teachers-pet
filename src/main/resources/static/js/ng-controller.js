@@ -1,9 +1,11 @@
 angular.module('TeachersPetApp', [])
    .controller('SampleController', function($scope, $http) {
 
+
         $scope.home = function() {
             $scope.loginContainer = null;
         };
+
 
         $scope.login = function(loginEmail, loginPassword) {
             console.log("In login function in ng controller");
@@ -32,6 +34,7 @@ angular.module('TeachersPetApp', [])
                         console.log("Unable to get data...");
                     });
         };
+
 
         $scope.register = function(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool) {
                     console.log("In register function in ng controller");
@@ -63,6 +66,7 @@ angular.module('TeachersPetApp', [])
                             });
                 };
 
+
         $scope.addClass = function(newClassName, newClassSubject, newClassGradeLevel) {
             console.log("In addClass function in ng controller");
 
@@ -85,11 +89,35 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
+
         $scope.gradebook = function(course) {
             console.log("In gradebook function in ng controller");
             $scope.currentClass = course;
 
             $http.post("/gradebook.json", course)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        // ****This will have to change once we get the actual gradebook screen!
+                        $scope.allAssignments = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
+        $scope.addAssignment = function(newAssignmentName, newAssignmentDate) {
+            console.log("In gradebook function in ng controller");
+
+            var newAssignmentInfo = {
+                name: newAssignmentName,
+                dueDate: newAssignmentDate,
+                course: $scope.currentClass
+            }
+
+            $http.post("/addAss.json", newAssignmentInfo)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
@@ -100,9 +128,6 @@ angular.module('TeachersPetApp', [])
                         console.log("Unable to get data...");
                     });
         };
-
-
-
 
 
 
