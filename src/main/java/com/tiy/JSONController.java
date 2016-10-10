@@ -92,6 +92,19 @@ public class JSONController {
         }
         return assignmentArrayList;
     }
+    @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
+    public ArrayList<Assignment> addAss(@RequestBody Assignment assignment){
+        assignmentRepository.save(assignment);
+        Course course = new Course();
+        ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
+
+        Iterable<Assignment> assignmentIterable = assignmentRepository.findAllByCourseId(course.getId());
+
+        for(Assignment addAssignment: assignmentIterable){
+            assignmentArrayList.add(addAssignment);
+        }
+        return assignmentArrayList;
+    }
 
 
 
