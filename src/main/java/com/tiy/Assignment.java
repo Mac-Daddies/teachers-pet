@@ -20,6 +20,9 @@ public class Assignment {
     @Column(nullable = false)
     String dueDate;
 
+    @ManyToOne
+    Course course;
+
 
     // Constructors
     public Assignment() {
@@ -49,5 +52,13 @@ public class Assignment {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
