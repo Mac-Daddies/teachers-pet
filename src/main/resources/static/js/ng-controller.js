@@ -23,6 +23,7 @@ angular.module('TeachersPetApp', [])
                             $scope.loginSuccessful = true;
                             $scope.teacherWhoIsLoggedIn = $scope.loginContainer.teacher;
                             console.log("User who is logged in: " + $scope.teacherWhoIsLoggedIn.firstName + ", id: " + $scope.teacherWhoIsLoggedIn.id);
+                            $scope.allCourses = $scope.loginContainer.courseArrayList;
                         } else {
                             $scope.loginSuccessful = false;
                         }
@@ -62,22 +63,22 @@ angular.module('TeachersPetApp', [])
                             });
                 };
 
-        $scope.addClass = function() {
+        $scope.addClass = function(newClassName, newClassSubject, newClassGradeLevel) {
             console.log("In addClass function in ng controller");
 
             var newClassInfo = {
-                name: "test new class",
-                subject: "test subject",
-                gradeLevel: 10,
+                name: newClassName,
+                subject: newClassSubject,
+                gradeLevel: newClassGradeLevel,
                 teacher: $scope.teacherWhoIsLoggedIn
             }
 
-            $http.post("/addClass.json", newClassInfo)
+            $http.post("/addclass.json", newClassInfo)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.course = response.data;
+                        $scope.allCourses = response.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");

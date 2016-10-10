@@ -44,12 +44,17 @@
     <span ng-if="loginSuccessful">
         Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! <br/><br/>
         <h3>Add a class: </h3>
-        <!--Name: <input type="text" ng-model="newClassName"/>-->
-        <!--Subject: <input type="text" ng-model="newClass"/>-->
-        <!--Grade Level:-->
-        <input type="button" ng-click="addClass()" value="Add class"/> <br/>
+        Name: <input type="text" ng-model="newClassName"/> <br/>
+        Subject: <input type="text" ng-model="newClassSubject"/> <br/>
+        Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
+        <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
         <div>
             <h2>My Classes: </h2>
+            <ol>
+                <span ng-repeat="course in allCourses">
+                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} </li>
+                </span>
+            </ol>
 
         </div>
     </span>
