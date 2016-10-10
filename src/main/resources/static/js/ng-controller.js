@@ -62,6 +62,28 @@ angular.module('TeachersPetApp', [])
                             });
                 };
 
+        $scope.addClass = function() {
+            console.log("In addClass function in ng controller");
+
+            var newClassInfo = {
+                name: "test new class",
+                subject: "test subject",
+                gradeLevel: 10,
+                teacher: $scope.teacherWhoIsLoggedIn
+            }
+
+            $http.post("/addClass.json", newClassInfo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.course = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
 
 
 
