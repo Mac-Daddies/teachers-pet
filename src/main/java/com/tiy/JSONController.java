@@ -98,12 +98,24 @@ public class JSONController {
         Course course = new Course();
         ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
 
-        Iterable<Assignment> assignmentIterable = assignmentRepository.findAllByCourseId(course.getId());
+        Iterable<Assignment> assignmentIterable = assignmentRepository.findAll();
 
         for(Assignment addAssignment: assignmentIterable){
             assignmentArrayList.add(addAssignment);
         }
         return assignmentArrayList;
+    }
+    @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
+    public ArrayList<Student> addStudents(@RequestBody Student newStudent){
+        studentRepository.save(newStudent);
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+
+        Iterable<Student> studentIterable = studentRepository.findAll();
+
+        for(Student student: studentIterable){
+            studentArrayList.add(student);
+        }
+        return studentArrayList;
     }
 
 
