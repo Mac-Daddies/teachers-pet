@@ -6,8 +6,11 @@ import java.util.ArrayList;
  * Created by Yehia830 on 10/10/16.
  */
 public class AssignmentStudentContainer {
-    ArrayList<Student> studentArrayList;
-    ArrayList<Assignment> assignmentArrayList;
+    ArrayList<Student> studentArrayList = new ArrayList<>();
+    ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
+
+    public AssignmentStudentContainer() {
+    }
 
     public AssignmentStudentContainer(ArrayList<Student> studentArrayList, ArrayList<Assignment> assignmentArrayList) {
         this.studentArrayList = studentArrayList;
