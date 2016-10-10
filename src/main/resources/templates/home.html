@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TeachersPetApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher's Pet</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/ng-controller.js"></script>
+</head>
+<body ng-controller="SampleController">
+{{! changing the mustache delimiter so it doesn't conflict with }}
+{{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
+{{=<% %>=}}
+
+Teacher's Pet <br/>
+{{message}}
+
+</body>
+</html>
