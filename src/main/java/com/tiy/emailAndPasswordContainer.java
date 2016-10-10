@@ -12,6 +12,9 @@ public class emailAndPasswordContainer {
         this.password = password;
     }
 
+    public emailAndPasswordContainer() {
+    }
+
     public String getEmail() {
         return email;
     }
