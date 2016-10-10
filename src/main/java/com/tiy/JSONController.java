@@ -67,7 +67,7 @@ public class JSONController {
     @RequestMapping(path = "/addclass.json", method = RequestMethod.POST)
     public ArrayList<Course> addcourse(@RequestBody Course course){
         courseRepository.save(course);
-        Course allCourse;
+
 
         ArrayList<Course> courseArrayList = new ArrayList<Course>();
 
@@ -78,6 +78,19 @@ public class JSONController {
         }
 
         return courseArrayList;
+    }
+    @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
+    public ArrayList<Assignment> assignmentArrayList(@RequestBody Course course){
+        assignmentRepository.save(assignmentRepository.findAllByCourseId(course.getId()));
+
+        ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
+
+        Iterable<Assignment> assignmentIterable = assignmentRepository.findAllByCourseId(course.getId());
+
+        for(Assignment assignment: assignmentIterable){
+            assignmentArrayList.add(assignment);
+        }
+        return assignmentArrayList;
     }
 
 
