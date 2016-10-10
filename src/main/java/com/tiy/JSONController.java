@@ -80,8 +80,9 @@ public class JSONController {
         return courseArrayList;
     }
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
-    public ArrayList<Assignment> assignmentArrayList(@RequestBody Course course){
-        assignmentRepository.save(assignmentRepository.findAllByCourseId(course.getId()));
+    public AssignmentStudentContainer assignmentStudentContainer (@RequestBody Course course){
+//        assignmentRepository.save(assignmentRepository.findAllByCourseId(course.getId()));
+//        studentRepository.save(studentRepository.findAllByCourse(course));
 
         ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
 
@@ -90,7 +91,18 @@ public class JSONController {
         for(Assignment assignment: assignmentIterable){
             assignmentArrayList.add(assignment);
         }
-        return assignmentArrayList;
+
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+
+        Iterable<Student> studentIterable = studentRepository.findAllByCourse(course);
+
+        for(Student student: studentIterable){
+            studentArrayList.add(student);
+        }
+
+        AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList,assignmentArrayList);
+
+        return assignmentStudentContainer;
     }
     @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
     public ArrayList<Assignment> addAss(@RequestBody Assignment assignment){
@@ -108,9 +120,10 @@ public class JSONController {
     @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
     public ArrayList<Student> addStudents(@RequestBody Student newStudent){
         studentRepository.save(newStudent);
-        ArrayList<Student> studentArrayList = new ArrayList<>();
-
+//
         Iterable<Student> studentIterable = studentRepository.findAll();
+        ArrayList<Student> studentArrayList = studentRepository.findAllByCourse(newStudent.course);
+
 
         for(Student student: studentIterable){
             studentArrayList.add(student);
