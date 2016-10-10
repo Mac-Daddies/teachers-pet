@@ -42,15 +42,22 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/login.json", method = RequestMethod.POST)
-        public Teacher login(@RequestBody emailAndPasswordContainer emailAndPasswordContainer){
+        public LoginContainer login(@RequestBody emailAndPasswordContainer emailAndPasswordContainer){
         Teacher returnTeacher;
+        LoginContainer loginContainer;
         String email = emailAndPasswordContainer.email;
         String password = emailAndPasswordContainer.password;
         returnTeacher = teacherRepository.findByEmailAndPassword(email,password);
+        if(returnTeacher == null){
+            loginContainer = new LoginContainer("User not found", null,null);
 
-        System.out.println(returnTeacher.email + returnTeacher.password);
+        }else{
+            loginContainer = new LoginContainer(null,returnTeacher,courseRepository.findAllByTeacher(returnTeacher));
+        }
 
-        return  returnTeacher;
+
+
+        return loginContainer;
     }
 
 
