@@ -84,23 +84,9 @@ public class JSONController {
 //        assignmentRepository.save(assignmentRepository.findAllByCourseId(course.getId()));
 //        studentRepository.save(studentRepository.findAllByCourse(course));
 
-        ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
-
-        Iterable<Assignment> assignmentIterable = assignmentRepository.findAllByCourseId(course.getId());
-
-        ArrayList<Student> studentArrayList = new ArrayList<>();
-
-        Iterable<Student> studentIterable = studentRepository.findAllByCourse(course);
-
-        for(Student student: studentIterable){
-            studentArrayList.add(student);
-        }
-        for(Assignment assignment: assignmentIterable){
-            assignmentArrayList.add(assignment);
-        }
 
 
-        AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList,assignmentArrayList);
+        AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList, assignmentArrayList);
 
         return assignmentStudentContainer;
     }

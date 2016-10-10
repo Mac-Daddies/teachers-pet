@@ -100,7 +100,9 @@ angular.module('TeachersPetApp', [])
                         console.log(response.data);
                         console.log("Adding data to scope");
                         // ****This will have to change once we get the actual gradebook screen!
-                        $scope.allAssignments = response.data;
+                        $scope.gradebookContainer = response.data;
+                        $scope.allAssignments = $scope.gradebookContainer.assignmentArrayList;
+                        $scope.allStudents = $scope.gradebookContainer.studentArrayList;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
