@@ -59,6 +59,13 @@ public class JSONController {
 
         return loginContainer;
     }
+    @RequestMapping(path = "/addclass.json", method = RequestMethod.POST)
+    public Course addcourse(@RequestBody Course course){
+        courseRepository.save(course);
+
+        System.out.println(course.getGradeLevel());
+        return course;
+    }
 
 
 
