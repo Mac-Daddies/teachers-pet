@@ -11,4 +11,5 @@ public interface StudentAssignmentRepository extends CrudRepository<StudentAssig
     ArrayList<StudentAssignment> findAllByStudent(Student student);
     ArrayList<StudentAssignment> findAllByAssignment(Assignment assignment);
     ArrayList<StudentAssignment> findAllByStudentAndAssignment(Student student, Assignment assignment);
+    StudentAssignment findByStudentAndAssignment(Student student, Assignment assignment);
 }

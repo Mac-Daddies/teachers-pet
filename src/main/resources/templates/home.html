@@ -88,16 +88,15 @@
             <input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
 
 
-
-
             <!-- Gradebook table -->
             <table>
-                  <tr ng-repeat="studentContainer in gradebookContainer">
+                  <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
+
                     <td ng-repeat="studentAssignment in studentContainer.studentAssignments">{{ studentAssignment.grade }}</td>
+                    <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> grade </td>-->
                   </tr>
             </table>
-
 
 
         </div>

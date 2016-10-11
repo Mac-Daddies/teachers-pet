@@ -125,15 +125,23 @@ public class JSONController {
     }
     @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
     public ArrayList<Assignment> addAss(@RequestBody Assignment assignment){
+        //Need to add it for every student in the course!
         assignmentRepository.save(assignment);
-        Course course = new Course();
-        ArrayList<Assignment> assignmentArrayList = new ArrayList<>();
 
-        Iterable<Assignment> assignmentIterable = assignmentRepository.findAll();
-
-        for(Assignment addAssignment: assignmentIterable){
-            assignmentArrayList.add(addAssignment);
+        //find all students in course and make a studentAssignment
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.course);
+        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(currentStudentCourse.getStudent());
         }
+
+        StudentAssignment newStudentAssignment;
+        for (Student currentStudent : allStudentsInCourse) {
+            newStudentAssignment = new StudentAssignment(currentStudent, assignment, -1);
+            studentAssignmentRepository.save(newStudentAssignment);
+        }
+
+        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
         return assignmentArrayList;
     }
     @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
@@ -181,7 +189,25 @@ public class JSONController {
         return listOfStudentAssmtsByAssmt;
     }
 
-
+//    @RequestMapping(path = "/curveGrade1.json", method = RequestMethod.POST)
+//    public ArrayList<StudentAssignment> curveGrades(@RequestBody Assignment assignment) {
+//
+//        ArrayList<StudentCourse> studentsCoursesForThisClass = studentCourseRepository.findAllByCourse(assignment.getCourse());
+//        ArrayList<Student> studentsInthisClass = new ArrayList<>();
+//        for (StudentCourse currentStudentCourse : studentsCoursesForThisClass) {
+//            studentsInthisClass.add(currentStudentCourse.getStudent());
+//        }
+//
+//        for (Student currentStudent : studentsInthisClass) {
+//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
+//            studentAssignmentRepository.delete(retrievedStudentAssignment);
+//        }
+//
+//        // not done
+//
+//
+//
+//    }
 
 
 
