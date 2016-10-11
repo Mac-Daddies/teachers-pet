@@ -29,6 +29,9 @@ public class JSONController {
     @Autowired
     StudentAssignmentRepository studentAssignmentRepository;
 
+    @Autowired
+    StudentCourseRepository studentCourseRepository;
+
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginContainer register(@RequestBody Teacher newTeacher){
         teacherRepository.save(newTeacher);
@@ -86,7 +89,12 @@ public class JSONController {
 
         ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(course.getId());
 
-        ArrayList<Student> studentArrayList = studentRepository.findAllByCourse(course);
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
+
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
+        }
 
         AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList, assignmentArrayList);
 
@@ -106,16 +114,28 @@ public class JSONController {
         return assignmentArrayList;
     }
     @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
-    public ArrayList<Student> addStudents(@RequestBody Student newStudent){
+    public ArrayList<Student> addStudents(@RequestBody StudentCourse studentCourse){
+        Student newStudent = studentCourse.getStudent();
+        Course currentCourse = studentCourse.getCourse();
+
         studentRepository.save(newStudent);
-//
-//        Iterable<Student> studentIterable = studentRepository.findAll();
-        ArrayList<Student> studentArrayList = studentRepository.findAllByCourse(newStudent.course);
+
+        studentCourseRepository.save(studentCourse);
+
+
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(currentCourse);
 
 
 //        for(Student student: studentIterable){
 //            studentArrayList.add(student);
 //        }
+
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
+        }
+
+
         return studentArrayList;
     }
 

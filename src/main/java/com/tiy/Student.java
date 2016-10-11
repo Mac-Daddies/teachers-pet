@@ -21,19 +21,15 @@ public class Student {
     @Column(nullable = false)
     String parentEmail;
 
-    @ManyToOne
-    Course course;
-
 
     // Constructors
     public Student() {
     }
 
-    public Student(String firstName, String lastName, String parentEmail, Course course) {
+    public Student(String firstName, String lastName, String parentEmail) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.parentEmail = parentEmail;
-        this.course = course;
     }
 
     // Getters and setters
@@ -63,13 +59,5 @@ public class Student {
 
     public void setParentEmail(String parentEmail) {
         this.parentEmail = parentEmail;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setClass(Course course) {
-        this.course = course;
     }
 }
