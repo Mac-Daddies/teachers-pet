@@ -28,6 +28,9 @@ public class TeachersPetApplicationTests {
 	@Autowired
 	StudentAssignmentRepository studentAssignmentRepository;
 
+	@Autowired
+	StudentCourseRepository studentCourseRepository;
+
 	@Test
 	public void contextLoads() {
 	}
@@ -115,18 +118,10 @@ public class TeachersPetApplicationTests {
 	@Test
 	public void testInsertStudent() {
 		Student testStudent = null;
-		Teacher testTeacher = null;
-		Course testCourse = null;
 		Student retrievedStudent;
 
 		try {
-			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
-			teacherRepository.save(testTeacher);
-
-			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
-			courseRepository.save(testCourse);
-
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email", testCourse);
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
 			studentRepository.save(testStudent);
 
 			retrievedStudent = studentRepository.findOne(testStudent.getId());
@@ -138,6 +133,45 @@ public class TeachersPetApplicationTests {
 				studentRepository.delete(testStudent);
 				retrievedStudent = studentRepository.findOne(testStudent.getId());
 				assertNull(retrievedStudent);
+			}
+		}
+	}
+
+	@Test
+	public void testInsertStudentCourse() {
+		Student testStudent = null;
+		Teacher testTeacher = null;
+		Course testCourse = null;
+		StudentCourse testStudentCourse = null;
+
+		try {
+			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
+			teacherRepository.save(testTeacher);
+
+			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
+			courseRepository.save(testCourse);
+
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
+			studentRepository.save(testStudent);
+
+			testStudentCourse = new StudentCourse(testStudent, testCourse);
+			studentCourseRepository.save(testStudentCourse);
+
+			ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(testCourse);
+
+			ArrayList<Student> allStudentsByCourse = new ArrayList<>();
+			for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+				allStudentsByCourse.add(currentStudentCourse.getStudent());
+			}
+			assertEquals(1, allStudentsByCourse.size());
+			assertEquals(testStudent.getId(), allStudentsByCourse.get(0).getId());
+
+		} finally {
+			if (testStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
+			}
+			if (testStudent != null) {
+				studentRepository.delete(testStudent);
 			}
 			if (testCourse != null) {
 				courseRepository.delete(testCourse);
@@ -154,6 +188,8 @@ public class TeachersPetApplicationTests {
 		Student secondTestStudent = null;
 		Teacher testTeacher = null;
 		Course testCourse = null;
+		StudentCourse testStudentCourse = null;
+		StudentCourse secondTestStudentCourse = null;
 
 		try {
 			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
@@ -162,18 +198,35 @@ public class TeachersPetApplicationTests {
 			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
 			courseRepository.save(testCourse);
 
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email", testCourse);
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
 			studentRepository.save(testStudent);
 
-			secondTestStudent = new Student("second_test_first_name", "second_test_last_name", "second_test_parent_email", testCourse);
+			testStudentCourse = new StudentCourse(testStudent, testCourse);
+			studentCourseRepository.save(testStudentCourse);
+
+			secondTestStudent = new Student("second_test_first_name", "second_test_last_name", "second_test_parent_email");
 			studentRepository.save(secondTestStudent);
 
-			ArrayList<Student> allStudentsByCourse = studentRepository.findAllByCourse(testCourse);
+			secondTestStudentCourse = new StudentCourse(secondTestStudent, testCourse);
+			studentCourseRepository.save(secondTestStudentCourse);
+
+			ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(testCourse);
+
+			ArrayList<Student> allStudentsByCourse = new ArrayList<>();
+			for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+				allStudentsByCourse.add(currentStudentCourse.getStudent());
+			}
 			assertEquals(2, allStudentsByCourse.size());
 			assertEquals(testStudent.getId(), allStudentsByCourse.get(0).getId());
 			assertEquals(secondTestStudent.getId(), allStudentsByCourse.get(1).getId());
 
 		} finally {
+			if (testStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
+			}
+			if (secondTestStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
+			}
 			if (testStudent != null) {
 				studentRepository.delete(testStudent);
 			}
@@ -218,6 +271,7 @@ public class TeachersPetApplicationTests {
 		Course testCourse = null;
 		Teacher testTeacher = null;
 		StudentAssignment retrievedStudentAssignment;
+		StudentCourse testStudentCourse = null;
 
 		try {
 			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
@@ -226,8 +280,11 @@ public class TeachersPetApplicationTests {
 			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
 			courseRepository.save(testCourse);
 
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email", testCourse);
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
 			studentRepository.save(testStudent);
+
+			testStudentCourse = new StudentCourse(testStudent, testCourse);
+			studentCourseRepository.save(testStudentCourse);
 
 			testAssignment = new Assignment("test_assignment_name", "test_due_date");
 			assignmentRepository.save(testAssignment);
@@ -248,6 +305,9 @@ public class TeachersPetApplicationTests {
 			}
 			if (testAssignment != null) {
 				assignmentRepository.delete(testAssignment);
+			}
+			if (testStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
 			}
 			if (testStudent != null) {
 				studentRepository.delete(testStudent);
@@ -270,6 +330,8 @@ public class TeachersPetApplicationTests {
 		Student secondTestStudent = null;
 		Course testCourse = null;
 		Teacher testTeacher = null;
+		StudentCourse testStudentCourse = null;
+		StudentCourse secondTestStudentCourse = null;
 
 		try {
 			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
@@ -278,11 +340,17 @@ public class TeachersPetApplicationTests {
 			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
 			courseRepository.save(testCourse);
 
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email", testCourse);
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
 			studentRepository.save(testStudent);
 
-			secondTestStudent = new Student("second_test_first_name", "second_test_last_name", "second_test_parent_email", testCourse);
+			testStudentCourse = new StudentCourse(testStudent, testCourse);
+			studentCourseRepository.save(testStudentCourse);
+
+			secondTestStudent = new Student("second_test_first_name", "second_test_last_name", "second_test_parent_email");
 			studentRepository.save(secondTestStudent);
+
+			secondTestStudentCourse = new StudentCourse(secondTestStudent, testCourse);
+			studentCourseRepository.save(secondTestStudentCourse);
 
 			testAssignment = new Assignment("test_assignment_name", "test_due_date");
 			assignmentRepository.save(testAssignment);
@@ -306,6 +374,12 @@ public class TeachersPetApplicationTests {
 			}
 			if (secondTestStudentAssignment != null) {
 				studentAssignmentRepository.delete(secondTestStudentAssignment);
+			}
+			if (testStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
+			}
+			if (secondTestStudentCourse != null) {
+				studentCourseRepository.delete(secondTestStudentCourse);
 			}
 			if (testAssignment != null) {
 				assignmentRepository.delete(testAssignment);
@@ -342,7 +416,7 @@ public class TeachersPetApplicationTests {
 			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
 			courseRepository.save(testCourse);
 
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email", testCourse);
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
 			studentRepository.save(testStudent);
 
 			testAssignment = new Assignment("test_assignment_name", "test_due_date");

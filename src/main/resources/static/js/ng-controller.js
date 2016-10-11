@@ -135,14 +135,18 @@ angular.module('TeachersPetApp', [])
         $scope.addStudent = function(newStudentFirstName, newStudentLastName, newStudentParentEmail) {
             console.log("In addStudent function in ng controller");
 
-            var newStudentInfo = {
+            var newStudent = {
                 firstName: newStudentFirstName,
                 lastName: newStudentLastName,
-                parentEmail: newStudentParentEmail,
+                parentEmail: newStudentParentEmail
+            }
+
+            var newStudentInfoAndCourse = {
+                student: newStudent,
                 course: $scope.currentClass
             }
 
-            $http.post("/addstudent.json", newStudentInfo)
+            $http.post("/addstudent.json", newStudentInfoAndCourse)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
