@@ -198,11 +198,22 @@ public class JSONController {
 //            studentsInthisClass.add(currentStudentCourse.getStudent());
 //        }
 //
+//        // UPDATE GRADE USING CURVE AND ADD TO GRADE ARRAYLIST then delete old studentassignment with old grade
+//        for (Student currentStudent : studentsInthisClass) {
+//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
+//            int oldGrade = retrievedStudentAssignment.getGrade();
+//
+//            studentAssignmentRepository.delete(retrievedStudentAssignment);
+//        }
+//
+//
+//
+//
+//        //save the grade for each student
 //        for (Student currentStudent : studentsInthisClass) {
 //            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
 //            studentAssignmentRepository.delete(retrievedStudentAssignment);
 //        }
-//
 //        // not done
 //
 //
