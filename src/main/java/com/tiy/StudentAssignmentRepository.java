@@ -10,4 +10,5 @@ import java.util.ArrayList;
 public interface StudentAssignmentRepository extends CrudRepository<StudentAssignment, Integer> {
     ArrayList<StudentAssignment> findAllByStudent(Student student);
     ArrayList<StudentAssignment> findAllByAssignment(Assignment assignment);
+    ArrayList<StudentAssignment> findAllByStudentAndAssignment(Student student, Assignment assignment);
 }

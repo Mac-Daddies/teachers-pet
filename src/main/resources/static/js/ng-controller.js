@@ -159,5 +159,28 @@ angular.module('TeachersPetApp', [])
         };
 
 
+        $scope.addGrade = function(studentAddingGradeTo, assignmentAddingGradeTo, currentGrade) {
+            console.log("In addGrade function in ng controller");
+
+            var addGradeInfo = {
+                student: studentAddingGradeTo,
+                assignment: assignmentAddingGradeTo,
+                grade: currentGrade
+            }
+
+            $http.post("/addGrade.json", addGradeInfo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.updatedAssignmentGrades = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
+
 
    });

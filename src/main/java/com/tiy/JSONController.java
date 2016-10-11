@@ -139,6 +139,25 @@ public class JSONController {
         return studentArrayList;
     }
 
+    @RequestMapping(path = "/addGrade.json", method = RequestMethod.POST)
+    public ArrayList<StudentAssignment> addGrade(@RequestBody StudentAssignment studentAssignment){
+        // ^ We're getting a container with the student, the assignment, and the grade
+
+        //We should check that the grade here is valid!
+
+        //check to see if there is already a grade for that student on that assignment. If yes, delete so that we can overwrite it.
+        ArrayList<StudentAssignment> allStudentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(studentAssignment.getStudent(), studentAssignment.getAssignment());
+        if (allStudentAssmtsByStudentAndAssmt.size() > 0) {
+            studentAssignmentRepository.delete(allStudentAssmtsByStudentAndAssmt.get(0));
+        }
+        //save the grade for that student-assignment connection
+        studentAssignmentRepository.save(studentAssignment);
+
+        //return all StudentAssignments for this assignment
+        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(studentAssignment.getAssignment());
+        return listOfStudentAssmtsByAssmt;
+    }
+
 
 
 
