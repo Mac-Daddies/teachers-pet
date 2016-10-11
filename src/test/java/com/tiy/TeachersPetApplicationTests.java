@@ -225,7 +225,7 @@ public class TeachersPetApplicationTests {
 				studentCourseRepository.delete(testStudentCourse);
 			}
 			if (secondTestStudentCourse != null) {
-				studentCourseRepository.delete(testStudentCourse);
+				studentCourseRepository.delete(secondTestStudentCourse);
 			}
 			if (testStudent != null) {
 				studentRepository.delete(testStudent);
