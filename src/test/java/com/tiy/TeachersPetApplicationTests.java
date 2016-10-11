@@ -463,5 +463,52 @@ public class TeachersPetApplicationTests {
 		}
 	}
 
+	@Test
+	public void testUpdateGradeAndReturnAllGradesForAssignment() {
+		Student testStudent = null;
+		Assignment testAssignment = null;
+		StudentAssignment testStudentAssignment = null;
+
+		try {
+			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
+			studentRepository.save(testStudent);
+
+			testAssignment = new Assignment("test_assignment_name", "test_due_date");
+			assignmentRepository.save(testAssignment);
+
+			int testGrade = 89;
+			testStudentAssignment = new StudentAssignment(testStudent, testAssignment, testGrade);
+			studentAssignmentRepository.save(testStudentAssignment);
+
+			ArrayList<StudentAssignment> studentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(testStudent, testAssignment);
+			assertEquals(1, studentAssmtsByStudentAndAssmt.size());
+			assertEquals(testGrade, studentAssmtsByStudentAndAssmt.get(0).getGrade());
+
+			int newTestGrade = 96;
+			testStudentAssignment.setGrade(newTestGrade);
+
+			studentAssignmentRepository.delete(studentAssmtsByStudentAndAssmt.get(0));
+			studentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(testStudent, testAssignment);
+			assertEquals(0, studentAssmtsByStudentAndAssmt.size());
+
+//			studentAssignmentRepository.save(testStudentAssignment);
+//			studentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(testStudent, testAssignment);
+//			assertEquals(1, studentAssmtsByStudentAndAssmt.size());
+//			assertEquals(newTestGrade, studentAssmtsByStudentAndAssmt.get(0).getGrade());
+
+		} finally {
+			if (testStudentAssignment != null) {
+				studentAssignmentRepository.delete(testStudentAssignment);
+				assertEquals(null, studentAssignmentRepository.findOne(testStudentAssignment.getId()));
+			}
+			if (testAssignment != null) {
+				assignmentRepository.delete(testAssignment);
+			}
+			if (testStudent != null) {
+				studentRepository.delete(testStudent);
+			}
+		}
+	}
+
 
 }
