@@ -84,7 +84,9 @@ public class JSONController {
 //        assignmentRepository.save(assignmentRepository.findAllByCourseId(course.getId()));
 //        studentRepository.save(studentRepository.findAllByCourse(course));
 
+        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(course.getId());
 
+        ArrayList<Student> studentArrayList = studentRepository.findAllByCourse(course);
 
         AssignmentStudentContainer assignmentStudentContainer = new AssignmentStudentContainer(studentArrayList, assignmentArrayList);
 
@@ -107,13 +109,13 @@ public class JSONController {
     public ArrayList<Student> addStudents(@RequestBody Student newStudent){
         studentRepository.save(newStudent);
 //
-        Iterable<Student> studentIterable = studentRepository.findAll();
+//        Iterable<Student> studentIterable = studentRepository.findAll();
         ArrayList<Student> studentArrayList = studentRepository.findAllByCourse(newStudent.course);
 
 
-        for(Student student: studentIterable){
-            studentArrayList.add(student);
-        }
+//        for(Student student: studentIterable){
+//            studentArrayList.add(student);
+//        }
         return studentArrayList;
     }
 
