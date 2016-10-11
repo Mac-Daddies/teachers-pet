@@ -119,14 +119,22 @@ public class JSONController {
         Course currentCourse = studentCourse.getCourse();
 
         studentRepository.save(newStudent);
+
         studentCourseRepository.save(studentCourse);
 
+
         ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(currentCourse);
+
+
+//        for(Student student: studentIterable){
+//            studentArrayList.add(student);
+//        }
 
         ArrayList<Student> studentArrayList = new ArrayList<>();
         for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
             studentArrayList.add(currentStudentCourse.getStudent());
         }
+
 
         return studentArrayList;
     }
