@@ -105,6 +105,8 @@ public class JSONController {
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer assignmentStudentContainer (@RequestBody Course course){
 
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
+
         ArrayList<StudentContainer> myArrayListOfStudentContainers= new ArrayList<>();
         //For each student in the course, make  a student container
         ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
@@ -120,7 +122,7 @@ public class JSONController {
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
         return returnContainer;
     }
     @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)

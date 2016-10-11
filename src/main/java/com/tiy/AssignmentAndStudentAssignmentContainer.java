@@ -35,12 +35,14 @@ public class AssignmentAndStudentAssignmentContainer {
 //    }
 
     ArrayList<StudentContainer> studentContainers;
+    ArrayList<Assignment> assignments;
 
     public AssignmentAndStudentAssignmentContainer() {
     }
 
-    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers) {
+    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<Assignment> assignments) {
         this.studentContainers = studentContainers;
+        this.assignments = assignments;
     }
 
     //Getters and setters
@@ -50,5 +52,13 @@ public class AssignmentAndStudentAssignmentContainer {
 
     public void setStudentContainers(ArrayList<StudentContainer> studentContainers) {
         this.studentContainers = studentContainers;
+    }
+
+    public ArrayList<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(ArrayList<Assignment> assignments) {
+        this.assignments = assignments;
     }
 }

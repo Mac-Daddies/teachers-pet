@@ -105,6 +105,7 @@ angular.module('TeachersPetApp', [])
                         // $scope.allStudents = $scope.gradebookContainer.studentArrayList;
 
                         $scope.gradebookContainer = response.data;
+                        $scope.allAssignments = $scope.gradebookContainer.assignments;
                         $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
                     },
                     function errorCallback(response) {
