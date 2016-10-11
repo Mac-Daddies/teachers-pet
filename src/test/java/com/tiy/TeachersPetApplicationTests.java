@@ -192,19 +192,19 @@ public class TeachersPetApplicationTests {
 		StudentCourse secondTestStudentCourse = null;
 
 		try {
-			testTeacher = new Teacher("test_first_name", "test_last_name", "test_email", "test_password", "test_school");
+			testTeacher = new Teacher("test_first_name311", "test_last_name1", "test_email11", "test_password1", "test_school1");
 			teacherRepository.save(testTeacher);
 
-			testCourse = new Course("test_name", "test_subject", 9, testTeacher);
+			testCourse = new Course("test_name211", "test_subject1", 9, testTeacher);
 			courseRepository.save(testCourse);
 
-			testStudent = new Student("test_first_name", "test_last_name", "test_parent_email");
+			testStudent = new Student("test_first_name111", "test_last_name1", "test_parent_email1");
 			studentRepository.save(testStudent);
 
 			testStudentCourse = new StudentCourse(testStudent, testCourse);
 			studentCourseRepository.save(testStudentCourse);
 
-			secondTestStudent = new Student("second_test_first_name", "second_test_last_name", "second_test_parent_email");
+			secondTestStudent = new Student("second_test_first_name411", "second_test_last_name1", "second_test_parent_email1");
 			studentRepository.save(secondTestStudent);
 
 			secondTestStudentCourse = new StudentCourse(secondTestStudent, testCourse);
@@ -225,7 +225,8 @@ public class TeachersPetApplicationTests {
 				studentCourseRepository.delete(testStudentCourse);
 			}
 			if (secondTestStudentCourse != null) {
-				studentCourseRepository.delete(testStudentCourse);
+				studentCourseRepository.delete(secondTestStudentCourse);
+
 			}
 			if (testStudent != null) {
 				studentRepository.delete(testStudent);
