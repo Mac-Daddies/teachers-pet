@@ -109,14 +109,15 @@ th {
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
 
-                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade"> </td>
+                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
                 </tr>
 
                 <tr>
                     <td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="" value="Send grades (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="addGrades(gradebookContainer.studentContainer.studentAssignments)" value="Send grades (coming soon)"/> </td>
                 </tr>
             </table>
+
 
 
         </div>
