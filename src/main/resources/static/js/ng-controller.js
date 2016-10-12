@@ -129,7 +129,12 @@ angular.module('TeachersPetApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.allAssignments = response.data;
+                        // $scope.allAssignments = response.data;
+
+                        $scope.gradebookContainer = response.data;
+                        $scope.allAssignments = $scope.gradebookContainer.assignments;
+                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+                        $scope.numberOfAssignments = $scope.allAssignments.length;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");

@@ -114,7 +114,7 @@ th {
 
                 <tr>
                     <td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>
-                    <td> <input type="button" ng-click="" value="Send grades (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="" value="Send grades (coming soon)"/> </td>
                 </tr>
             </table>
 

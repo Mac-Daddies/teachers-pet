@@ -125,8 +125,30 @@ public class JSONController {
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
         return returnContainer;
     }
+//    @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
+//    public ArrayList<Assignment> addAss(@RequestBody Assignment assignment){
+//        //Need to add it for every student in the course!
+//        assignmentRepository.save(assignment);
+//
+//        //find all students in course and make a studentAssignment
+//        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.course);
+//        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+//        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+//            allStudentsInCourse.add(currentStudentCourse.getStudent());
+//        }
+//
+//        StudentAssignment newStudentAssignment;
+//        for (Student currentStudent : allStudentsInCourse) {
+//            newStudentAssignment = new StudentAssignment(currentStudent, assignment, 0);
+//            studentAssignmentRepository.save(newStudentAssignment);
+//        }
+//
+//        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
+//        return assignmentArrayList;
+//    }
+
     @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
-    public ArrayList<Assignment> addAss(@RequestBody Assignment assignment){
+    public AssignmentAndStudentAssignmentContainer addAss(@RequestBody Assignment assignment){
         //Need to add it for every student in the course!
         assignmentRepository.save(assignment);
 
@@ -139,13 +161,23 @@ public class JSONController {
 
         StudentAssignment newStudentAssignment;
         for (Student currentStudent : allStudentsInCourse) {
-            newStudentAssignment = new StudentAssignment(currentStudent, assignment, -1);
+            newStudentAssignment = new StudentAssignment(currentStudent, assignment, 0);
             studentAssignmentRepository.save(newStudentAssignment);
         }
 
         ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
-        return assignmentArrayList;
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+
+        for (Student currentStudent : allStudentsInCourse) {
+            //find all of their student assignments
+            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
+            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
+            myArrayListOfStudentContainers.add(newStudentContainer);
+        }
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
+        return returnContainer;
     }
+
     @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
     public ArrayList<Student> addStudents(@RequestBody StudentCourse studentCourse){
         Student newStudent = studentCourse.getStudent();
