@@ -205,22 +205,27 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/addGrade.json", method = RequestMethod.POST)
-    public ArrayList<StudentAssignment> addGrade(@RequestBody StudentAssignment studentAssignment){
+    public ArrayList<StudentAssignment> addGrade(@RequestBody ArrayList<StudentAssignment> studentAssignmentArrayList){
         // ^ We're getting a container with the student, the assignment, and the grade
 
         //We should check that the grade here is valid!
 
         //check to see if there is already a grade for that student on that assignment. If yes, retrieve it
-        ArrayList<StudentAssignment> allStudentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(studentAssignment.getStudent(), studentAssignment.getAssignment());
-        if (allStudentAssmtsByStudentAndAssmt.size() > 0) {
-            studentAssignmentRepository.delete(allStudentAssmtsByStudentAndAssmt.get(0));
+        StudentAssignment studentAssignment;
+
+        for(StudentAssignment retrievedstudentsAndAssignment: studentAssignmentArrayList){
+            studentAssignment = studentAssignmentRepository.findByStudentAndAssignment(retrievedstudentsAndAssignment.student,retrievedstudentsAndAssignment.assignment);
+            studentAssignment.setGrade(retrievedstudentsAndAssignment.grade);
+            studentAssignmentRepository.save(studentAssignment);
         }
         //save the grade for that student-assignment connection
-        studentAssignmentRepository.save(studentAssignment);
+
 
         //return all StudentAssignments for this assignment
-        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(studentAssignment.getAssignment());
-        return listOfStudentAssmtsByAssmt;
+
+            ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(studentAssignmentArrayList.get(0).getAssignment());
+
+        return listOfStudentAssmtsByAssmt ;
     }
 
     @RequestMapping(path = "/curveFlat.json", method = RequestMethod.POST)
