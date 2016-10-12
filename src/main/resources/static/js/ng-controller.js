@@ -188,6 +188,8 @@ angular.module('TeachersPetApp', [])
                         console.log(response.data);
                         console.log("Adding data to scope");
                         $scope.updatedAssignmentGrades = response.data;
+                        console.log("sending to backend...")
+                        console.log(updatedAssignmentGrades))
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
