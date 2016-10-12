@@ -169,10 +169,10 @@ angular.module('TeachersPetApp', [])
         };
 
 
-        $scope.addGrades = function(gradebookContainer.studentContainer.studentAssignments) {
+        $scope.addGrades = function(studentAssignmentsForAssignment) {
             console.log("In addGrade function in ng controller");
 
-            $http.post("/addGrade.json", gradebookContainer.studentContainer.studentAssignments)
+            $http.post("/addGrade.json", studentAssignmentsForAssignment)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
