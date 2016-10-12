@@ -191,36 +191,61 @@ public class JSONController {
         return listOfStudentAssmtsByAssmt;
     }
 
-//    @RequestMapping(path = "/curveGrade1.json", method = RequestMethod.POST)
-//    public ArrayList<StudentAssignment> curveGrades(@RequestBody Assignment assignment) {
-//
-//        ArrayList<StudentCourse> studentsCoursesForThisClass = studentCourseRepository.findAllByCourse(assignment.getCourse());
-//        ArrayList<Student> studentsInthisClass = new ArrayList<>();
-//        for (StudentCourse currentStudentCourse : studentsCoursesForThisClass) {
-//            studentsInthisClass.add(currentStudentCourse.getStudent());
-//        }
-//
-//        // UPDATE GRADE USING CURVE AND ADD TO GRADE ARRAYLIST then delete old studentassignment with old grade
+    @RequestMapping(path = "/curveFlat.json", method = RequestMethod.POST)
+    public ArrayList<StudentAssignment> curveGrades(@RequestBody Assignment assignment) {
+
+        ArrayList<StudentCourse> studentsCoursesForThisClass = studentCourseRepository.findAllByCourse(assignment.getCourse());
+        ArrayList<Student> studentsInthisClass = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : studentsCoursesForThisClass) {
+            studentsInthisClass.add(currentStudentCourse.getStudent());
+        }
+
+        ArrayList<Integer> oldGrades = new ArrayList<>();
+//        // ADD TO OLDGRADE ARRAYLIST then delete old studentassignment with old grade
 //        for (Student currentStudent : studentsInthisClass) {
 //            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
-//            int oldGrade = retrievedStudentAssignment.getGrade();
+//            oldGrades.add(retrievedStudentAssignment.getGrade());
 //
 //            studentAssignmentRepository.delete(retrievedStudentAssignment);
 //        }
-//
-//
-//
-//
-//        //save the grade for each student
-//        for (Student currentStudent : studentsInthisClass) {
-//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
-//            studentAssignmentRepository.delete(retrievedStudentAssignment);
+
+        // add student's grade to oldGrade array list
+        for (Student currentStudent : studentsInthisClass) {
+            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
+            oldGrades.add(retrievedStudentAssignment.getGrade());
+        }
+
+        System.out.print("Old grades: ");
+        for (int currentGrade : oldGrades) {
+            System.out.print(currentGrade + " ");
+        }
+        System.out.println();
+
+        //curve old grade arraylist
+        ArrayList<Integer> newGrades = myCurver.curveFlat(oldGrades);
+        System.out.print("New grades after curveFlat: ");
+//        for (int currentGrade : newGrades) {
+//            System.out.print(currentGrade + " ");
 //        }
-//        // not done
-//
-//
-//
-//    }
+//        System.out.println();
+
+
+        //save each element in new grade arraylist to the grade for that student assignment.
+        int counter = 0;
+        for (Student currentStudent : studentsInthisClass) {
+            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
+            retrievedStudentAssignment.setGrade(newGrades.get(counter));
+            System.out.print(retrievedStudentAssignment.getGrade() + " ");
+            //CHECK: will this make a new one? Or update old one? Should update old one.
+            studentAssignmentRepository.save(retrievedStudentAssignment);
+            counter++;
+        }
+
+        //get a list of all student assignments (updated) for that assignment. (CHECK: Is this what I want to return?)
+        ArrayList<StudentAssignment> allStudentAssignments = studentAssignmentRepository.findAllByAssignment(assignment);
+
+        return allStudentAssignments;
+    }
 
 
 
