@@ -116,6 +116,11 @@ th {
                     <td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>
                     <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades (coming soon)"/> </td>
                 </tr>
+
+                <tr>
+                    <td> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
+                </tr>
             </table>
 
 

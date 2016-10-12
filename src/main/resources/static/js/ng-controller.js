@@ -199,6 +199,27 @@ angular.module('TeachersPetApp', [])
             return new Array(num);
         }
 
+        $scope.curveFlat = function(currentAssignment, studentContainers) {
+            console.log("In curveFlat function in ng controller");
+
+            var curveFlatContainer = {
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+            $http.post("/curveFlat.json", curveFlatContainer)
+                .then(
+                    function successCallback(response) {
+                        console.log("This is what we get back: ");
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.updatedAssignmentGrades = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
 
 
 
