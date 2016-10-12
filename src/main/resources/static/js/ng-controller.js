@@ -107,6 +107,7 @@ angular.module('TeachersPetApp', [])
                         $scope.gradebookContainer = response.data;
                         $scope.allAssignments = $scope.gradebookContainer.assignments;
                         $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+                        $scope.numberOfAssignments = $scope.allAssignments.length;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -183,6 +184,11 @@ angular.module('TeachersPetApp', [])
                         console.log("Unable to get data...");
                     });
         };
+
+
+        $scope.getNumberOfAssignments = function(num) {
+            return new Array(num);
+        }
 
 
 
