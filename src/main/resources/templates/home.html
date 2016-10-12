@@ -101,13 +101,30 @@ th {
 
 
             <!-- Gradebook table -->
+            <!--<table>-->
+                  <!--<tr ng-repeat="studentContainer in gradebookContainer.studentContainers">-->
+                    <!--<td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>-->
+
+                    <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments">{{ studentAssignment.grade }}</td>-->
+                    <!--&lt;!&ndash;<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> grade </td>&ndash;&gt;-->
+                  <!--</tr>-->
+            <!--</table>-->
+
             <table>
-                  <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
+                <tr>
+                    <td></td>
+                    <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}</td>
+                </tr>
+                <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
 
-                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments">{{ studentAssignment.grade }}</td>
-                    <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> grade </td>-->
-                  </tr>
+                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade"> </td>
+                </tr>
+
+                <tr>
+                    <td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>
+                    <td> <input type="button" ng-click="" value="Send grades (coming soon)"/> </td>
+                </tr>
             </table>
 
 

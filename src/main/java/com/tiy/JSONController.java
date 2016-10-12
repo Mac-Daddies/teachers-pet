@@ -178,7 +178,7 @@ public class JSONController {
 
         //We should check that the grade here is valid!
 
-        //check to see if there is already a grade for that student on that assignment. If yes, delete so that we can overwrite it.
+        //check to see if there is already a grade for that student on that assignment. If yes, retrieve it
         ArrayList<StudentAssignment> allStudentAssmtsByStudentAndAssmt = studentAssignmentRepository.findAllByStudentAndAssignment(studentAssignment.getStudent(), studentAssignment.getAssignment());
         if (allStudentAssmtsByStudentAndAssmt.size() > 0) {
             studentAssignmentRepository.delete(allStudentAssmtsByStudentAndAssmt.get(0));
