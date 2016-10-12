@@ -169,12 +169,22 @@ angular.module('TeachersPetApp', [])
         };
 
 
-        $scope.addGrades = function(studentAssignmentsForAssignment) {
+        $scope.addGrades = function(currentAssignment, studentContainers) {
             console.log("In addGrade function in ng controller");
+            console.log("Sending this list of student containers to backend:");
+            console.log(studentContainers);
+            console.log("Sending this assignment: ");
+            console.log(currentAssignment);
 
-            $http.post("/addGrade.json", studentAssignmentsForAssignment)
+            var addGradesContainer = {
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+            $http.post("/addGrade.json", addGradesContainer)
                 .then(
                     function successCallback(response) {
+                        console.log("This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
                         $scope.updatedAssignmentGrades = response.data;
