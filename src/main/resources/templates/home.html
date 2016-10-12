@@ -73,9 +73,9 @@ th {
         <div ng-if="currentClass">
             <!--<h3>{{currentClass.name}}'s students: </h3>-->
             <!--<ul>-->
-                <!--<span ng-repeat="student in allStudents">-->
-                    <!--<li>{{student.firstName}} {{student.lastName}} </li>-->
-                <!--</span>-->
+            <!--<span ng-repeat="student in allStudents">-->
+            <!--<li>{{student.firstName}} {{student.lastName}} </li>-->
+            <!--</span>-->
             <!--</ul>-->
             <!--<br/>-->
 
@@ -88,9 +88,9 @@ th {
             <br/><br/>
             <!--<h3>{{currentClass.name}}'s assignments: </h3>-->
             <!--<ul>-->
-                <!--<span ng-repeat="assmt in allAssignments">-->
-                    <!--<li>{{assmt.name}}, due on {{assmt.dueDate}} </li>-->
-                <!--</span>-->
+            <!--<span ng-repeat="assmt in allAssignments">-->
+            <!--<li>{{assmt.name}}, due on {{assmt.dueDate}} </li>-->
+            <!--</span>-->
             <!--</ul>-->
             <!--<br/>-->
 
@@ -101,13 +101,30 @@ th {
 
 
             <!-- Gradebook table -->
+            <!--<table>-->
+            <!--<tr ng-repeat="studentContainer in gradebookContainer.studentContainers">-->
+            <!--<td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>-->
+
+            <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments">{{ studentAssignment.grade }}</td>-->
+            <!--&lt;!&ndash;<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> grade </td>&ndash;&gt;-->
+            <!--</tr>-->
+            <!--</table>-->
+
             <table>
-                  <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
+                <tr>
+                    <td></td>
+                    <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}</td>
+                </tr>
+                <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
 
-                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments">{{ studentAssignment.grade }}</td>
-                    <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> grade </td>-->
-                  </tr>
+                    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade"> </td>
+                </tr>
+
+                <tr>
+                    <td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>
+                    <td> <input type="button" ng-click="" value="Send grades (coming soon)"/> </td>
+                </tr>
             </table>
 
 
