@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TeachersPetApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher's Pet</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/ng-controller.js"></script>
+    <style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+th {
+    text-align: left;
+}
+</style>
+</head>
+<body ng-controller="SampleController">
+{{! changing the mustache delimiter so it doesn't conflict with }}
+{{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
+{{=<% %>=}}
+
+<div style="text-align: center">
+    Welcome to Teacher's Pet
+</div>
+
+<span ng-if="!loginContainer">
+    <div>
+        <h3>Login:</h3>
+        Email: <input type="text" ng-model="loginEmail"/> <br/>
+        Password: <input type="text" ng-model="loginPassword"/> <br/>
+        <input type="button" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>
+    </div>
+
+     - or -
+
+    <div>
+        <h3>Register:</h3>
+        First Name: <input type="text" ng-model="registerFirstName"/> <br/>
+        Last Name: <input type="text" ng-model="registerLastName"/> <br/>
+        Email: <input type="text" ng-model="registerEmail"/> <br/>
+        Password: <input type="text" ng-model="registerPassword"/> <br/>
+        School: <input type="text" ng-model="registerSchool"/> <br/>
+        <input type="button" ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" value="Register"/>
+    </div>
+</span>
+
+<span ng-if="loginContainer != null">
+    <span ng-if="!loginSuccessful">
+        Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>
+    </span>
+
+    <span ng-if="loginSuccessful">
+        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! <br/><br/>
+        <h3>Add a class: </h3>
+        Name: <input type="text" ng-model="newClassName"/> <br/>
+        Subject: <input type="text" ng-model="newClassSubject"/> <br/>
+        Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
+        <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
+        <div>
+            <h2>My Classes: </h2>
+            <ol>
+                <span ng-repeat="course in allCourses">
+                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} <input type="button" ng-click="gradebook(course)" value="Gradebook"/> </li>
+                </span>
+            </ol>
+
+        </div>
+
+        <div ng-if="currentClass">
+            <!--<h3>{{currentClass.name}}'s students: </h3>-->
+            <!--<ul>-->
+            <!--<span ng-repeat="student in allStudents">-->
+            <!--<li>{{student.firstName}} {{student.lastName}} </li>-->
+            <!--</span>-->
+            <!--</ul>-->
+            <!--<br/>-->
+
+            <!--<h3>Add a student to {{currentClass.name}}: </h3>-->
+            <!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
+            <!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
+            <!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
+            <!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
+
+            <br/><br/>
+            <!--<h3>{{currentClass.name}}'s assignments: </h3>-->
+            <!--<ul>-->
+            <!--<span ng-repeat="assmt in allAssignments">-->
+            <!--<li>{{assmt.name}}, due on {{assmt.dueDate}} </li>-->
+            <!--</span>-->
+            <!--</ul>-->
+            <!--<br/>-->
+
+            <h3>Add an assignment: </h3>
+            Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>
+            Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>
+            <input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
+
+
+
+            <!--<table>-->
+                <!--<tr>-->
+                    <!--<td></td>-->
+                    <!--<td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}} </td>-->
+
+                <!--<tr ng-repeat="studentContainer in gradebookContainer.studentContainers">-->
+                    <!--<td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>-->
+
+                    <!--<td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                    <!--<td> <input type="button" ng-click="" value="Add student (coming soon)"/> </td>-->
+
+                    <!--<td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades"/> </td>-->
+
+                <!--</tr>-->
+
+                <!--<tr>-->
+                    <!--<td> </td>-->
+                    <!--<td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>-->
+                <!--</tr>-->
+
+
+                <!--<tr>-->
+                    <!--<td> </td>-->
+                    <!--<td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve (coming soon)"/> </td>-->
+
+                <!--</tr>-->
+            <!--</table>-->
+
+
+
+        </div>
+    </span>
+
+</span>
+
+</body>
+</html>
