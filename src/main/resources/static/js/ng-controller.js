@@ -99,15 +99,33 @@ angular.module('TeachersPetApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        // ****This will have to change once we get the actual gradebook screen!
-                        // $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignmentArrayList;
-                        // $scope.allStudents = $scope.gradebookContainer.studentArrayList;
 
                         $scope.gradebookContainer = response.data;
-                        $scope.allAssignments = $scope.gradebookContainer.assignments;
+                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
+                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
                         $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        $scope.numberOfAssignments = $scope.allAssignments.length;
+                        // $scope.numberOfAssignments = $scope.allAssignments.length;
+                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+
+                        // new all assignments by getting out of studentAssignments list
+                        $scope.allAssignments = new Array($scope.numberOfAssignments);
+
+
+
+                        var currentStudentToGetAssignmentName;
+                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+                            if (counter == 0) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name;
+                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name);
+                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name;
+                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name);
+                            }
+
+                        }
+
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
