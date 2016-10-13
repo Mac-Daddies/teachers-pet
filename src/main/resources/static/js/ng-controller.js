@@ -138,6 +138,37 @@ angular.module('TeachersPetApp', [])
         };
 
 
+        $scope.allGradebooks = function() {
+            console.log("In allGradebooks function in ng controller");
+
+            $http.post("/getAllClasses.json", $scope.teacherWhoIsLoggedIn)
+                .then(
+                    function successCallback(response) {
+                        console.log("Response-- all classes: ");
+                        console.log(response.data);
+                        $scope.courseList = response.data;
+
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+            };
+
+            $http.post("/allGradebooks.json", $scope.courseList)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+
+                        // FIX THIS PART!!!
+
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
         $scope.addAssignment = function(newAssignmentName, newAssignmentDate) {
             console.log("In gradebook function in ng controller");
 
