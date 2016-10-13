@@ -229,17 +229,17 @@ angular.module('TeachersPetApp', [])
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
 
-            var curveFlatContainer = {
+            curveContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
 
             console.log("**About to send this currentAssignment: ");
-            console.log(curveFlatContainer.assignment);
+            console.log(curveContainer.assignment);
             console.log("**About to send this list of StudentContainers:");
-            console.log(curveFlatContainer.studentContainers);
+            console.log(curveContainer.studentContainers);
 
-            $http.post("/curveFlat.json", curveFlatContainer)
+            $http.post("/curveFlat.json", curveContainer)
                 .then(
                     function successCallback(response) {
                         console.log("**This is what we get back: ");
@@ -252,6 +252,35 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
+
+        $scope.curveAsPercentageOfHighestGrade = function(currentAssignment, studentContainers) {
+            console.log("In curveAsPercentageOfHighestGrade function in ng controller");
+
+            curveContainer = {
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+            console.log("**About to send this currentAssignment: ");
+            console.log(curveContainer.assignment);
+            console.log("**About to send this list of StudentContainers:");
+            console.log(curveContainer.studentContainers);
+
+            $http.post("/curveAsPercentageOfHighestGrade.json", curveContainer)
+                .then(
+                    function successCallback(response) {
+                        console.log("**This is what we get back: ");
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.updatedAssignmentGrades = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
+        var curveContainer;
 
 
 

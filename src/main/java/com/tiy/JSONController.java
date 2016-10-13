@@ -189,7 +189,7 @@ public class JSONController {
     public AssignmentAndStudentAssignmentContainer addStudents(@RequestBody StudentCourse studentCourse){
         Student newStudent = studentCourse.getStudent();
         Course currentCourse = studentCourse.getCourse();
-       
+
 
 
         studentRepository.save(newStudent);
