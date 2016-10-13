@@ -264,39 +264,44 @@ public class JSONController {
         System.out.println("In flat curve endpoint!!!");
 
         Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
+        System.out.println("The assignment we received is: " + currentAssignment.getName());
         ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
 
         Student currentStudent;
-        ArrayList<Integer> curveNewGrade = new ArrayList<>();
+        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
 
         for (StudentContainer currentStudentContainer : studentContainers) {
             currentStudent = currentStudentContainer.getStudent();
             StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
             //find the index of the assignment we want
 
-            int indexOfAssignment = -1;
-            for (int index = 0; index < currentStudentContainer.getStudentAssignments().size(); index++) {
-                if (currentStudentContainer.getStudentAssignments().get(index).getAssignment().getId() == currentAssignment.getId()) {
-                    indexOfAssignment = index;
-                }
-            }
+//            int indexOfAssignment = -1;
+//            for (int index = 0; index < currentStudentContainer.getStudentAssignments().size(); index++) {
+//                if (currentStudentContainer.getStudentAssignments().get(index).getAssignment().getId() == currentAssignment.getId()) {
+//                    indexOfAssignment = index;
+//                }
+//            }
 
-            System.out.println("This should be the NEW GRADE that's about to be saved: " + currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade());
-
-            int newGrade = currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade();
-            retrievedStudentAssignment.setGrade(newGrade);
-//            studentAssignmentRepository.save(retrievedStudentAssignment);
-
-
-
-            curveNewGrade.add(newGrade);
-
-
-
+//            int newGrade = currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade();
+////            retrievedStudentAssignment.setGrade(newGrade);
+////            studentAssignmentRepository.save(retrievedStudentAssignment);
+//
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + newGrade);
+//            oldGradeArrayList.add(newGrade);
+            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
 
         }
 
-        ArrayList<Integer> updatedGrades =  myCurver.curveFlat(curveNewGrade);
+        System.out.print("*** Grades in oldGradeArrayList: ");
+        for (int currentGrade : oldGradeArrayList) {
+            System.out.print(currentGrade + " ");
+        }
+        System.out.println();
+
+        System.out.print("*** Grades in updatedGrades after curveFlat: ");
+
+        ArrayList<Integer> updatedGrades =  myCurver.curveFlat(oldGradeArrayList);
         int counter = 0;
         for (StudentContainer student : studentContainers) {
             Student nowStudent = student.getStudent();
@@ -307,6 +312,8 @@ public class JSONController {
             studentAssignmentRepository.save(retrievedStudentAssignment1);
             counter++;
         }
+        System.out.println();
+
         ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
         return listOfStudentAssmtsByAssmt;
 

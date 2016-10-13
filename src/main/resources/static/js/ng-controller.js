@@ -189,7 +189,9 @@ angular.module('TeachersPetApp', [])
                         console.log("Adding data to scope");
                         $scope.updatedAssignmentGrades = response.data;
                         console.log("sending to backend...");
-                        console.log(updatedAssignmentGrades);
+
+                        console.log($scope.updatedAssignmentGrades);
+
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -209,10 +211,15 @@ angular.module('TeachersPetApp', [])
                 studentContainers: studentContainers
             }
 
+            console.log("**About to send this currentAssignment: ");
+            console.log(curveFlatContainer.assignment);
+            console.log("**About to send this list of StudentContainers:");
+            console.log(curveFlatContainer.studentContainers);
+
             $http.post("/curveFlat.json", curveFlatContainer)
                 .then(
                     function successCallback(response) {
-                        console.log("This is what we get back: ");
+                        console.log("**This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
                         $scope.updatedAssignmentGrades = response.data;
