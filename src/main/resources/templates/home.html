@@ -104,7 +104,7 @@ th {
             <table>
                 <tr>
                     <td></td>
-                    <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}</td>
+                    <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment}}</td>
                 </tr>
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>

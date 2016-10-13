@@ -126,6 +126,11 @@ angular.module('TeachersPetApp', [])
 
                         }
 
+                        console.log("Printing out allAssignments:");
+                        for (var index = 0; index < $scope.allAssignments.length; index++) {
+                            console.log($scope.allAssignments[index]);
+                        }
+
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
