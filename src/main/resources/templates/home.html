@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="TeachersPetApp">
 <head>
-    <meta charset="UTF-8">
-    <title>Teacher's Pet</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="js/ng-controller.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
     <style>
 table, th, td {
     border: 1px solid black;
@@ -50,7 +62,8 @@ th {
 
 <span ng-if="loginContainer != null">
     <span ng-if="!loginSuccessful">
-        Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>
+         Your login was not successful. <a href="" class="btn btn-primary"> <input type="button" ng-click="home()" value="Try again"/> </a>
+        <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
     </span>
 
     <span ng-if="loginSuccessful">
