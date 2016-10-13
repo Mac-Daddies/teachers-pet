@@ -315,7 +315,7 @@ public class JSONController {
 
 
     @RequestMapping(path="/curveFlat.json", method = RequestMethod.POST)
-    public ArrayList<StudentAssignment> addFlatCurve(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
+    public AssignmentAndStudentAssignmentContainer addFlatCurve(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
         System.out.println("In flat curve endpoint!!!");
 
         Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
@@ -324,9 +324,11 @@ public class JSONController {
 
         Student currentStudent;
         ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
+        ArrayList<Student> studentsInCourse = new ArrayList<>();
 
         for (StudentContainer currentStudentContainer : studentContainers) {
             currentStudent = currentStudentContainer.getStudent();
+            studentsInCourse.add(currentStudent);
             StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
             //find the index of the assignment we want
 
@@ -369,8 +371,22 @@ public class JSONController {
         }
         System.out.println();
 
-        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
-        return listOfStudentAssmtsByAssmt;
+
+
+
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+        for (Student thisStudent : studentsInCourse) {
+            //find all of their student assignments
+            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
+            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
+            myArrayListOfStudentContainers.add(newStudentContainer);
+        }
+
+
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+        return returnContainer;
 
     }
 
