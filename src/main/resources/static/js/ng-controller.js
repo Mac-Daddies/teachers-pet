@@ -1,5 +1,5 @@
 angular.module('TeachersPetApp', [])
-   .controller('SampleController', function($scope, $http) {
+   .controller('SampleController', function($scope, $http, $window) {
 
 
         $scope.home = function() {
@@ -92,6 +92,8 @@ angular.module('TeachersPetApp', [])
 
         $scope.gradebook = function(course) {
             console.log("In gradebook function in ng controller");
+            // go to new window:
+            $window.location.href = '/gradebook';
             $scope.currentClass = course;
 
             $http.post("/gradebook.json", course)
@@ -152,7 +154,7 @@ angular.module('TeachersPetApp', [])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
-            };
+
 
             $http.post("/allGradebooks.json", $scope.courseList)
                 .then(
