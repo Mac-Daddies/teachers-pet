@@ -13,5 +13,17 @@ public class Controller {
     public String home() {
         return "home";
     }
+    @RequestMapping(path = "/gradebook", method = RequestMethod.GET)
+    public String gradebook(){
+        return "gradebook";
+    }
+    @RequestMapping(path = "/assignment", method = RequestMethod.GET)
+    public String addAss(){
+        return "addass";
+    }
+
+
+
+
 
 }
