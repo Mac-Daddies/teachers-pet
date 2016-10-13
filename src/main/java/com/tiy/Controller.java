@@ -21,6 +21,10 @@ public class Controller {
     public String addAss(){
         return "addass";
     }
+    @RequestMapping(path = "oldhome", method = RequestMethod.GET)
+    public String oldhome(){
+        return "oldhome";
+    }
 
 
 
