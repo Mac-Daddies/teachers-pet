@@ -103,7 +103,8 @@ public class JSONController {
 //        return assignmentStudentContainer;
 //    }
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody Course course){
+    public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
+        Course course = courseRepository.findOne(courseId);
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
 

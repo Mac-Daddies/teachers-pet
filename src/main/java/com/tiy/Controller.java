@@ -1,7 +1,10 @@
 package com.tiy;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by jessicatracy on 10/10/16.
@@ -14,7 +17,8 @@ public class Controller {
         return "home";
     }
     @RequestMapping(path = "/gradebook", method = RequestMethod.GET)
-    public String gradebook(){
+    public String gradebook(int courseId,Model model){
+        model.addAttribute("courseId", courseId);
         return "gradebook";
     }
     @RequestMapping(path = "/assignment", method = RequestMethod.GET)

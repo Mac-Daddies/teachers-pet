@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Teacher's Pet</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="js/ng-controller.js"></script>
     <style>
 table, th, td {
     border: 1px solid black;
@@ -18,11 +16,14 @@ th {
 }
 </style>
 </head>
-<body ng-controller="SampleController">
+<body ng-controller="GradebookController">
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 
+<input type="hidden" ng-model="courseIdForGradebook" ng-init="gradebook(<%courseId%>)"/>
+
+<input type="hidden" ng-click="testMustacheVar()" value="Testing"/>
 <!--<div style="text-align: center">-->
     <!--Welcome to Teacher's Pet-->
 <!--</div>-->
@@ -113,5 +114,10 @@ th {
 
 </span>
 
+
 </body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="js/gradebook-ng-controller.js"></script>
+
 </html>
