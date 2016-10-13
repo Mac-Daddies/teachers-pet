@@ -115,13 +115,13 @@ angular.module('TeachersPetApp', [])
                         var currentStudentToGetAssignmentName;
                         for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                             if (counter == 0) {
-                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name;
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name;
                                 console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name);
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name;
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name;
                                 console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].name);
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             }
 
                         }
