@@ -130,39 +130,54 @@ public class JSONController {
             }
         }
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
-        return returnContainer;
-    }
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
 
-    public AssignmentAndStudentAssignmentContainer gradebook(Course course){
-
-        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
-
-        ArrayList<StudentContainer> myArrayListOfStudentContainers= new ArrayList<>();
-        //For each student in the course, make  a student container
-        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
-        ArrayList<Student> studentArrayList = new ArrayList<>();
-        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
-            studentArrayList.add(currentStudentCourse.getStudent());
-        }
-
-        for (Student currentStudent : studentArrayList) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
-            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-
-        //print just for testing
-        for (StudentContainer currentStudentContainer : myArrayListOfStudentContainers) {
-            for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
-                System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
+        for (Assignment currentAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student currentStudent : studentArrayList) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
             }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
         }
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
     }
+
+//    public AssignmentAndStudentAssignmentContainer gradebook(Course course){
+//
+//        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
+//
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers= new ArrayList<>();
+//        //For each student in the course, make  a student container
+//        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
+//        ArrayList<Student> studentArrayList = new ArrayList<>();
+//        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+//            studentArrayList.add(currentStudentCourse.getStudent());
+//        }
+//
+//        for (Student currentStudent : studentArrayList) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//
+//        //print just for testing
+//        for (StudentContainer currentStudentContainer : myArrayListOfStudentContainers) {
+//            for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
+//                System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
+//            }
+//        }
+//
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+//        return returnContainer;
+//    }
 
     //This endpoint returns the course given the course id. Needed to add students and add assignments from the new gradebook html page.
     @RequestMapping(path = "/getCurrentClass.json", method = RequestMethod.POST)
@@ -172,84 +187,84 @@ public class JSONController {
     }
 
     //Returns gradebook data for ALL classes (so that we can populate tables in bootstrap tabs)
-    @RequestMapping(path = "/allGradebooks.json", method = RequestMethod.POST)
-    public ArrayList<AssignmentAndStudentAssignmentContainer> allGradebooks(@RequestBody CourseListContainer courselistContainer) {
-        ArrayList<Course> allCourses = courselistContainer.allcourses;
-        ArrayList<AssignmentAndStudentAssignmentContainer> arrayListOfReturnContainers = new ArrayList<>();
-        for (Course currentCourse : allCourses) {
-            arrayListOfReturnContainers.add(gradebook(currentCourse));
-        }
-        return arrayListOfReturnContainers;
-    }
+//    @RequestMapping(path = "/allGradebooks.json", method = RequestMethod.POST)
+//    public ArrayList<AssignmentAndStudentAssignmentContainer> allGradebooks(@RequestBody CourseListContainer courselistContainer) {
+//        ArrayList<Course> allCourses = courselistContainer.allcourses;
+//        ArrayList<AssignmentAndStudentAssignmentContainer> arrayListOfReturnContainers = new ArrayList<>();
+//        for (Course currentCourse : allCourses) {
+//            arrayListOfReturnContainers.add(gradebook(currentCourse));
+//        }
+//        return arrayListOfReturnContainers;
+//    }
 
 
-    @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer addAss(@RequestBody Assignment assignment){
-        //Need to add it for every student in the course!
-        assignmentRepository.save(assignment);
+//    @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)
+//    public AssignmentAndStudentAssignmentContainer addAss(@RequestBody Assignment assignment){
+//        //Need to add it for every student in the course!
+//        assignmentRepository.save(assignment);
+//
+//        //find all students in course and make a studentAssignment
+//        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.course);
+//        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+//        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+//            allStudentsInCourse.add(currentStudentCourse.getStudent());
+//        }
+//
+//        StudentAssignment newStudentAssignment;
+//        for (Student currentStudent : allStudentsInCourse) {
+//            newStudentAssignment = new StudentAssignment(currentStudent, assignment, 0);
+//            studentAssignmentRepository.save(newStudentAssignment);
+//        }
+//
+//        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+//
+//        for (Student currentStudent : allStudentsInCourse) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
+//        return returnContainer;
+//    }
 
-        //find all students in course and make a studentAssignment
-        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.course);
-        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
-        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
-            allStudentsInCourse.add(currentStudentCourse.getStudent());
-        }
-
-        StudentAssignment newStudentAssignment;
-        for (Student currentStudent : allStudentsInCourse) {
-            newStudentAssignment = new StudentAssignment(currentStudent, assignment, 0);
-            studentAssignmentRepository.save(newStudentAssignment);
-        }
-
-        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
-        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
-
-        for (Student currentStudent : allStudentsInCourse) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
-            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
-        return returnContainer;
-    }
-
-    @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer addStudents(@RequestBody StudentCourse studentCourse){
-        Student newStudent = studentCourse.getStudent();
-        Course currentCourse = studentCourse.getCourse();
-
-
-
-        studentRepository.save(newStudent);
-        studentCourseRepository.save(studentCourse);
-
-        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(studentCourse.course);
-        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
-        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
-            allStudentsInCourse.add(currentStudentCourse.getStudent());
-        }
-         ArrayList <Assignment> currentAssignments = assignmentRepository.findAllByCourseId(currentCourse.id);
-
-        StudentAssignment newStudentAssignment;
-        for (Assignment currentAssignment : currentAssignments) {
-            newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, 0);
-            studentAssignmentRepository.save(newStudentAssignment);
-
-        }
-
-        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(currentCourse.id);
-        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
-
-        for (Student currentStudent : allStudentsInCourse) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
-            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
-        return returnContainer;
-    }
+//    @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
+//    public AssignmentAndStudentAssignmentContainer addStudents(@RequestBody StudentCourse studentCourse){
+//        Student newStudent = studentCourse.getStudent();
+//        Course currentCourse = studentCourse.getCourse();
+//
+//
+//
+//        studentRepository.save(newStudent);
+//        studentCourseRepository.save(studentCourse);
+//
+//        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(studentCourse.course);
+//        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+//        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+//            allStudentsInCourse.add(currentStudentCourse.getStudent());
+//        }
+//         ArrayList <Assignment> currentAssignments = assignmentRepository.findAllByCourseId(currentCourse.id);
+//
+//        StudentAssignment newStudentAssignment;
+//        for (Assignment currentAssignment : currentAssignments) {
+//            newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, 0);
+//            studentAssignmentRepository.save(newStudentAssignment);
+//
+//        }
+//
+//        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(currentCourse.id);
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+//
+//        for (Student currentStudent : allStudentsInCourse) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
+//        return returnContainer;
+//    }
 
     @RequestMapping(path = "/addGrade.json", method = RequestMethod.POST)
     public ArrayList<StudentAssignment> addGrade(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer){
@@ -297,198 +312,198 @@ public class JSONController {
     }
 
 
-    @RequestMapping(path="/curveFlat.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer addFlatCurve(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
-        System.out.println("In flat curve endpoint!!!");
-
-        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
-        System.out.println("The assignment we received is: " + currentAssignment.getName());
-        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
-
-        Student currentStudent;
-        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
-        ArrayList<Student> studentsInCourse = new ArrayList<>();
-
-        for (StudentContainer currentStudentContainer : studentContainers) {
-            currentStudent = currentStudentContainer.getStudent();
-            studentsInCourse.add(currentStudent);
-            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
-            //find the index of the assignment we want
-
-//            int indexOfAssignment = -1;
-//            for (int index = 0; index < currentStudentContainer.getStudentAssignments().size(); index++) {
-//                if (currentStudentContainer.getStudentAssignments().get(index).getAssignment().getId() == currentAssignment.getId()) {
-//                    indexOfAssignment = index;
-//                }
-//            }
-
-//            int newGrade = currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade();
-////            retrievedStudentAssignment.setGrade(newGrade);
-////            studentAssignmentRepository.save(retrievedStudentAssignment);
+//    @RequestMapping(path="/curveFlat.json", method = RequestMethod.POST)
+//    public AssignmentAndStudentAssignmentContainer addFlatCurve(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
+//        System.out.println("In flat curve endpoint!!!");
 //
-//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + newGrade);
-//            oldGradeArrayList.add(newGrade);
-            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
-            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
+//        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
+//        System.out.println("The assignment we received is: " + currentAssignment.getName());
+//        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
+//
+//        Student currentStudent;
+//        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
+//        ArrayList<Student> studentsInCourse = new ArrayList<>();
+//
+//        for (StudentContainer currentStudentContainer : studentContainers) {
+//            currentStudent = currentStudentContainer.getStudent();
+//            studentsInCourse.add(currentStudent);
+//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+//            //find the index of the assignment we want
+//
+////            int indexOfAssignment = -1;
+////            for (int index = 0; index < currentStudentContainer.getStudentAssignments().size(); index++) {
+////                if (currentStudentContainer.getStudentAssignments().get(index).getAssignment().getId() == currentAssignment.getId()) {
+////                    indexOfAssignment = index;
+////                }
+////            }
+//
+////            int newGrade = currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade();
+//////            retrievedStudentAssignment.setGrade(newGrade);
+//////            studentAssignmentRepository.save(retrievedStudentAssignment);
+////
+////            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + newGrade);
+////            oldGradeArrayList.add(newGrade);
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+//            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
+//
+//        }
+//
+//        System.out.print("*** Grades in oldGradeArrayList: ");
+//        for (int currentGrade : oldGradeArrayList) {
+//            System.out.print(currentGrade + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("*** Grades in updatedGrades after curveFlat: ");
+//
+//        ArrayList<Integer> updatedGrades =  myCurver.curveFlat(oldGradeArrayList);
+//        int counter = 0;
+//        for (StudentContainer student : studentContainers) {
+//            Student nowStudent = student.getStudent();
+//            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
+//            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
+//            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
+//            //CHECK: will this make a new one? Or update old one? Should update old one.
+//            studentAssignmentRepository.save(retrievedStudentAssignment1);
+//            counter++;
+//        }
+//        System.out.println();
+//
+//
+//
+//
+//        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+//        for (Student thisStudent : studentsInCourse) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//
+//
+//
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+//        return returnContainer;
+//
+//    }
+//    @RequestMapping(path="/curveAsPercentageOfHighestGrade.json", method = RequestMethod.POST)
+//    public AssignmentAndStudentAssignmentContainer curveAsPercentageOfHighestGrade(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
+//        System.out.println("In highest percentage curve endpoint!!!");
+//
+//        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
+//        System.out.println("The assignment we received is: " + currentAssignment.getName());
+//        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
+//
+//        Student currentStudent;
+//        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
+//        ArrayList<Student> studentsInCourse = new ArrayList<>();
+//
+//        for (StudentContainer currentStudentContainer : studentContainers) {
+//            currentStudent = currentStudentContainer.getStudent();
+//            studentsInCourse.add(currentStudent);
+//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+//
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+//            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
+//
+//        }
+//
+//        System.out.print("*** Grades in oldGradeArrayList: ");
+//        for (int currentGrade : oldGradeArrayList) {
+//            System.out.print(currentGrade + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("*** Grades in updatedGrades after curve of highestpercentage: ");
+//
+//        ArrayList<Integer> updatedGrades =  myCurver.curveAsPercentageOfHighestGrade(oldGradeArrayList);
+//        int counter = 0;
+//        for (StudentContainer student : studentContainers) {
+//            Student nowStudent = student.getStudent();
+//            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
+//            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
+//            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
+//            studentAssignmentRepository.save(retrievedStudentAssignment1);
+//            counter++;
+//        }
+//        System.out.println();
+//
+//
+//        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+//        for (Student thisStudent : studentsInCourse) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//
+//
+//
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+//        return returnContainer;
+//
+//    }
 
-        }
-
-        System.out.print("*** Grades in oldGradeArrayList: ");
-        for (int currentGrade : oldGradeArrayList) {
-            System.out.print(currentGrade + " ");
-        }
-        System.out.println();
-
-        System.out.print("*** Grades in updatedGrades after curveFlat: ");
-
-        ArrayList<Integer> updatedGrades =  myCurver.curveFlat(oldGradeArrayList);
-        int counter = 0;
-        for (StudentContainer student : studentContainers) {
-            Student nowStudent = student.getStudent();
-            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
-            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
-            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
-            //CHECK: will this make a new one? Or update old one? Should update old one.
-            studentAssignmentRepository.save(retrievedStudentAssignment1);
-            counter++;
-        }
-        System.out.println();
-
-
-
-
-        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
-        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
-        for (Student thisStudent : studentsInCourse) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
-            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-
-
-
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
-        return returnContainer;
-
-    }
-    @RequestMapping(path="/curveAsPercentageOfHighestGrade.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer curveAsPercentageOfHighestGrade(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
-        System.out.println("In highest percentage curve endpoint!!!");
-
-        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
-        System.out.println("The assignment we received is: " + currentAssignment.getName());
-        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
-
-        Student currentStudent;
-        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
-        ArrayList<Student> studentsInCourse = new ArrayList<>();
-
-        for (StudentContainer currentStudentContainer : studentContainers) {
-            currentStudent = currentStudentContainer.getStudent();
-            studentsInCourse.add(currentStudent);
-            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
-
-            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
-            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
-
-        }
-
-        System.out.print("*** Grades in oldGradeArrayList: ");
-        for (int currentGrade : oldGradeArrayList) {
-            System.out.print(currentGrade + " ");
-        }
-        System.out.println();
-
-        System.out.print("*** Grades in updatedGrades after curve of highestpercentage: ");
-
-        ArrayList<Integer> updatedGrades =  myCurver.curveAsPercentageOfHighestGrade(oldGradeArrayList);
-        int counter = 0;
-        for (StudentContainer student : studentContainers) {
-            Student nowStudent = student.getStudent();
-            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
-            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
-            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
-            studentAssignmentRepository.save(retrievedStudentAssignment1);
-            counter++;
-        }
-        System.out.println();
-
-
-        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
-        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
-        for (Student thisStudent : studentsInCourse) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
-            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-
-
-
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
-        return returnContainer;
-
-    }
-
-    @RequestMapping(path="/curveByTakingRoot.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer curveByTakingRoot(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
-        System.out.println("In square root curve endpoint!!!");
-
-        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
-        System.out.println("The assignment we received is: " + currentAssignment.getName());
-        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
-
-        Student currentStudent;
-        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
-        ArrayList<Student> studentsInCourse = new ArrayList<>();
-
-        for (StudentContainer currentStudentContainer : studentContainers) {
-            currentStudent = currentStudentContainer.getStudent();
-            studentsInCourse.add(currentStudent);
-            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
-
-            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
-            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
-
-        }
-
-        System.out.print("*** Grades in oldGradeArrayList: ");
-        for (int currentGrade : oldGradeArrayList) {
-            System.out.print(currentGrade + " ");
-        }
-        System.out.println();
-
-        System.out.print("*** Grades in updatedGrades after curve of highestpercentage: ");
-
-        ArrayList<Integer> updatedGrades =  myCurver.curveByTakingRoot(oldGradeArrayList);
-        int counter = 0;
-        for (StudentContainer student : studentContainers) {
-            Student nowStudent = student.getStudent();
-            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
-            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
-            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
-            studentAssignmentRepository.save(retrievedStudentAssignment1);
-            counter++;
-        }
-        System.out.println();
-
-
-        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
-        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
-        for (Student thisStudent : studentsInCourse) {
-            //find all of their student assignments
-            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
-            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
-            myArrayListOfStudentContainers.add(newStudentContainer);
-        }
-
-
-
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
-        return returnContainer;
-
-    }
+//    @RequestMapping(path="/curveByTakingRoot.json", method = RequestMethod.POST)
+//    public AssignmentAndStudentAssignmentContainer curveByTakingRoot(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
+//        System.out.println("In square root curve endpoint!!!");
+//
+//        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
+//        System.out.println("The assignment we received is: " + currentAssignment.getName());
+//        ArrayList<StudentContainer> studentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
+//
+//        Student currentStudent;
+//        ArrayList<Integer> oldGradeArrayList = new ArrayList<>();
+//        ArrayList<Student> studentsInCourse = new ArrayList<>();
+//
+//        for (StudentContainer currentStudentContainer : studentContainers) {
+//            currentStudent = currentStudentContainer.getStudent();
+//            studentsInCourse.add(currentStudent);
+//            StudentAssignment retrievedStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+//
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+//            oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
+//
+//        }
+//
+//        System.out.print("*** Grades in oldGradeArrayList: ");
+//        for (int currentGrade : oldGradeArrayList) {
+//            System.out.print(currentGrade + " ");
+//        }
+//        System.out.println();
+//
+//        System.out.print("*** Grades in updatedGrades after curve of highestpercentage: ");
+//
+//        ArrayList<Integer> updatedGrades =  myCurver.curveByTakingRoot(oldGradeArrayList);
+//        int counter = 0;
+//        for (StudentContainer student : studentContainers) {
+//            Student nowStudent = student.getStudent();
+//            StudentAssignment retrievedStudentAssignment1 = studentAssignmentRepository.findByStudentAndAssignment(nowStudent, currentAssignment);
+//            retrievedStudentAssignment1.setGrade(updatedGrades.get(counter));
+//            System.out.print(retrievedStudentAssignment1.getGrade() + " ");
+//            studentAssignmentRepository.save(retrievedStudentAssignment1);
+//            counter++;
+//        }
+//        System.out.println();
+//
+//
+//        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+//        ArrayList<StudentContainer> myArrayListOfStudentContainers = new ArrayList<>();
+//        for (Student thisStudent : studentsInCourse) {
+//            //find all of their student assignments
+//            ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(thisStudent);
+//            StudentContainer newStudentContainer = new StudentContainer(thisStudent,allMyStudentAssignments);
+//            myArrayListOfStudentContainers.add(newStudentContainer);
+//        }
+//
+//
+//
+//        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+//        return returnContainer;
+//
+//    }
 
     @RequestMapping(path = "/getAssignmentAverage.json", method = RequestMethod.POST)
     public int getAverage(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {

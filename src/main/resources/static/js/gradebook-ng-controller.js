@@ -34,7 +34,8 @@ angular.module('TeachersPetApp', [])
 
                         $scope.gradebookContainer = response.data;
                         // $scope.allAssignments = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
                         $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
                         // $scope.numberOfAssignments = $scope.allAssignments.length;
                         $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
