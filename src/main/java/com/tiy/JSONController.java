@@ -164,6 +164,13 @@ public class JSONController {
         return returnContainer;
     }
 
+    //This endpoint returns the course given the course id. Needed to add students and add assignments from the new gradebook html page.
+    @RequestMapping(path = "/getCurrentClass.json", method = RequestMethod.POST)
+    public Course getCurrentClass(@RequestBody int courseId) {
+        Course currentClass = courseRepository.findOne(courseId);
+        return currentClass;
+    }
+
     //Returns gradebook data for ALL classes (so that we can populate tables in bootstrap tabs)
     @RequestMapping(path = "/allGradebooks.json", method = RequestMethod.POST)
     public ArrayList<AssignmentAndStudentAssignmentContainer> allGradebooks(@RequestBody CourseListContainer courselistContainer) {
