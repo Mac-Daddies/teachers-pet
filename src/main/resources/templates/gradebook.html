@@ -80,6 +80,7 @@ th {
                 <tr>
                     <td></td>
                     <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}} </td>
+                    <td> <input type="button" ng-click="" value="Add assignment (coming soon)"/>
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
@@ -109,8 +110,24 @@ th {
 
 
 
-        </div>
-    </span>
+
+            <br/><br/>
+            *** We'll make the forms below separate pop-ups that only shows when we click "Add student" or "Add assignment" above ***
+            <h3>Add a student: </h3>
+            Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>
+            Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
+            Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
+            <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
+
+            <br/><br/><br/>
+            <h3>Add an assignment: </h3>
+            Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>
+            Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>
+            <input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
+
+
+
+</span>
 
 </span>
 
