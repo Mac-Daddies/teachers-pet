@@ -490,6 +490,22 @@ public class JSONController {
 
     }
 
+    @RequestMapping(path = "/getAssignmentAverage.json", method = RequestMethod.POST)
+    public int getAverage(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) {
+        Assignment currentAssignment = assignmentAndStudentContainerListContainer.getAssignment();
+
+        ArrayList<StudentContainer> listOfStudentContainers = assignmentAndStudentContainerListContainer.getStudentContainers();
+        ArrayList<Integer> gradesToAverage = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : listOfStudentContainers) {
+            Student currentStudent = currentStudentContainer.getStudent();
+            StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+            gradesToAverage.add(currentStudentAssignment.getGrade());
+        }
+        int average = myCurver.getAverage(gradesToAverage);
+
+        return average;
+    }
+
 
 
 
