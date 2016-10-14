@@ -1,9 +1,29 @@
 angular.module('TeachersPetApp', [])
    .controller('GradebookController', function($scope, $http) {
 
+        var getCurrentClass = function(courseId) {
+            console.log("In getCurrentClass function in ng controller with courseID = " + courseId);
+
+            $http.post("/getCurrentClass.json", courseId)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+
+                        $scope.currentClass = response.data;
+//                        return response.data;
+
+
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
         $scope.gradebook = function(courseId) {
             console.log("In gradebook function in ng controller with courseID = " + courseId);
-            // go to new window
+
             $scope.currentClassId = courseId;
 
             $http.post("/gradebook.json", courseId)
@@ -28,11 +48,11 @@ angular.module('TeachersPetApp', [])
                         for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                             if (counter == 0) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             }
 
@@ -47,6 +67,12 @@ angular.module('TeachersPetApp', [])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
+
+                    getCurrentClass(courseId);
+                    console.log("********* Got current class ***********");
+                    console.log($scope.currentClass);
+
+
         };
 
 
@@ -113,11 +139,11 @@ angular.module('TeachersPetApp', [])
                         for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                             if (counter == 0) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             }
 
@@ -142,6 +168,10 @@ angular.module('TeachersPetApp', [])
                 student: newStudent,
                 course: $scope.currentClass
             }
+            console.log("About to send the following student to add student: ");
+            console.log(newStudentInfoAndCourse.student);
+            console.log("About to send the following course to add student: ");
+            console.log(newStudentInfoAndCourse.course);
 
             $http.post("/addstudent.json", newStudentInfoAndCourse)
                 .then(
@@ -165,11 +195,11 @@ angular.module('TeachersPetApp', [])
                         for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                             if (counter == 0) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             }
 
@@ -181,6 +211,7 @@ angular.module('TeachersPetApp', [])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
+
         };
 
 
@@ -254,11 +285,11 @@ angular.module('TeachersPetApp', [])
                         for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                             if (counter == 0) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
                                 $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
                                 console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                             }
 
@@ -279,43 +310,104 @@ angular.module('TeachersPetApp', [])
                 studentContainers: studentContainers
             }
 
-            console.log("**About to send this currentAssignment: ");
-            console.log(curveContainer.assignment);
-            console.log("**About to send this list of StudentContainers:");
-            console.log(curveContainer.studentContainers);
+//            console.log("**About to send this currentAssignment: ");
+//            console.log(curveContainer.assignment);
+//            console.log("**About to send this list of StudentContainers:");
+//            console.log(curveContainer.studentContainers);
 
             $http.post("/curveAsPercentageOfHighestGrade.json", curveContainer)
                 .then(
                     function successCallback(response) {
-                        console.log("**This is what we get back: ");
+//                        console.log("**This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        // var updatedAssignmentGrades = response.data;
-                        // process updatedAssignmentGrades
-                        $scope.updatedAssignmentGrades = response.data;
+                        $scope.gradebookContainer = response.data;
+                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
+                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+                        // $scope.numberOfAssignments = $scope.allAssignments.length;
+                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+
+                        // new all assignments by getting out of studentAssignments list
+                        $scope.allAssignments = new Array($scope.numberOfAssignments);
+
+
+
+                        var currentStudentToGetAssignmentName;
+                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+                            if (counter == 0) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                            }
+
+                        }
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
         };
 
-        $scope.testMustacheVar = function() {
-            console.log("testMustacheVar()");
-            console.log("courseID: " + $scope.courseIdForGradebook);
+
+        $scope.curveByTakingRoot = function(currentAssignment, studentContainers) {
+            console.log("In curveByTakingRoot function in ng controller");
+
+            curveContainer = {
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+//            console.log("**About to send this currentAssignment: ");
+//            console.log(curveContainer.assignment);
+//            console.log("**About to send this list of StudentContainers:");
+//            console.log(curveContainer.studentContainers);
+
+            $http.post("/curveByTakingRoot.json", curveContainer)
+                .then(
+                    function successCallback(response) {
+//                        console.log("**This is what we get back: ");
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.gradebookContainer = response.data;
+                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
+                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+                        // $scope.numberOfAssignments = $scope.allAssignments.length;
+                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+
+                        // new all assignments by getting out of studentAssignments list
+                        $scope.allAssignments = new Array($scope.numberOfAssignments);
+
+
+
+                        var currentStudentToGetAssignmentName;
+                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+                            if (counter == 0) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                                $scope.allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                            }
+
+                        }
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
         };
 
 
-        var curveContainer;
-//        console.log("I get executed without anyone calling me!!!");
-//         console.log($scope.courseIdForGradebook);
-//         $scope.gradebook($scope.courseIdForGradebook);
-//         console.log($scope.courseIdForGradebook);
-//         console.log(courseIdForGradebook);
-//        var courseIdForGradebook = $scope.courseIdForGradebook;
-        console.log($scope.courseIdForGradebook);
-//         $scope.gradebook($scope.courseIdForGradebook);
-//         console.log(courseIdForGradebook);
 
+        var curveContainer;
+        // This is undefined here, so we made ng-init at top to call gradebook with courseId from mustache
+        console.log($scope.courseIdForGradebook);
 
 
    });
