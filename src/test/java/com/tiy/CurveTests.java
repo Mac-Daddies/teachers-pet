@@ -203,4 +203,39 @@ public class CurveTests {
         assertEquals(65, (int)curvedGrades.get(1));
     }
 
+    @Test
+    public void testAverage() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(70, 72, 61, 89, 100, 53, 79));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(75, average);
+    }
+
+    @Test
+    public void testAverageWith0and100() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(0, 100));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(50, average);
+    }
+
+    @Test
+    public void testAverageOneGrade() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(75));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(75, average);
+    }
+
+    @Test
+    public void testAverageWithPoint5() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(30, 96, 72, 96));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(74, average);
+    }
+
+    @Test
+    public void testAverageRoundDown() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(28, 96, 72, 89));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(71, average);
+    }
+
 }
