@@ -35,15 +35,21 @@ public class AssignmentAndStudentAssignmentContainer {
 //    }
 
     ArrayList<StudentContainer> studentContainers;
-    ArrayList<Assignment> assignments;
-//    ArrayList<AssignmentAndAverageContainer> 
+//    ArrayList<Assignment> assignments;
+    ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers;
 
     public AssignmentAndStudentAssignmentContainer() {
     }
 
-    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<Assignment> assignments) {
+//    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<Assignment> assignments) {
+//        this.studentContainers = studentContainers;
+//        this.assignments = assignments;
+//    }
+
+
+    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers) {
         this.studentContainers = studentContainers;
-        this.assignments = assignments;
+        this.assignmentAndAverageContainers = assignmentAndAverageContainers;
     }
 
     //Getters and setters
@@ -55,11 +61,11 @@ public class AssignmentAndStudentAssignmentContainer {
         this.studentContainers = studentContainers;
     }
 
-    public ArrayList<Assignment> getAssignments() {
-        return assignments;
+    public ArrayList<AssignmentAndAverageContainer> getAssignmentAndAverageContainers() {
+        return assignmentAndAverageContainers;
     }
 
-    public void setAssignments(ArrayList<Assignment> assignments) {
-        this.assignments = assignments;
+    public void setAssignmentAndAverageContainers(ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers) {
+        this.assignmentAndAverageContainers = assignmentAndAverageContainers;
     }
 }

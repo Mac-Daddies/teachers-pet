@@ -130,7 +130,22 @@ public class JSONController {
             }
         }
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment currentAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student currentStudent : studentArrayList) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
     }
 
@@ -160,7 +175,22 @@ public class JSONController {
             }
         }
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment currentAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student currentStudent : studentArrayList) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
     }
 
@@ -210,7 +240,23 @@ public class JSONController {
             StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment currentAssignment : assignmentArrayList) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student currentStudent : allStudentsInCourse) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
     }
 
@@ -247,7 +293,23 @@ public class JSONController {
             StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, assignmentArrayList);
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment currentAssignment : assignmentArrayList) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student currentStudent : allStudentsInCourse) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
     }
 
@@ -366,9 +428,24 @@ public class JSONController {
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
 
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment thisAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student thisStudent : studentsInCourse) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(thisStudent, thisAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(thisAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
 
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
 
     }
@@ -424,9 +501,24 @@ public class JSONController {
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
 
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment thisAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student thisStudent : studentsInCourse) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(thisStudent, thisAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(thisAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
 
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
 
     }
@@ -483,9 +575,24 @@ public class JSONController {
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
 
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
+
+        for (Assignment thisAssignment : allAssignments) {
+            AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
+            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            for (Student thisStudent : studentsInCourse) {
+                StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(thisStudent, thisAssignment);
+                int currentGrade = currentStudentAssignment.getGrade();
+                gradesToCurve.add(currentGrade);
+            }
+            int average = myCurver.getAverage(gradesToCurve);
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(thisAssignment, average);
+            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
+        }
 
 
-        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, allAssignments);
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
 
     }

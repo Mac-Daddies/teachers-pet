@@ -107,7 +107,8 @@ th {
                 <tr>
                     <td> </td>
 
-                    <td ng-repeat="studentContainer in gradebookContainer."> {{studentContainer.average}} </td>
+                    <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
+                    <td ng-repeat="currentAverage in assignmentAveragesArray"> Average: {{currentAverage}} </td>
                 </tr>
 
                 <tr>
@@ -127,7 +128,6 @@ th {
             </table>
 
 <br/><br/>
-Average: {{average}}
 
 
 
