@@ -95,10 +95,16 @@ th {
 
                 </tr>
 
+                <!--<tr>-->
+                    <!--<td> </td>-->
+
+                    <!--<td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="getAverage(allAssignments[$index], gradebookContainer.studentContainers)" value="Get Average"/> </td>-->
+                <!--</tr>-->
+
                 <tr>
                     <td> </td>
 
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="getAverage(allAssignments[$index], gradebookContainer.studentContainers)" value="Get Average"/> </td>
+                    <td ng-repeat="studentContainer in gradebookContainer."> {{studentContainer.average}} </td>
                 </tr>
 
                 <tr>

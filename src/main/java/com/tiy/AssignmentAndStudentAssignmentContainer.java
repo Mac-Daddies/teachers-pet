@@ -36,6 +36,7 @@ public class AssignmentAndStudentAssignmentContainer {
 
     ArrayList<StudentContainer> studentContainers;
     ArrayList<Assignment> assignments;
+//    ArrayList<AssignmentAndAverageContainer> 
 
     public AssignmentAndStudentAssignmentContainer() {
     }
