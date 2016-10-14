@@ -80,7 +80,7 @@ th {
                 <tr>
                     <td></td>
                     <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}} </td>
-                    <td> <input type="button" ng-click="" value="Add assignment (coming soon)"/>
+                    <input type="button" ng-click="" value="Add assignment (coming soon)"/>
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                     <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
@@ -100,11 +100,14 @@ th {
                     <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
                 </tr>
 
+                <tr>
+                    <td> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve"/> </td>
+                </tr>
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve (coming soon)"/> </td>
-
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve (coming soon)"/> </td>
                 </tr>
             </table>
 
