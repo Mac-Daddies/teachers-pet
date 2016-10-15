@@ -503,32 +503,32 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
-        $scope.getAverage = function(currentAssignment, studentContainers) {
-            console.log("In getAverage function in ng controller");
-
-                curveContainer = {
-                    assignment: currentAssignment,
-                    studentContainers: studentContainers
-                }
-
-    //            console.log("**About to send this currentAssignment: ");
-    //            console.log(curveContainer.assignment);
-    //            console.log("**About to send this list of StudentContainers:");
-    //            console.log(curveContainer.studentContainers);
-
-                $http.post("/getAssignmentAverage.json", curveContainer)
-                    .then(
-                        function successCallback(response) {
-    //                        console.log("**This is what we get back: ");
-                            console.log(response.data);
-                            console.log("Adding data to scope");
-                            $scope.average = response.data;
-                            console.log("THE AVERAGE IS: " + $scope.average);
-                        },
-                        function errorCallback(response) {
-                            console.log("Unable to get data...");
-                        });
-        };
+//        $scope.getAverage = function(currentAssignment, studentContainers) {
+//            console.log("In getAverage function in ng controller");
+//
+//                curveContainer = {
+//                    assignment: currentAssignment,
+//                    studentContainers: studentContainers
+//                }
+//
+//    //            console.log("**About to send this currentAssignment: ");
+//    //            console.log(curveContainer.assignment);
+//    //            console.log("**About to send this list of StudentContainers:");
+//    //            console.log(curveContainer.studentContainers);
+//
+//                $http.post("/getAssignmentAverage.json", curveContainer)
+//                    .then(
+//                        function successCallback(response) {
+//    //                        console.log("**This is what we get back: ");
+//                            console.log(response.data);
+//                            console.log("Adding data to scope");
+//                            $scope.average = response.data;
+//                            console.log("THE AVERAGE IS: " + $scope.average);
+//                        },
+//                        function errorCallback(response) {
+//                            console.log("Unable to get data...");
+//                        });
+//        };
 
 
 
