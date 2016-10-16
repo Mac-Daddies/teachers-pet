@@ -285,7 +285,7 @@ angular.module('TeachersPetApp', [])
                 studentContainers: studentContainers
             }
 
-            $http.post("/addGrade.json", addGradesContainer)
+            $http.post("/addGrades.json", addGradesContainer)
                 .then(
                     function successCallback(response) {
                         console.log("This is what we get back: ");
