@@ -109,7 +109,7 @@ th {
                     <td> </td>
 
                     <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
-                    <td ng-repeat="currentAverage in assignmentAveragesArray"> Average: {{currentAverage}} </td>
+                    <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}} </td>
                 </tr>
 
                 <tr>
@@ -144,7 +144,7 @@ th {
             <br/><br/><br/>
             <h3>Add an assignment: </h3>
             Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>
-            Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>
+            Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>
             <input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
 
 
