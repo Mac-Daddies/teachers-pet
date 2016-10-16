@@ -264,8 +264,24 @@ public class JSONController {
         for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
             allStudentsInCourse.add(currentStudentCourse.getStudent());
         }
-         ArrayList <Assignment> currentAssignments = assignmentRepository.findAllByCourseId(currentCourse.id);
 
+        //If this student is the first student added to the course, the order of assignments does not matter (only one ordering)
+        if (allStudentsInCourse.size() == 1) {
+            ArrayList<Assignment> currentAssignments = assignmentRepository.findAllByCourseId(currentCourse.id);
+        }
+
+        System.out.println("Order of assignments:");
+        //If there are already students, make sure this student's assignments are saved in the same order as the ones that are already in there!!
+        ArrayList<Assignment> currentAssignments = new ArrayList<>();
+        ArrayList<StudentAssignment> studentAssignmentsOfStudentAlreadyInTable = studentAssignmentRepository.findAllByStudent(allStudentsInCourse.get(0));
+        int counter = 1;
+        for (StudentAssignment currentStudentAssignment : studentAssignmentsOfStudentAlreadyInTable) {
+            currentAssignments.add(currentStudentAssignment.getAssignment());
+            System.out.println(counter + ". " + currentStudentAssignment.getAssignment().getName());
+            counter++;
+        }
+
+        //Give the new student each assignment that is already in the course (give a grade of zero for now)
         StudentAssignment newStudentAssignment;
         for (Assignment currentAssignment : currentAssignments) {
             newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, 0);
@@ -273,11 +289,11 @@ public class JSONController {
 
         }
 
-        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(currentCourse.id);
+//        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(currentCourse.id);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
 
-        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(assignmentArrayList, allStudentsInCourse);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(currentAssignments, allStudentsInCourse);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
@@ -294,7 +310,7 @@ public class JSONController {
 
         for (StudentContainer currentStudentContainer : studentContainers) {
             for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
-                System.out.println("GRDE: " + currentStudentAssignment.getGrade());
+                System.out.println(currentStudentContainer.getStudent().getFirstName() + "'s grade on " + currentStudentAssignment.getAssignment().getName()+ ": " + currentStudentAssignment.getGrade());
             }
         }
 
@@ -314,7 +330,7 @@ public class JSONController {
                 }
             }
 
-            System.out.println("This should be the NEW GRADE that's about to be saved: " + currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade());
+            System.out.println("This should be the NEW GRADE that's about to be saved for assignment " + currentAssignment.getName() + " for " + currentStudentContainer.getStudent().getFirstName() + ": " + currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade());
 
             int newGrade = currentStudentContainer.getStudentAssignments().get(indexOfAssignment).getGrade();
             retrievedStudentAssignment.setGrade(newGrade);
