@@ -32,48 +32,50 @@ angular.module('TeachersPetApp', [])
                         console.log(response.data);
                         console.log("Adding data to scope");
 
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+                        fillGradebookContainerWithResponseData(response.data);
 
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
+//                        $scope.gradebookContainer = response.data;
+//                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
+////                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
+////                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
+//                        console.log($scope.allAssignmentsToGetLength);
+//                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+//                        // $scope.numberOfAssignments = $scope.allAssignments.length;
+//                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+//
+//                        // new all assignments by getting out of studentAssignments list
+//                        var allAssignments = new Array($scope.numberOfAssignments);
+//
+//
+//                        //loop to populate allAssignments array in the order that the grades are being displayed
+//                        var currentStudentToGetAssignmentName;
+//                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+//                            if (counter == 0) {
+//                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+////                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+//                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+//                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+////                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+//                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+//                            }
+//
+//                        }
+//                        $scope.allAssignments = allAssignments;
+//
+//
+//                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
+//                        //loop to populate assignmentAverages array in the order that the grades are being displayed
+//                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+//                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
+//                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
+//                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
+//                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
+//                                }
+//                            }
+//                        }
+//                        $scope.assignmentAveragesArray = assignmentAveragesArray;
 
 //                        console.log("Printing out allAssignments:");
 //                        for (var index = 0; index < $scope.allAssignments.length; index++) {
@@ -92,36 +94,82 @@ angular.module('TeachersPetApp', [])
 
         };
 
+        var fillGradebookContainerWithResponseData = function(responseData) {
+            $scope.gradebookContainer = responseData;
+            // $scope.allAssignments = $scope.gradebookContainer.assignments;
+//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
+            $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
+//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
+            console.log($scope.allAssignmentsToGetLength);
+            $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
+            // $scope.numberOfAssignments = $scope.allAssignments.length;
+            $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
 
-        $scope.allGradebooks = function() {
-            console.log("In allGradebooks function in ng controller");
-
-            $http.post("/getAllClasses.json", $scope.teacherWhoIsLoggedIn)
-                .then(
-                    function successCallback(response) {
-                        console.log("Response-- all classes: ");
-                        console.log(response.data);
-                        $scope.courseList = response.data;
-
-                    },
-                    function errorCallback(response) {
-                        console.log("Unable to get data...");
-                    });
+            // new all assignments by getting out of studentAssignments list
+            var allAssignments = new Array($scope.numberOfAssignments);
 
 
-            $http.post("/allGradebooks.json", $scope.courseList)
-                .then(
-                    function successCallback(response) {
-                        console.log(response.data);
-                        console.log("Adding data to scope");
+            //loop to populate allAssignments array in the order that the grades are being displayed
+            var currentStudentToGetAssignmentName;
+            for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+                if (counter == 0) {
+                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                }
 
-                        // FIX THIS PART!!!
+            }
+            $scope.allAssignments = allAssignments;
 
-                    },
-                    function errorCallback(response) {
-                        console.log("Unable to get data...");
-                    });
-        };
+
+            var assignmentAveragesArray = new Array($scope.numberOfAssignments);
+            //loop to populate assignmentAverages array in the order that the grades are being displayed
+            for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
+                    if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
+                        assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
+                        console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
+                    }
+                }
+            }
+            $scope.assignmentAveragesArray = assignmentAveragesArray;
+
+        }
+
+
+//        $scope.allGradebooks = function() {
+//            console.log("In allGradebooks function in ng controller");
+//
+//            $http.post("/getAllClasses.json", $scope.teacherWhoIsLoggedIn)
+//                .then(
+//                    function successCallback(response) {
+//                        console.log("Response-- all classes: ");
+//                        console.log(response.data);
+//                        $scope.courseList = response.data;
+//
+//                    },
+//                    function errorCallback(response) {
+//                        console.log("Unable to get data...");
+//                    });
+//
+//
+//            $http.post("/allGradebooks.json", $scope.courseList)
+//                .then(
+//                    function successCallback(response) {
+//                        console.log(response.data);
+//                        console.log("Adding data to scope");
+//
+//                        // FIX THIS PART!!!
+//
+//                    },
+//                    function errorCallback(response) {
+//                        console.log("Unable to get data...");
+//                    });
+//        };
 
 
         $scope.addAssignment = function(newAssignmentName, newAssignmentDate) {
@@ -140,49 +188,7 @@ angular.module('TeachersPetApp', [])
                         console.log("Adding data to scope");
                         // $scope.allAssignments = response.data;
 
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
-
+                        fillGradebookContainerWithResponseData(response.data);
 //                        console.log("Printing out allAssignments:");
 //                        for (var index = 0; index < $scope.allAssignments.length; index++) {
 //                            console.log($scope.allAssignments[index]);
@@ -207,10 +213,10 @@ angular.module('TeachersPetApp', [])
                 student: newStudent,
                 course: $scope.currentClass
             }
-            console.log("About to send the following student to add student: ");
-            console.log(newStudentInfoAndCourse.student);
-            console.log("About to send the following course to add student: ");
-            console.log(newStudentInfoAndCourse.course);
+//            console.log("About to send the following student to add student: ");
+//            console.log(newStudentInfoAndCourse.student);
+//            console.log("About to send the following course to add student: ");
+//            console.log(newStudentInfoAndCourse.course);
 
             $http.post("/addstudent.json", newStudentInfoAndCourse)
                 .then(
@@ -218,49 +224,7 @@ angular.module('TeachersPetApp', [])
                         console.log(response.data);
                         console.log("Adding data to scope");
 
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
-
+                        fillGradebookContainerWithResponseData(response.data);
 //                        console.log("Printing out allAssignments:");
 //                        for (var index = 0; index < $scope.allAssignments.length; index++) {
 //                            console.log($scope.allAssignments[index]);
@@ -274,15 +238,22 @@ angular.module('TeachersPetApp', [])
 
 
         $scope.addGrades = function(currentAssignment, studentContainers) {
-            console.log("In addGrade function in ng controller");
-            console.log("Sending this list of student containers to backend:");
-            console.log(studentContainers);
-            console.log("Sending this assignment: ");
-            console.log(currentAssignment);
+            console.log("In addGrades function in ng controller");
+//            console.log("Sending this list of student containers to backend:");
+//            console.log(studentContainers);
+//            console.log("Sending this assignment: ");
+//            console.log(currentAssignment);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
+            }
+
+            console.log("These are the grades I'm sending through:");
+            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+                }
             }
 
             $http.post("/addGrades.json", addGradesContainer)
@@ -291,49 +262,7 @@ angular.module('TeachersPetApp', [])
                         console.log("This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
-
+                        fillGradebookContainerWithResponseData(response.data);
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -353,61 +282,19 @@ angular.module('TeachersPetApp', [])
                 studentContainers: studentContainers
             }
 
-            console.log("**About to send this currentAssignment: ");
-            console.log(curveContainer.assignment);
-            console.log("**About to send this list of StudentContainers:");
-            console.log(curveContainer.studentContainers);
+//            console.log("**About to send this currentAssignment: ");
+//            console.log(curveContainer.assignment);
+//            console.log("**About to send this list of StudentContainers:");
+//            console.log(curveContainer.studentContainers);
 
             $http.post("/curveFlat.json", curveContainer)
                 .then(
                     function successCallback(response) {
-                        console.log("**This is what we get back: ");
+//                        console.log("**This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
 
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
-
+                        fillGradebookContainerWithResponseData(response.data);
 //                        console.log("Printing out allAssignments:");
 //                        for (var index = 0; index < $scope.allAssignments.length; index++) {
 //                            console.log($scope.allAssignments[index]);
@@ -439,49 +326,7 @@ angular.module('TeachersPetApp', [])
 //                        console.log("**This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
-
+                        fillGradebookContainerWithResponseData(response.data);
 //                        console.log("Printing out allAssignments:");
 //                        for (var index = 0; index < $scope.allAssignments.length; index++) {
 //                            console.log($scope.allAssignments[index]);
@@ -512,48 +357,7 @@ angular.module('TeachersPetApp', [])
 //                        console.log("**This is what we get back: ");
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.gradebookContainer = response.data;
-                        // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
-//                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-                        console.log($scope.allAssignmentsToGetLength);
-                        $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-                        // $scope.numberOfAssignments = $scope.allAssignments.length;
-                        $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
-
-                        // new all assignments by getting out of studentAssignments list
-                        var allAssignments = new Array($scope.numberOfAssignments);
-
-
-                        //loop to populate allAssignments array in the order that the grades are being displayed
-                        var currentStudentToGetAssignmentName;
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            if (counter == 0) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                                allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                                console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                            }
-
-                        }
-                        $scope.allAssignments = allAssignments;
-
-
-                        var assignmentAveragesArray = new Array($scope.numberOfAssignments);
-                        //loop to populate assignmentAverages array in the order that the grades are being displayed
-                        for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                            for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                                if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                                    assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                                    console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                                }
-                            }
-                        }
-                        $scope.assignmentAveragesArray = assignmentAveragesArray;
+                        fillGradebookContainerWithResponseData(response.data);
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
