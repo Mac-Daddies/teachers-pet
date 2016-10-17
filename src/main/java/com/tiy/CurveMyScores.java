@@ -16,7 +16,9 @@ public class CurveMyScores {
     // Curve 1: Adds any amount of extra credit to each grade
     public ArrayList<Integer> curveByAddingExtraCredit(ArrayList<Integer> gradesToCurve, int amountToAdd) {
         for (int index = 0; index < gradesToCurve.size(); index++) {
-            gradesToCurve.set(index, gradesToCurve.get(index) + amountToAdd);
+            if (gradesToCurve.get(index) != -1) {
+                gradesToCurve.set(index, gradesToCurve.get(index) + amountToAdd);
+            }
         }
 
         return gradesToCurve;
@@ -35,7 +37,9 @@ public class CurveMyScores {
 
         //Add the difference to every grade in the list
         for (int index = 0; index < gradesToCurve.size(); index++) {
-            gradesToCurve.set(index, gradesToCurve.get(index) + flatCurveAmount);
+            if (gradesToCurve.get(index) != -1) {
+                gradesToCurve.set(index, gradesToCurve.get(index) + flatCurveAmount);
+            }
         }
 
         return gradesToCurve;
@@ -48,9 +52,12 @@ public class CurveMyScores {
         double newGrade;
         int newGradeInt;
         for (int index = 0; index < gradesToCurve.size(); index++) {
-            newGrade = ((double)(gradesToCurve.get(index) * 100) / maxScore);
-            newGradeInt = (int)Math.round(newGrade);
-            gradesToCurve.set(index, newGradeInt);
+            //Only curve if the student has been graded on assignment (if grade not -1)
+            if (gradesToCurve.get(index) != -1) {
+                newGrade = ((double) (gradesToCurve.get(index) * 100) / maxScore);
+                newGradeInt = (int) Math.round(newGrade);
+                gradesToCurve.set(index, newGradeInt);
+            }
         }
         return gradesToCurve;
     }
@@ -63,9 +70,12 @@ public class CurveMyScores {
         double newGrade;
         int newGradeInt;
         for (int index = 0; index < gradesToCurve.size(); index++) {
-            newGrade = (10 * Math.sqrt(gradesToCurve.get(index)));
-            newGradeInt = (int)Math.round(newGrade);
-            gradesToCurve.set(index, newGradeInt);
+            //Only curve if the student has been graded on assignment (if grade not -1)
+            if (gradesToCurve.get(index) != -1) {
+                newGrade = (10 * Math.sqrt(gradesToCurve.get(index)));
+                newGradeInt = (int) Math.round(newGrade);
+                gradesToCurve.set(index, newGradeInt);
+            }
         }
         return gradesToCurve;
     }
