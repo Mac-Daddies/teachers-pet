@@ -81,6 +81,26 @@ public class CurveTests {
         assertEquals(55, (int)curvedGrades.get(0));
     }
 
+    @Test
+    public void testAddExtraCreditWithNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(79, -1, 30, -1, -1));
+        curvedGrades = myCurver.curveByAddingExtraCredit(listOfGradesToCurve, 8);
+        assertEquals(87, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(38, (int)curvedGrades.get(2));
+        assertEquals(-1, (int)curvedGrades.get(3));
+        assertEquals(-1, (int)curvedGrades.get(4));
+    }
+
+    @Test
+    public void testAddExtraCreditWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1));
+        curvedGrades = myCurver.curveByAddingExtraCredit(listOfGradesToCurve, 4);
+        assertEquals(-1, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(-1, (int)curvedGrades.get(2));
+    }
+
 
     // Tests for curveFlat
     @Test
@@ -138,6 +158,26 @@ public class CurveTests {
         assertEquals(100, (int)curvedGrades.get(1));
     }
 
+    @Test
+    public void testFlatCurveWithNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(79, -1, 30, -1, -1));
+        curvedGrades = myCurver.curveFlat(listOfGradesToCurve);
+        assertEquals(100, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(51, (int)curvedGrades.get(2));
+        assertEquals(-1, (int)curvedGrades.get(3));
+        assertEquals(-1, (int)curvedGrades.get(4));
+    }
+
+    @Test
+    public void testFlatCurveWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1));
+        curvedGrades = myCurver.curveFlat(listOfGradesToCurve);
+        assertEquals(-1, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(-1, (int)curvedGrades.get(2));
+    }
+
 
     // Tests for curveAsPercentageOfHighestGrade
     @Test
@@ -176,6 +216,26 @@ public class CurveTests {
         assertEquals(100, (int)curvedGrades.get(1));
     }
 
+    @Test
+    public void testCurveAsPercentageOfHighestGradeWithNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(79, -1, 30, -1, -1));
+        curvedGrades = myCurver.curveAsPercentageOfHighestGrade(listOfGradesToCurve);
+        assertEquals(100, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(38, (int)curvedGrades.get(2));
+        assertEquals(-1, (int)curvedGrades.get(3));
+        assertEquals(-1, (int)curvedGrades.get(4));
+    }
+
+    @Test
+    public void testCurveAsPercentageOfHighestGradeWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1));
+        curvedGrades = myCurver.curveAsPercentageOfHighestGrade(listOfGradesToCurve);
+        assertEquals(-1, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(-1, (int)curvedGrades.get(2));
+    }
+
 
     // Tests for curveByTakingRoot
     @Test
@@ -203,6 +263,28 @@ public class CurveTests {
         assertEquals(65, (int)curvedGrades.get(1));
     }
 
+    @Test
+    public void testCurveByTakingRootWithNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(79, -1, 30, -1, -1));
+        curvedGrades = myCurver.curveByTakingRoot(listOfGradesToCurve);
+        assertEquals(89, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(55, (int)curvedGrades.get(2));
+        assertEquals(-1, (int)curvedGrades.get(3));
+        assertEquals(-1, (int)curvedGrades.get(4));
+    }
+
+    @Test
+    public void testCurveByTakingRootWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1));
+        curvedGrades = myCurver.curveByTakingRoot(listOfGradesToCurve);
+        assertEquals(-1, (int)curvedGrades.get(0));
+        assertEquals(-1, (int)curvedGrades.get(1));
+        assertEquals(-1, (int)curvedGrades.get(2));
+    }
+
+
+    // Tests for getAverage
     @Test
     public void testAverage() throws Exception {
         listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(70, 72, 61, 89, 100, 53, 79));
@@ -236,6 +318,27 @@ public class CurveTests {
         listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(28, 96, 72, 89));
         int average = myCurver.getAverage(listOfGradesToCurve);
         assertEquals(71, average);
+    }
+
+    @Test
+    public void testAverageWithOneNegativeOne() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(100, 50, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(75, average);
+    }
+
+    @Test
+    public void testAverageWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(-1, average);
+    }
+
+    @Test
+    public void testAverageWithZeroAndNegativeOne() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(0, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(0, average);
     }
 
 }

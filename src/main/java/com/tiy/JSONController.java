@@ -237,7 +237,7 @@ public class JSONController {
 
         StudentAssignment newStudentAssignment;
         for (Student currentStudent : allStudentsInCourse) {
-            newStudentAssignment = new StudentAssignment(currentStudent, assignment, 0);
+            newStudentAssignment = new StudentAssignment(currentStudent, assignment, -1);
             studentAssignmentRepository.save(newStudentAssignment);
         }
 
@@ -292,7 +292,7 @@ public class JSONController {
         //Give the new student each assignment that is already in the course (give a grade of zero for now)
         StudentAssignment newStudentAssignment;
         for (Assignment currentAssignment : currentAssignments) {
-            newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, 0);
+            newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, -1);
             studentAssignmentRepository.save(newStudentAssignment);
 
         }
