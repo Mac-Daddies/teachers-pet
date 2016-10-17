@@ -33,15 +33,16 @@ public class JSONController {
     @Autowired
     StudentCourseRepository studentCourseRepository;
 
+    @Autowired
+    OriginalGradeRepository originalGradeRepository;
+
     CurveMyScores myCurver = new CurveMyScores();
-    ArrayList<Assignment> assignmentsThatHaveOriginalGrades = new ArrayList<>();
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginContainer register(@RequestBody Teacher newTeacher){
         teacherRepository.save(newTeacher);
 
         Teacher retrievedTeacher = newTeacher;
-
         LoginContainer loginContainer;
 
         if(newTeacher == null){
@@ -348,17 +349,15 @@ public class JSONController {
 
         }
 
-        for (Assignment assignment : assignmentsThatHaveOriginalGrades) {
-            //If this assignment is not on the list of assignments that already have original grades, save the original grades, and
-            //add the assignment to the arraylist.
-            if (!assignment.equals(currentAssignment)) {
-                //save grades
-
-                //add to arraylist to keep track
-                assignmentsThatHaveOriginalGrades.add(currentAssignment);
+        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(currentAssignment);
+        //If there are no original grades for this assignment in the db, store these grades as original grades.
+        if (originalGrades.size() == 0) {
+            ArrayList<StudentAssignment> allStudentAssignmentsForThisAssignment = studentAssignmentRepository.findAllByAssignment(currentAssignment);
+            for (StudentAssignment currentStudentAssignment : allStudentAssignmentsForThisAssignment) {
+                OriginalGrade newOriginalGrade = new OriginalGrade(currentStudentAssignment.getStudent(), currentStudentAssignment.getAssignment(), currentStudentAssignment.getGrade());
+                originalGradeRepository.save(newOriginalGrade);
             }
         }
-
 
 //        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
 
@@ -619,6 +618,38 @@ public class JSONController {
 //
 //        return average;
 //    }
+
+    @RequestMapping(path = "/getOriginalGrades.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer getOriginalGrades(@RequestBody Assignment assignment) {
+        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(assignment);
+
+        ArrayList<StudentAssignment> allStudentAssignments = studentAssignmentRepository.findAllByAssignment(assignment);
+        int counter = 0;
+        for (StudentAssignment studentAssignment : allStudentAssignments) {
+            if (studentAssignment.getStudent().equals(originalGrades.get(counter).getStudent())) {
+                System.out.println("Overwriting " + studentAssignment.getStudent().getFirstName() + "'s grade with original grade: " + originalGrades.get(counter).getGrade());
+                studentAssignment.setGrade(originalGrades.get(counter).getGrade());
+                studentAssignmentRepository.save(studentAssignment);
+            } else {
+                System.out.println("Error: students not in the same order!!!");
+            }
+            counter++;
+        }
+
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.getCourse());
+        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(studentCourse.getStudent());
+        }
+
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(assignment.getCourse().getId());
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+
+        return returnContainer;
+    }
 
 
 

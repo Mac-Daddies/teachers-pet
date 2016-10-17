@@ -170,7 +170,7 @@ border-collapse: separate;
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="" value="Revert to original grades (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades (coming soon)"/> </td>
                 </tr>
             </table>
 
