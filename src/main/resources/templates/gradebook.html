@@ -17,16 +17,41 @@ table, th, td {
 }
 th, td {
     padding: 5px;
+    height: 50px;
+    vertical-align: bottom;
+
 }
 th {
     text-align: left;
+    background-color: #4CAF50;
+    color: white;
+
 
 }
 
-button{
-float: right;
+#assignment{
+ margin-left: 900px;
+    margin-top: 1px;
+    width: 84px;
+    height: 45px;
+
 
 }
+
+#student{
+margin-right: 900px;
+    margin-top: 1px;
+    width: 84px;
+    height: 45px;
+
+
+}
+
+table{
+border-collapse: separate;
+    empty-cells: hide;
+}
+
 
 
 </style>
@@ -149,12 +174,13 @@ float: right;
                 </tr>
             </table>
 
+
 <br/><br/>
 
-<div class="container">
+<div class="container" id="assignment" >
     <h2></h2>
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>
+    <button name="but" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -187,7 +213,43 @@ float: right;
         </div>
     </div>
 
+
+<div class="container" id="student">
+    <h2></h2>
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-lg"  data-toggle="modal" data-target="#myModals">Add Student</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModals" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Student</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>
+                        Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
+                        Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
+                        <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
 </div>
+
 
 
 
@@ -265,13 +327,13 @@ float: right;
 
 
 
-            <br/><br/>
-            *** We'll make the forms below separate pop-ups that only shows when we click "Add student" or "Add assignment" above ***
-            <h3>Add a student: </h3>
-            Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>
-            Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
-            Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
-            <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
+            <!--<br/><br/>-->
+            <!--*** We'll make the forms below separate pop-ups that only shows when we click "Add student" or "Add assignment" above ***-->
+            <!--<h3>Add a student: </h3>-->
+            <!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
+            <!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
+            <!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
+            <!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
 
             <!--<br/><br/><br/>-->
             <!--<h3>Add an assignment: </h3>-->
