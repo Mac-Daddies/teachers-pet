@@ -91,7 +91,7 @@ th {
                     <input type="button" ng-click="" value="Add assignment (coming soon)"/>
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
+                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> </td>
 
                     <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
                 </tr>
@@ -128,7 +128,7 @@ th {
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
                 </tr>
             </table>
 

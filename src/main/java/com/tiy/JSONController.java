@@ -124,7 +124,15 @@ public class JSONController {
         for (Student currentStudent : arrayListOfStudents) {
             //find all of their student assignments
             ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
-            StudentContainer newStudentContainer = new StudentContainer(currentStudent,allMyStudentAssignments);
+            //make an arraylist of all of the student's grades on all of their student assignments
+            ArrayList<Integer> myAssignmentGrades = new ArrayList<>();
+            for (StudentAssignment currentStudentAssignment : allMyStudentAssignments) {
+                myAssignmentGrades.add(currentStudentAssignment.getGrade());
+            }
+            //get the average of all the student's grades
+            int average = myCurver.getAverage(myAssignmentGrades);
+            //save the student, list of assignments, and average to a new student container and add to arraylist to return
+            StudentContainer newStudentContainer = new StudentContainer(currentStudent, allMyStudentAssignments, average);
             myArrayListOfStudentContainers.add(newStudentContainer);
         }
 
