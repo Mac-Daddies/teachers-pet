@@ -238,4 +238,25 @@ public class CurveTests {
         assertEquals(71, average);
     }
 
+    @Test
+    public void testAverageWithOneNegativeOne() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(100, 50, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(75, average);
+    }
+
+    @Test
+    public void testAverageWithAllNegativeOnes() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(-1, average);
+    }
+
+    @Test
+    public void testAverageWithZeroAndNegativeOne() throws Exception {
+        listOfGradesToCurve = new ArrayList<Integer>(Arrays.asList(0, -1));
+        int average = myCurver.getAverage(listOfGradesToCurve);
+        assertEquals(0, average);
+    }
+
 }

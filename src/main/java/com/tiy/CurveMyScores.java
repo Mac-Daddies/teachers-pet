@@ -85,12 +85,23 @@ public class CurveMyScores {
     // returns the average of a set of grades
     public int getAverage(ArrayList<Integer> grades) {
         double sum = 0;
+        int countOfNegativeOnes = 0;
         for (int currentGrade : grades) {
-            sum += currentGrade;
+            if (currentGrade != -1) {
+                sum += currentGrade;
+            } else {
+                countOfNegativeOnes++;
+            }
         }
-        int average = (int)Math.round(sum / (double)grades.size());
-        System.out.println(average);
-        return average;
+
+        //If every grade is a negative one, return -1 instead of an average of 0. Else, return the average of all grades that are not -1.
+        if (countOfNegativeOnes == grades.size()) {
+            return -1;
+        } else {
+            int average = (int)Math.round(sum / (double)(grades.size() - countOfNegativeOnes));
+            System.out.println(average);
+            return average;
+        }
     }
 
 }

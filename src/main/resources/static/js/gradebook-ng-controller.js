@@ -108,6 +108,17 @@ angular.module('TeachersPetApp', [])
             // new all assignments by getting out of studentAssignments list
             var allAssignments = new Array($scope.numberOfAssignments);
 
+            //if any of the grades are -1, we need to change them to not showing!! N/A for now.
+            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade === -1) {
+                        //replace -1 with blank
+//                        console.log("!!!!!!!!!!CHANGING -1 GRADE TO BLANK!!!!!!!!!!");
+                        $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade = "";
+//                        console.log($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+                    }
+                }
+            }
 
             //loop to populate allAssignments array in the order that the grades are being displayed
             var currentStudentToGetAssignmentName;
@@ -151,13 +162,30 @@ angular.module('TeachersPetApp', [])
                     if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
                         assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
                         console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
+                        if (assignmentAveragesArray[counter] === -1) {
+                            assignmentAveragesArray[counter] = "";
+                        }
                     }
                 }
             }
             $scope.assignmentAveragesArray = assignmentAveragesArray;
-
         }
 
+        var populateBlankGradesWithNegativeOnesBeforeSending = function (studentContainers) {
+            console.log("In populateBlankGrades... method in gradebook-ng-controller");
+            console.log("Grades right now:");
+            console.log(studentContainers);
+            for (var counter = 0; counter < studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    if (studentContainers[counter].studentAssignments[insideCounter].grade === "") {
+                        console.log("Grade is empty, changing to -1 before sending back.");
+                        studentContainers[counter].studentAssignments[insideCounter].grade = -1;
+                    }
+                }
+            }
+            console.log("Updated version to send to backend:");
+            console.log(studentContainers);
+        }
 
 //        $scope.allGradebooks = function() {
 //            console.log("In allGradebooks function in ng controller");
@@ -261,6 +289,7 @@ angular.module('TeachersPetApp', [])
 //            console.log(studentContainers);
 //            console.log("Sending this assignment: ");
 //            console.log(currentAssignment);
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
