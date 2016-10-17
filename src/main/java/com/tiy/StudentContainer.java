@@ -15,16 +15,16 @@ public class StudentContainer {
 
     Student student;
     ArrayList<StudentAssignment> studentAssignments;
-//    int overallGrade;
+    int average;
 
 
     public StudentContainer() {
     }
 
-    public StudentContainer(Student student, ArrayList<StudentAssignment> studentAssignments) {
+    public StudentContainer(Student student, ArrayList<StudentAssignment> studentAssignments, int average) {
         this.student = student;
         this.studentAssignments = studentAssignments;
-//        this.overallGrade = getOverallGrade();
+        this.average = average;
     }
 
     //Getters and setters
@@ -44,14 +44,11 @@ public class StudentContainer {
         this.studentAssignments = studentAssignments;
     }
 
-//    public int getOverallGrade() {
-//        CurveMyScores myCurver = new CurveMyScores();
-//        ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(this.student);
-//        ArrayList<Integer> myGrades = new ArrayList<>();
-//        for (StudentAssignment currentStudentAssignment : allMyStudentAssignments) {
-//            myGrades.add(currentStudentAssignment.getGrade());
-//        }
-//        int average = myCurver.getAverage(myGrades);
-//        return average;
-//    }
+    public int getAverage() {
+        return average;
+    }
+
+    public void setAverage(int average) {
+        this.average = average;
+    }
 }

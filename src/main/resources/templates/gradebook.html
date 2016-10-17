@@ -89,16 +89,16 @@ float: right;
             <!--Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>-->
             <!--<input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
 
-
+            <h3> {{currentClass.name}} Gradebook </h3>
 
             <table>
                 <tr>
                     <td></td>
                     <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}} </td>
-                    <input type="button" ng-click="" value="Add assignment (coming soon)"/>
+                </tr>
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
+                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> </td>
 
                     <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
                 </tr>
@@ -125,6 +125,11 @@ float: right;
 
                 <tr>
                     <td> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number" ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/> </td>
+                </tr>
+
+                <tr>
+                    <td> </td>
                     <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
                 </tr>
 
@@ -135,7 +140,12 @@ float: right;
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
+                </tr>
+
+                <tr>
+                    <td> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="" value="Revert to original grades (coming soon)"/> </td>
                 </tr>
             </table>
 

@@ -292,6 +292,33 @@ angular.module('TeachersPetApp', [])
             return new Array(num);
         }
 
+        $scope.addExtraCredit = function(extraCreditAmount, currentAssignment, studentContainers) {
+            console.log("In curveByTakingRoot function in ng controller");
+
+            curveContainer = {
+                extraCreditAmount: extraCreditAmount,
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+//            console.log("**About to send this currentAssignment: ");
+//            console.log(curveContainer.assignment);
+//            console.log("**About to send this list of StudentContainers:");
+//            console.log(curveContainer.studentContainers);
+
+            $http.post("/addExtraCredit.json", curveContainer)
+                .then(
+                    function successCallback(response) {
+//                        console.log("**This is what we get back: ");
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        fillGradebookContainerWithResponseData(response.data);
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
 
