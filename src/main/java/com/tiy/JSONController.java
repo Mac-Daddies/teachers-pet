@@ -459,16 +459,16 @@ public class JSONController {
 //
 //            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + newGrade);
 //            oldGradeArrayList.add(newGrade);
-            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
             oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
 
         }
 
-        System.out.print("*** Grades in oldGradeArrayList: ");
-        for (int currentGrade : oldGradeArrayList) {
-            System.out.print(currentGrade + " ");
-        }
-        System.out.println();
+//        System.out.print("*** Grades in oldGradeArrayList: ");
+//        for (int currentGrade : oldGradeArrayList) {
+//            System.out.print(currentGrade + " ");
+//        }
+//        System.out.println();
 
         System.out.print("*** Grades in updatedGrades after curveFlat: ");
 

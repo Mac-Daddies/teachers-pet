@@ -136,8 +136,11 @@ angular.module('TeachersPetApp', [])
             }
             $scope.allAssignments = allAssignments;
 
-            //loop to order the studentAssignments correctly (needed when new students added)
+            //loop to order the studentAssignments correctly (needed when new students added) AND to make sure the average doesn't show as -1 for new students
             for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
+                if ($scope.gradebookContainer.studentContainers[counter].average === -1) {
+                    $scope.gradebookContainer.studentContainers[counter].average = "";
+                }
                 for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
                     if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name === allAssignments[insideCounter].name) {
                         //don't do anything
@@ -169,6 +172,13 @@ angular.module('TeachersPetApp', [])
                 }
             }
             $scope.assignmentAveragesArray = assignmentAveragesArray;
+
+            //Don't let -1 display as a new student's average
+//            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
+//                if ($scope.gradebookContainer.studentContainers[counter].average === -1) {
+//                    $scope.gradebookContainer.studentContainers[counter].average = "";
+//                }
+//            }
         }
 
         var populateBlankGradesWithNegativeOnesBeforeSending = function (studentContainers) {

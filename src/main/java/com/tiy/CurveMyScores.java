@@ -109,7 +109,6 @@ public class CurveMyScores {
             return -1;
         } else {
             int average = (int)Math.round(sum / (double)(grades.size() - countOfNegativeOnes));
-            System.out.println(average);
             return average;
         }
     }
