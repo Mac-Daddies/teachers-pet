@@ -125,6 +125,24 @@ angular.module('TeachersPetApp', [])
             }
             $scope.allAssignments = allAssignments;
 
+            //loop to order the studentAssignments correctly (needed when new students added)
+            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name === allAssignments[insideCounter].name) {
+                        //don't do anything
+                    } else {
+                        //go find this student's student assignment for assignment at index insideCounter in allAssignments and swap their positions in studentAssignments
+                        for (var insideInsideCounter = insideCounter; insideInsideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideInsideCounter++) {
+                            if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter].assignment.name === allAssignments[insideCounter].name) {
+                                var temporary = $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter];
+                                $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter] =  $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter];
+                                $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter] = temporary;
+                            }
+                        }
+                    }
+                }
+            }
+
 
             var assignmentAveragesArray = new Array($scope.numberOfAssignments);
             //loop to populate assignmentAverages array in the order that the grades are being displayed
