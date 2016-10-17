@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 @RestController
@@ -33,6 +34,7 @@ public class JSONController {
     StudentCourseRepository studentCourseRepository;
 
     CurveMyScores myCurver = new CurveMyScores();
+    ArrayList<Assignment> assignmentsThatHaveOriginalGrades = new ArrayList<>();
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginContainer register(@RequestBody Teacher newTeacher){
@@ -344,6 +346,17 @@ public class JSONController {
             retrievedStudentAssignment.setGrade(newGrade);
             studentAssignmentRepository.save(retrievedStudentAssignment);
 
+        }
+
+        for (Assignment assignment : assignmentsThatHaveOriginalGrades) {
+            //If this assignment is not on the list of assignments that already have original grades, save the original grades, and
+            //add the assignment to the arraylist.
+            if (!assignment.equals(currentAssignment)) {
+                //save grades
+
+                //add to arraylist to keep track
+                assignmentsThatHaveOriginalGrades.add(currentAssignment);
+            }
         }
 
 
