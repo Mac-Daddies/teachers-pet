@@ -515,7 +515,7 @@ public class TeachersPetApplicationTests {
 	}
 
 	@Test
-	public void testBasicEmailWithMissingAssignments() {
+	public void testEmailOneStudentWithMissingAssignments() {
 		Teacher testTeacher = null;
 		Course testCourse = null;
 		Student testStudent = null;
@@ -557,7 +557,7 @@ public class TeachersPetApplicationTests {
 			}
 			int testAverage = testCurver.getAverage(testGrades);
 			StudentContainer testStudentContainer = new StudentContainer(testStudent, testStudentAssignments, testAverage);
-			myEmailer.createGeneralStudentEmail(testCourse, testTeacher, testStudentContainer, studentAssignmentRepository);
+			myEmailer.sendEmailOneStudent(testCourse, testTeacher, testStudentContainer, studentAssignmentRepository);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -596,7 +596,7 @@ public class TeachersPetApplicationTests {
 	}
 
 	@Test
-	public void testBasicEmailWithNoMissingAssignments() {
+	public void testEmailOneStudentWithNoMissingAssignments() {
 		Teacher testTeacher = null;
 		Course testCourse = null;
 		Student testStudent = null;
@@ -638,7 +638,7 @@ public class TeachersPetApplicationTests {
 			}
 			int testAverage = testCurver.getAverage(testGrades);
 			StudentContainer testStudentContainer = new StudentContainer(testStudent, testStudentAssignments, testAverage);
-			myEmailer.createGeneralStudentEmail(testCourse, testTeacher, testStudentContainer, studentAssignmentRepository);
+			myEmailer.sendEmailOneStudent(testCourse, testTeacher, testStudentContainer, studentAssignmentRepository);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -675,6 +675,107 @@ public class TeachersPetApplicationTests {
 			}
 		}
 	}
+
+	@Test
+	public void testEmailForAllZerosBothStudentsWithMissingAssignments() {
+		Teacher testTeacher = null;
+		Course testCourse = null;
+		Student testStudent = null;
+		Student secondTestStudent = null;
+		StudentCourse testStudentCourse = null;
+		StudentCourse secondTestStudentCourse = null;
+		Assignment testAssignment = null;
+		Assignment secondTestAssignment = null;
+		StudentAssignment testStudentAssignment = null;
+		StudentAssignment secondTestStudentAssignment = null;
+		StudentAssignment thirdTestStudentAssignment = null;
+		StudentAssignment fourthTestStudentAssignment = null;
+		try {
+			testTeacher = new Teacher("Teacher", "Teacher", "myTeacherEmail@email.com", "test-password", "test-school");
+			teacherRepository.save(testTeacher);
+			testCourse = new Course("course-name", "test-course-subject", 10, testTeacher);
+			courseRepository.save(testCourse);
+			testStudent = new Student("Bill", "Smith", "j.tracy916@gmail.com");
+			studentRepository.save(testStudent);
+			testStudentCourse = new StudentCourse(testStudent, testCourse);
+			studentCourseRepository.save(testStudentCourse);
+
+			testAssignment = new Assignment("test-assignment-name", "test-assignment-dueDate");
+			assignmentRepository.save(testAssignment);
+			secondTestAssignment = new Assignment("second-test-assignment-name", "second-test-assignment-dueDate");
+			assignmentRepository.save(secondTestAssignment);
+
+			testStudentAssignment = new StudentAssignment(testStudent, testAssignment, 0);
+			studentAssignmentRepository.save(testStudentAssignment);
+			secondTestStudentAssignment = new StudentAssignment(testStudent, secondTestAssignment, 70);
+			studentAssignmentRepository.save(secondTestStudentAssignment);
+
+			secondTestStudent = new Student("Bob", "Smith", "j.tracy916@gmail.com");
+			studentRepository.save(secondTestStudent);
+			secondTestStudentCourse = new StudentCourse(secondTestStudent, testCourse);
+			studentCourseRepository.save(secondTestStudentCourse);
+
+			thirdTestStudentAssignment = new StudentAssignment(secondTestStudent, testAssignment, 0);
+			studentAssignmentRepository.save(thirdTestStudentAssignment);
+			fourthTestStudentAssignment = new StudentAssignment(secondTestStudent, secondTestAssignment, 0);
+			studentAssignmentRepository.save(fourthTestStudentAssignment);
+
+			ArrayList<StudentContainer> studentContainers = new ArrayList<>();
+			for (StudentCourse currentStudentCourse : studentCourseRepository.findAllByCourse(testCourse)) {
+				ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudentCourse.getStudent());
+				ArrayList<Integer> myGrades = new ArrayList<>();
+				for (StudentAssignment currentStudentAssignment : allMyStudentAssignments) {
+					myGrades.add(currentStudentAssignment.getGrade());
+				}
+				int average = testCurver.getAverage(myGrades);
+				StudentContainer newStudentContainer = new StudentContainer(currentStudentCourse.getStudent(), allMyStudentAssignments, average);
+				studentContainers.add(newStudentContainer);
+			}
+
+			myEmailer.sendEmailForAllZeros(testCourse, testTeacher, studentContainers, studentAssignmentRepository);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}finally {
+			if (testStudentAssignment != null) {
+				studentAssignmentRepository.delete(testStudentAssignment);
+			}
+			if (secondTestStudentAssignment != null) {
+				studentAssignmentRepository.delete(secondTestStudentAssignment);
+			}
+			if (thirdTestStudentAssignment != null) {
+				studentAssignmentRepository.delete(thirdTestStudentAssignment);
+			}
+			if (fourthTestStudentAssignment != null) {
+				studentAssignmentRepository.delete(fourthTestStudentAssignment);
+			}
+			if (testAssignment != null) {
+				assignmentRepository.delete(testAssignment);
+			}
+			if (secondTestAssignment != null) {
+				assignmentRepository.delete(secondTestAssignment);
+			}
+			if (testStudentCourse != null) {
+				studentCourseRepository.delete(testStudentCourse);
+			}
+			if (secondTestStudentCourse != null) {
+				studentCourseRepository.delete(secondTestStudentCourse);
+			}
+			if (testStudent != null) {
+				studentRepository.delete(testStudent);
+			}
+			if (secondTestStudent != null) {
+				studentRepository.delete(secondTestStudent);
+			}
+			if (testCourse != null) {
+				courseRepository.delete(testCourse);
+			}
+			if (testTeacher != null) {
+				teacherRepository.delete(testTeacher);
+			}
+		}
+	}
+
 
 
 }

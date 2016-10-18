@@ -97,9 +97,9 @@ angular.module('TeachersPetApp', [])
 
             $window.location.href = '/gradebook?courseId=' + courseId;
 
-                                                          //            $http.post("/gradebook.json", course)
-                                                          //                .then(
-                                                          //                    function successCallback(response) {
+//            $http.post("/gradebook.json", course)
+//                .then(
+//                    function successCallback(response) {
 //                        console.log(response.data);
 //                        console.log("Adding data to scope");
 //

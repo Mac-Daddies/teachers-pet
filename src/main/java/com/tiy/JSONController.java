@@ -1,8 +1,5 @@
 package com.tiy;
 
-import org.apache.commons.logging.Log;
-import org.hibernate.mapping.Array;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 @RestController
 
@@ -661,15 +656,33 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/sendEmailOneStudent.json", method = RequestMethod.POST)
-    public String sendEmail(@RequestBody StudentContainer studentContainer) throws IOException {
+    public String sendEmailOneStudent(@RequestBody StudentContainer studentContainer) throws IOException {
         String returnString;
         if (studentContainer.getStudentAssignments().size() > 0) {
-            myEmailer.createGeneralStudentEmail(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
-            returnString = "Email sent!";
+            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
+            returnString = "Email sent for " + studentContainer.getStudent().getFirstName() + "!";
         } else {
             System.out.println("Email not sent because the student has no assignment data yet.");
             returnString = "Error: email not sent because the student has no assignment data yet. Enter assignments first.";
         }
+
+        return returnString;
+    }
+
+    @RequestMapping(path = "/sendEmailForAllZeros.json", method = RequestMethod.POST)
+    public String sendEmailForAllZeros(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) throws IOException {
+        String returnString;
+        if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
+            if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
+                myEmailer.sendEmailForAllZeros(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
+                returnString = "Emails sent for all students with zeros!";
+            } else {
+                returnString = "Error: emails not sent because there is no assignment data yet. Enter assignments first.";
+            }
+        } else {
+            returnString = "Error: emails not sent because there are no students yet. Add students first.";
+        }
+
 
         return returnString;
     }
