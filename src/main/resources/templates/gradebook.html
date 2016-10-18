@@ -11,6 +11,11 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
     <style>
+    body {
+    background-image: url("clouds.jpg");
+
+
+}
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -39,6 +44,7 @@ th {
 }
 
 #student{
+color: white;
 margin-right: 900px;
     margin-top: 1px;
     width: 84px;
@@ -48,18 +54,27 @@ margin-right: 900px;
 }
 
 table{
+
 border-collapse: separate;
     empty-cells: hide;
+  	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+	font-size: 14px;
+	font-style: large;
+	font-variant: normal;
+	font-weight: bold;
+	line-height: 15.4px;
 }
 
 
 
 </style>
 </head>
-<body ng-controller="GradebookController" background-color=blue>
+<body ng-controller="GradebookController">
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
+
+<img src="clouds.jpg" border="5px">
 
 <input type="hidden" ng-model="courseIdForGradebook" ng-init="gradebook(<%courseId%>)"/>
 
