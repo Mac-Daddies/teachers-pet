@@ -18,24 +18,35 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=The+Girl+Next+Door" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <style>
 
-    body{
-    font-family: "Comic Sans MS", cursive, sans-serif;
+
+
+
+body{
+font-family: "The Girl Next Door";
+
 	font-size: 14px;
 	font-style: large;
 	font-variant: normal;
 	font-weight: bold;
 	line-height: 15.4px;
 	text-align: center;
+	font-size: 200%;
 
 	background-image: url("https://testdrive-archive.azurewebsites.net/performance/chalkboard/Images/EmptyChalkboard.svg");
-	padding:100px;
+	padding: 100px;
     border-collapse: collapse;
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size: 75%, 75%;
+
 }
+
 th, td {
     padding: 5px;
 }
@@ -48,6 +59,22 @@ jumbo{
 register{
     color: black;
 }
+img{
+right: 10px;
+
+}
+
+li{
+    text-align:center;
+}
+ol{
+list-style-position: inside;
+
+
+}
+form{
+width:100%;
+}
 
 </style>
 </head>
@@ -56,52 +83,21 @@ register{
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 
-<font color="white">
-    <h3> Welcome to Teacher's Pet</h3>
-</font>
+
 
 
 
 
 
 <span ng-if="!loginContainer">
+<font color="white">
+    <h3> Welcome to Teacher's Pet</h3>
+</font>
 
 
-
-<div class="container" id="jumbo">
-    <div>
-
-
-        <!--<h3>Login:</h3>-->
-        <!--Email: <input type="text" ng-model="loginEmail"/> <br/>-->
-        <!--Password: <input type="text" ng-model="loginPassword"/> <br/>-->
-        <!--<input type="button" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>-->
-
-
-        <form class="form-inline">
-            <div class="form-group">
-                <font color="white">
-                <h3>Login:</h3>
-
-                Email: <input type="text" ng-model="loginEmail"/> <br/>
-                Password: <input type="password"  ng-model="loginPassword" /> <br/>
-                      </font>
-
-                <input type="button" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/></font>
-                <!--<small id="passwordHelpInline" class="text-muted">-->
-                <!--Must be 8-20 characters long.-->
-                <!--</small>-->
-            </div>
-        </form>
-
-    </div>
-
-</div>
-
-
-
-    <!---->
+<!--<div class="container" id="jumbo">-->
     <!--<div>-->
+
 
         <!--&lt;!&ndash;<h3>Login:</h3>&ndash;&gt;-->
         <!--&lt;!&ndash;Email: <input type="text" ng-model="loginEmail"/> <br/>&ndash;&gt;-->
@@ -110,55 +106,326 @@ register{
 
 
         <!--<form class="form-inline">-->
+            <!--<div class="form-group">-->
+                <!--<font color="white">-->
+                <!--<h3>Login:</h3>-->
+
+                <!--Email: <input type="text" ng-model="loginEmail"/> <br/>-->
+                <!--Password: <input type="password"  ng-model="loginPassword" /> <br/>-->
+                      <!--</font>-->
+
+                <!--<input type="button" class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/></font>-->
+                <!--&lt;!&ndash;<small id="passwordHelpInline" class="text-muted">&ndash;&gt;-->
+                <!--&lt;!&ndash;Must be 8-20 characters long.&ndash;&gt;-->
+                <!--&lt;!&ndash;</small>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</form>-->
+
+    <!--</div>-->
+
+<!--</div>-->
+
+
+
+
+    <!--<div class="container">-->
+
+        <!--<h3>Login:</h3>-->
+        <!--Email: <input type="text" ng-model="loginEmail"/> <br/>-->
+        <!--Password: <input type="text" ng-model="loginPassword"/> <br/>-->
+        <!--<input type="button" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>-->
+        <!--<form class="form-inline">-->
         <!--<div class="form-group">-->
             <!--<h3>Login:</h3>-->
             <!--Email: <input type="text" ng-model="loginEmail"/> <br/>-->
             <!--Password: <input type="password"  ng-model="loginPassword" /> <br/>-->
-            <!--<input type="button" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>-->
+            <!--<input type="button" class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>-->
             <!--&lt;!&ndash;<small id="passwordHelpInline" class="text-muted">&ndash;&gt;-->
-                <!--&lt;!&ndash;Must be 8-20 characters long.&ndash;&gt;-->
+            <!--&lt;!&ndash;Must be 8-20 characters long.&ndash;&gt;-->
             <!--&lt;!&ndash;</small>&ndash;&gt;-->
         <!--</div>-->
 <!--</form>-->
 
     <!--</div>-->
 
-    - or -
 
-    <div class>
-        <font color="white">
-        <h3>Register:</h3>
-        First Name: <input type="text"ng-model="registerFirstName"/> <br/>
-         Last Name: <input type="text" ng-model="registerLastName"/> <br/>
-             Email: <input type="text"     ng-model="registerEmail"/> <br/>
-          Password: <input type="text"  ng-model="registerPassword"/> <br/>
-            School: <input type="text"    ng-model="registerSchool"/> <br/>
-        </font>
-        <input type="button"          ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" value="Register"/>
+<div class="container" id="jumbo">
+    <form class="form-inline">
+        <div class="form-group">
+              <label for="email">Email:</label>
+               <input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="loginEmail"/>
+                <label for="pwd">Password:</label>
+               <input type="password" class="form-control" id="pwd" placeholder="Enter password" ng-model="loginPassword">
+        </div>
 
-    </div>
+        <input type="button"  class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>
+
+    </form>
+
+
+</div>
+
+<br/><br/>
+
+
+- or -
+    <div class="container">
+        <button name="but" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Register</button>
+
+    <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Register</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+
+                                            <input type="text" class="form-control" id="first" placeholder="Enter Your First Name" ng-model="registerFirstName"/>
+
+                        <input type="text" class="form-control"  placeholder="Enter Your Last Name" ng-model="registerLastName"/>
+
+                        <input type="email" class="form-control" placeholder="Enter Your Email"  ng-model="registerEmail"/>
+
+                        <input type="text" class="form-control"  placeholder="Enter Your Password" ng-model="registerPassword"/>
+
+                        <input type="text" class="form-control"  placeholder="Enter Your School" ng-model="registerSchool"/>
+
+                        <input type="button" class="btn btn-default btn-lg"  ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" data-dismiss="modal" value="Register"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!--<div class="container"></div>-->
+       <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
+    <!--<button type="button" id="register" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModalss">Register</button>-->
+
+        <!--&lt;!&ndash; Modal &ndash;&gt;-->
+    <!--<div class="modal fade" id="myModalss" role="dialog">-->
+        <!--<div class="modal-dialog">-->
+
+            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<h4 class="modal-title">Register</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                        <!--<div>-->
+                        <!--<input type="text" class="form-control" id="first" placeholder="Enter Your First Name" ng-model="registerFirstName"/>-->
+
+                        <!--<input type="text" class="form-control" id="last" placeholder="Enter Your Last Name" ng-model="registerLastName"/>-->
+
+                        <!--<input type="email" class="form-control" id="emails" placeholder="Enter Your Email" ng-model="registerEmail"/>-->
+
+                        <!--<input type="text" class="form-control" id="pass" placeholder="Enter Your Password" ng-model="registerPassword"/>-->
+
+                        <!--<input type="text" class="form-control" id="school" placeholder="Enter Your School" ng-model="registerSchool"/>-->
+
+                        <!--<input type="button" class="btn btn-default btn-lg"  ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" value="Register"/>-->
+                  <!---->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+  <!---->
+
+
+
+
+
+
+
+
+           <!--<div> &lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
+    <!--<button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>-->
+
+               <!--&lt;!&ndash; Modal &ndash;&gt;-->
+    <!--<div class="modal fade" id="myModals" role="dialog">-->
+        <!--<div class="modal-dialog">-->
+
+            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<h4 class="modal-title">Add Class</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<div>-->
+                       <!--Name: <input type="text" ng-model="newClassName"/> <br/>-->
+                     <!--Subject: <input type="text" ng-model="newClassSubject"/> <br/>-->
+                        <!--Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>-->
+                     <!--<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>-->
+
+
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
+
+
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container">-->
+    <!--<form class="form-group row" id="form">-->
+        <!--<label for="first" class="col-xs-2 col-form-label">First Name:</label>-->
+        <!--<input type="text" class="form-control" id="first" placeholder="Enter Your First Name" ng-model="registerFirstName"/>-->
+         <!--<label for="last">Last Name:</label>-->
+        <!--<input type="text" class="form-control" id="last" placeholder="Enter Your Last Name" ng-model="registerLastName"/>-->
+         <!--<label for="emails">Email:</label>-->
+        <!--<input type="text" class="form-control" id="emails" placeholder="Enter Your Email" ng-model="registerEmail"/>-->
+         <!--<label for="pass">Password:</label>-->
+        <!--<input type="text" class="form-control" id="pass" placeholder="Enter Your Password" ng-model="registerPassword"/>-->
+         <!--<label for="school">School:</label>-->
+        <!--<input type="text" class="form-control" id="school" placeholder="Enter Your School" ng-model="registerSchool"/>-->
+
+        <!--<input type="button" class="btn btn-default btn-lg"  ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" value="Register"/>-->
+
+
+    <!--</form>-->
+<!--</div>-->
+
+
+
+
+
+    <!--<div class>-->
+        <!--<font color="white">-->
+        <!--<h3>Register:</h3>-->
+        <!--First Name: <input type="text"ng-model="registerFirstName"/> <br/>-->
+         <!--Last Name: <input type="text" ng-model="registerLastName"/> <br/>-->
+             <!--Email: <input type="text"     ng-model="registerEmail"/> <br/>-->
+          <!--Password: <input type="text"  ng-model="registerPassword"/> <br/>-->
+            <!--School: <input type="text"    ng-model="registerSchool"/> <br/>-->
+        <!--</font>-->
+        <!--<input type="button" class="btn btn-default btn-lg"  ng-click="register(registerFirstName, registerLastName, registerEmail, registerPassword, registerSchool)" value="Register"/>-->
+
+    <!--</div>-->
+
 
 
 </span>
 
 <span ng-if="loginContainer != null">
     <span ng-if="!loginSuccessful">
-         Your login was not successful. <a href="" class="btn btn-primary"> <input type="button" ng-click="home()" value="Try again"/> </a>
+         Your login was not successful. <a href="" class="btn btn-default"> <input type="button" class="btn btn-default btn-lg" ng-click="home()" value="Try again"/> </a>
         <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
     </span>
 
     <span ng-if="loginSuccessful">
-
-        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! <br/><br/>
+        <font color="white">
+        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <br/><br/>
         <div>
+            <font color="white">
             <h2>My Classes:</h2>
-            <ol>
+            <ol class="f">
                 <span ng-repeat="course in allCourses">
-                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} <input type="button" ng-click="gradebook(course.id)" value="Gradebook"/> </li>
+                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}
+                        <input type="button" class="btn btn-default btn-lg" ng-click="gradebook(course.id)" value="Gradebook"/> </li>
                 </span>
             </ol>
+                </font>
 
-              <div> <!-- Trigger the modal with a button -->
+
+            <div> <!-- Trigger the modal with a button -->
     <button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>
 
                   <!-- Modal -->
@@ -175,7 +442,6 @@ register{
                     <div>
                        Name: <input type="text" ng-model="newClassName"/> <br/>
                      Subject: <input type="text" ng-model="newClassSubject"/> <br/>
-
                         Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
                      <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
 

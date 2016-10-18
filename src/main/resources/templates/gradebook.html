@@ -24,6 +24,7 @@
 
 
 
+
 }
 
 table, th, td {
@@ -82,7 +83,7 @@ border-collapse: separate;
 	font-variant: normal;
 	font-weight: bold;
 	line-height: 15.4px;
-	width: 100%; height: 100%
+	width: 150%; height: 150%
 }
 
 
@@ -289,7 +290,7 @@ border-collapse: separate;
 
 
 
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades"/> </td>
 
                 </tr>
 
@@ -308,28 +309,28 @@ border-collapse: separate;
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number" ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number"  ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/> </td>
                 </tr>
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
                 </tr>
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve"/> </td>
                 </tr>
 
                 <tr>
                     <td> </td>
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
                 </tr>
 
                 <tr>
                     <td> <d>
 
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades (coming soon)"/> </td>
                 </tr>
                 <tr>
                     <!--<td>-->
