@@ -349,15 +349,22 @@ public class JSONController {
 
         }
 
-        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(currentAssignment);
-        //If there are no original grades for this assignment in the db, store these grades as original grades.
-        if (originalGrades.size() == 0) {
-            ArrayList<StudentAssignment> allStudentAssignmentsForThisAssignment = studentAssignmentRepository.findAllByAssignment(currentAssignment);
-            for (StudentAssignment currentStudentAssignment : allStudentAssignmentsForThisAssignment) {
-                OriginalGrade newOriginalGrade = new OriginalGrade(currentStudentAssignment.getStudent(), currentStudentAssignment.getAssignment(), currentStudentAssignment.getGrade());
-                originalGradeRepository.save(newOriginalGrade);
+        //Store original grades (only if there are no original grades already in the db)
+        ArrayList<StudentAssignment> allStudentAssignmentsForThisAssignment = studentAssignmentRepository.findAllByAssignment(currentAssignment);
+        for (StudentAssignment currentStudentAssignment : allStudentAssignmentsForThisAssignment) {
+            OriginalGrade retrievedOriginalGrade = originalGradeRepository.findByStudentAndAssignment(currentStudentAssignment.getStudent(), currentStudentAssignment.getAssignment());
+            //if the retrieved OriginalGrade object is null, it means there is no originalGrade for that student on that assignment, so save one.
+            if (retrievedOriginalGrade == null) {
+                if (currentStudentAssignment.getGrade() != -1) {
+                    OriginalGrade newOriginalGrade = new OriginalGrade(currentStudentAssignment.getStudent(), currentStudentAssignment.getAssignment(), currentStudentAssignment.getGrade());
+                    originalGradeRepository.save(newOriginalGrade);
+                    System.out.println("Original grade stored for " + newOriginalGrade.getStudent().getFirstName() + " on " + newOriginalGrade.getAssignment().getName() + ": " + newOriginalGrade.getGrade());
+                } else {
+                    System.out.println("Cannot store original grade for " + currentStudentAssignment.getStudent().getFirstName() + " on " + currentStudentAssignment.getAssignment().getName() + " because no grade was entered (-1).");
+                }
             }
         }
+
 
 //        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
 
@@ -623,23 +630,22 @@ public class JSONController {
     public AssignmentAndStudentAssignmentContainer getOriginalGrades(@RequestBody Assignment assignment) {
         ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(assignment);
 
-        ArrayList<StudentAssignment> allStudentAssignments = studentAssignmentRepository.findAllByAssignment(assignment);
-        int counter = 0;
-        for (StudentAssignment studentAssignment : allStudentAssignments) {
-            if (studentAssignment.getStudent().equals(originalGrades.get(counter).getStudent())) {
-                System.out.println("Overwriting " + studentAssignment.getStudent().getFirstName() + "'s grade with original grade: " + originalGrades.get(counter).getGrade());
-                studentAssignment.setGrade(originalGrades.get(counter).getGrade());
-                studentAssignmentRepository.save(studentAssignment);
-            } else {
-                System.out.println("Error: students not in the same order!!!");
-            }
-            counter++;
-        }
-
         ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.getCourse());
         ArrayList<Student> allStudentsInCourse = new ArrayList<>();
         for (StudentCourse studentCourse : allStudentCoursesByCourse) {
             allStudentsInCourse.add(studentCourse.getStudent());
+        }
+
+        for (Student currentStudent : allStudentsInCourse) {
+            StudentAssignment myStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, assignment);
+            OriginalGrade myOriginalGrade = originalGradeRepository.findByStudentAndAssignment(currentStudent, assignment);
+            if(myOriginalGrade != null) {
+                System.out.println("Overwriting " + myOriginalGrade.getStudent().getFirstName() + "'s grade on " + myOriginalGrade.getAssignment().getName() + " with original grade: " + myOriginalGrade.getGrade());
+                myStudentAssignment.setGrade(myOriginalGrade.getGrade());
+                studentAssignmentRepository.save(myStudentAssignment);
+            } else {
+                System.out.println("Error: no original grade set yet.");
+            }
         }
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(assignment.getCourse().getId());
