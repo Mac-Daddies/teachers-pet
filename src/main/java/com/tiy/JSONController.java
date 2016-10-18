@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 @RestController
@@ -32,6 +33,9 @@ public class JSONController {
     @Autowired
     StudentCourseRepository studentCourseRepository;
 
+    @Autowired
+    OriginalGradeRepository originalGradeRepository;
+
     CurveMyScores myCurver = new CurveMyScores();
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
@@ -39,7 +43,6 @@ public class JSONController {
         teacherRepository.save(newTeacher);
 
         Teacher retrievedTeacher = newTeacher;
-
         LoginContainer loginContainer;
 
         if(newTeacher == null){
@@ -346,6 +349,15 @@ public class JSONController {
 
         }
 
+        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(currentAssignment);
+        //If there are no original grades for this assignment in the db, store these grades as original grades.
+        if (originalGrades.size() == 0) {
+            ArrayList<StudentAssignment> allStudentAssignmentsForThisAssignment = studentAssignmentRepository.findAllByAssignment(currentAssignment);
+            for (StudentAssignment currentStudentAssignment : allStudentAssignmentsForThisAssignment) {
+                OriginalGrade newOriginalGrade = new OriginalGrade(currentStudentAssignment.getStudent(), currentStudentAssignment.getAssignment(), currentStudentAssignment.getGrade());
+                originalGradeRepository.save(newOriginalGrade);
+            }
+        }
 
 //        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
 
@@ -447,16 +459,16 @@ public class JSONController {
 //
 //            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + newGrade);
 //            oldGradeArrayList.add(newGrade);
-            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
+//            System.out.println("This is the grade for **" + currentStudent.getFirstName() + "** that's about to be added to the arrayList: " + retrievedStudentAssignment.getGrade());
             oldGradeArrayList.add(retrievedStudentAssignment.getGrade());
 
         }
 
-        System.out.print("*** Grades in oldGradeArrayList: ");
-        for (int currentGrade : oldGradeArrayList) {
-            System.out.print(currentGrade + " ");
-        }
-        System.out.println();
+//        System.out.print("*** Grades in oldGradeArrayList: ");
+//        for (int currentGrade : oldGradeArrayList) {
+//            System.out.print(currentGrade + " ");
+//        }
+//        System.out.println();
 
         System.out.print("*** Grades in updatedGrades after curveFlat: ");
 
@@ -606,6 +618,38 @@ public class JSONController {
 //
 //        return average;
 //    }
+
+    @RequestMapping(path = "/getOriginalGrades.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer getOriginalGrades(@RequestBody Assignment assignment) {
+        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByAssignment(assignment);
+
+        ArrayList<StudentAssignment> allStudentAssignments = studentAssignmentRepository.findAllByAssignment(assignment);
+        int counter = 0;
+        for (StudentAssignment studentAssignment : allStudentAssignments) {
+            if (studentAssignment.getStudent().equals(originalGrades.get(counter).getStudent())) {
+                System.out.println("Overwriting " + studentAssignment.getStudent().getFirstName() + "'s grade with original grade: " + originalGrades.get(counter).getGrade());
+                studentAssignment.setGrade(originalGrades.get(counter).getGrade());
+                studentAssignmentRepository.save(studentAssignment);
+            } else {
+                System.out.println("Error: students not in the same order!!!");
+            }
+            counter++;
+        }
+
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.getCourse());
+        ArrayList<Student> allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(studentCourse.getStudent());
+        }
+
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(assignment.getCourse().getId());
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+
+        return returnContainer;
+    }
 
 
 
