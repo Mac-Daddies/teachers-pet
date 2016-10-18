@@ -2,18 +2,21 @@ package com.tiy;
 
 
 import com.sendgrid.*;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
+public class EmailSender {
 
-public class Example1 {
-    public static void main(String[] args) throws IOException {
+    public void sendEmail(String emailFrom, String subject, String emailTo, String emailContent) throws IOException {
 
-        Email from = new Email("@teacherspet.com");
-        String subject = "Hello World from the SendGrid Java Library!";
-        Email to = new Email("dgowens2@gmail.com");
-        Content content = new Content("text/plain", "CLICK HERE FOR SOME FUN");
+//        com.sendgrid.Email from = new com.sendgrid.Email("studentreports@teacherspet.com");
+        Email from = new Email(emailFrom);
+//        com.sendgrid.Email to = new com.sendgrid.Email(studentContainer.getStudent().getParentEmail());
+        Email to = new Email(emailTo);
+        Content content = new Content("text/plain", emailContent);
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid("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", false);

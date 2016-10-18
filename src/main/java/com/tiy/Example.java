@@ -6,7 +6,7 @@
 //import com.sendgrid.ClickTrackingSetting;
 //import com.sendgrid.Client;
 //import com.sendgrid.Content;
-//import com.sendgrid.Email;
+//import com.sendgrid.EmailSender;
 //import com.sendgrid.FooterSetting;
 //import com.sendgrid.GoogleAnalyticsSetting;
 //import com.sendgrid.Mail;
@@ -32,7 +32,7 @@
 //    public static Mail buildKitchenSink() throws IOException {
 //        Mail mail = new Mail();
 //
-//        Email fromEmail = new Email();
+//        EmailSender fromEmail = new EmailSender();
 //        fromEmail.setName("Example User");
 //        fromEmail.setEmail("test@example.com");
 //        mail.setFrom(fromEmail);
@@ -40,21 +40,21 @@
 //        mail.setSubject("Hello World from the SendGrid Java Library");
 //
 //        Personalization personalization = new Personalization();
-//        Email to = new Email();
+//        EmailSender to = new EmailSender();
 //        to.setName("Example User");
 //        to.setEmail("test1@example.com");
 //        personalization.addTo(to);
 //        to.setName("Example User");
 //        to.setEmail("test2@example.com");
 //        personalization.addTo(to);
-//        Email cc = new Email();
+//        EmailSender cc = new EmailSender();
 //        cc.setName("Example User");
 //        cc.setEmail("test3@example.com");
 //        personalization.addCc(cc);
 //        cc.setName("Example User");
 //        cc.setEmail("test4@example.com");
 //        personalization.addCc(cc);
-//        Email bcc = new Email();
+//        EmailSender bcc = new EmailSender();
 //        bcc.setName("Example User");
 //        bcc.setEmail("test5@example.com");
 //        personalization.addBcc(bcc);
@@ -72,21 +72,21 @@
 //        mail.addPersonalization(personalization);
 //
 //        Personalization personalization2 = new Personalization();
-//        Email to2 = new Email();
+//        EmailSender to2 = new EmailSender();
 //        to2.setName("Example User");
 //        to2.setEmail("test1@example.com");
 //        personalization2.addTo(to2);
 //        to2.setName("Example User");
 //        to2.setEmail("test2@example.com");
 //        personalization2.addTo(to2);
-//        Email cc2 = new Email();
+//        EmailSender cc2 = new EmailSender();
 //        cc2.setName("Example User");
 //        cc2.setEmail("test3@example.com");
 //        personalization2.addCc(cc2);
 //        cc2.setName("Example User");
 //        cc2.setEmail("test4@example.com");
 //        personalization2.addCc(cc2);
-//        Email bcc2 = new Email();
+//        EmailSender bcc2 = new EmailSender();
 //        bcc2.setName("Example User");
 //        bcc2.setEmail("test5@example.com");
 //        personalization2.addBcc(bcc2);
@@ -201,7 +201,7 @@
 //        trackingSettings.setGoogleAnalyticsSetting(googleAnalyticsSetting);
 //        mail.setTrackingSettings(trackingSettings);
 //
-//        Email replyTo = new Email();
+//        EmailSender replyTo = new EmailSender();
 //        replyTo.setName("Example User");
 //        replyTo.setEmail("yehia830gmail.com");
 //        mail.setReplyTo(replyTo);
@@ -211,15 +211,15 @@
 //
 //    // Minimum required to send an email
 //    public static Mail buildHelloEmail() throws IOException {
-//        Email from = new Email("yehia830gmail.com");
+//        EmailSender from = new EmailSender("yehia830gmail.com");
 //        String subject = "Hello World from the SendGrid Java Library";
-//        Email to = new Email("yehia830@gmail.com");
+//        EmailSender to = new EmailSender("yehia830@gmail.com");
 //        Content content = new Content("text/plain", "some text here");
 //        // Note that when you use this constructor an initial personalization object
 //        // is created for you. It can be accessed via
 //        // mail.personalization.get(0) as it is a List object
 //        Mail mail = new Mail(from, subject, to, content);
-//        Email email = new Email("test2@example.com");
+//        EmailSender email = new EmailSender("test2@example.com");
 //        mail.personalization.get(0).addTo(email);
 //
 //        return mail;

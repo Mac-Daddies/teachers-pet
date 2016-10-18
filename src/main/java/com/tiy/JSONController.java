@@ -2,12 +2,14 @@ package com.tiy;
 
 import org.apache.commons.logging.Log;
 import org.hibernate.mapping.Array;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +39,7 @@ public class JSONController {
     OriginalGradeRepository originalGradeRepository;
 
     CurveMyScores myCurver = new CurveMyScores();
+    EmailCustomContent myEmailer = new EmailCustomContent();
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginContainer register(@RequestBody Teacher newTeacher){
@@ -655,6 +658,20 @@ public class JSONController {
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
 
         return returnContainer;
+    }
+
+    @RequestMapping(path = "/sendEmailOneStudent.json", method = RequestMethod.POST)
+    public String sendEmail(@RequestBody StudentContainer studentContainer) throws IOException {
+        String returnString;
+        if (studentContainer.getStudentAssignments().size() > 0) {
+            myEmailer.createGeneralStudentEmail(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
+            returnString = "Email sent!";
+        } else {
+            System.out.println("Email not sent because the student has no assignment data yet.");
+            returnString = "Error: email not sent because the student has no assignment data yet. Enter assignments first.";
+        }
+
+        return returnString;
     }
 
 
