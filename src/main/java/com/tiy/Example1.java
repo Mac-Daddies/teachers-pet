@@ -9,10 +9,11 @@ import java.io.IOException;
 
 public class Example1 {
     public static void main(String[] args) throws IOException {
-        Email from = new Email("yehia@tester.com");
+
+        Email from = new Email("bbw@busty.com");
         String subject = "Hello World from the SendGrid Java Library!";
-        Email to = new Email("yehia830@gmail.com");
-        Content content = new Content("text/plain", "You don't deserve her!!!");
+        Email to = new Email("dgowens2@gmail.com");
+        Content content = new Content("text/plain", "CLICK HERE FOR SOME FUN");
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid("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", false);
