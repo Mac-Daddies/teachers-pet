@@ -21,6 +21,8 @@ angular.module('TeachersPetApp',[])
                     });
         };
 
+
+
         $scope.graph = function(courseId) {
                     console.log("In graph function in ng controller with courseID = " + courseId);
 
@@ -45,6 +47,20 @@ angular.module('TeachersPetApp',[])
 
 
                                    };
+
+
+                                   var buyerData = {
+                                   	labels : ["January","February","March","April","May","June"],
+                                   	datasets : [
+                                   		{
+                                   			fillColor : "rgba(172,194,132,0.4)",
+                                   			strokeColor : "#ACC26D",
+                                   			pointColor : "#fff",
+                                   			pointStrokeColor : "#9DB86D",
+                                   			data : [203,156,99,251,305,247]
+                                   		}
+                                   	]
+                                   }
 
 
         console.log($scope.courseIdForGraph)
