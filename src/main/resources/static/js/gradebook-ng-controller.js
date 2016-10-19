@@ -409,6 +409,9 @@ angular.module('TeachersPetApp', [])
                 studentContainers: studentContainers
             }
 
+
+
+
 //            console.log("**About to send this currentAssignment: ");
 //            console.log(curveContainer.assignment);
 //            console.log("**About to send this list of StudentContainers:");
@@ -426,6 +429,10 @@ angular.module('TeachersPetApp', [])
                         console.log("Unable to get data...");
                     });
         };
+
+          $scope.ngBack =function() {
+                                window.history.back();
+                            };
 
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
