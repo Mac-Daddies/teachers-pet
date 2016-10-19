@@ -268,27 +268,57 @@ public class TeachersPetApplicationTests {
 		}
 	}
 
-//	@Test
-//	public void testOrderAssignmentsByDate() {
-//		ArrayList<Assignment> allAssignments = new ArrayList<>();
-//		Assignment testAssignment = new Assignment("testAssignment", "2016-08-11T04:00:00.000Z");
-//		allAssignments.add(testAssignment);
-//		Assignment secondTestAssignment = new Assignment("secondTestAssignment", "2016-09-05T04:00:00.000Z");
-//		allAssignments.add(secondTestAssignment);
-//		Assignment thirdTestAssignment = new Assignment("thirdTestAssignment", "2016-08-02T04:00:00.000Z");
-//		allAssignments.add(thirdTestAssignment);
-//		Assignment fourthTestAssignment = new Assignment("fourthTestAssignment", "2016-11-30T04:00:00.000Z");
-//		allAssignments.add(fourthTestAssignment);
-//		Assignment fifthTestAssignment = new Assignment("fifthTestAssignment", "2016-07-21T04:00:00.000Z");
-//		allAssignments.add(fifthTestAssignment);
-//
-//		allAssignments = myJsonController.orderAssignmentsByDate(allAssignments);
-//		assertEquals(fifthTestAssignment.getName(), allAssignments.get(0).getName());
-//		assertEquals(thirdTestAssignment.getName(), allAssignments.get(1).getName());
-//		assertEquals(testAssignment.getName(), allAssignments.get(2).getName());
-//		assertEquals(secondTestAssignment.getName(), allAssignments.get(3).getName());
-//		assertEquals(fourthTestAssignment.getName(), allAssignments.get(4).getName());
-//	}
+	@Test
+	public void testOrderAssignmentsByDate() {
+		ArrayList<Assignment> allAssignments = new ArrayList<>();
+		Assignment testAssignment = new Assignment("testAssignment", "2016-08-11T04:00:00.000Z");
+		allAssignments.add(testAssignment);
+		Assignment secondTestAssignment = new Assignment("secondTestAssignment", "2016-09-05T04:00:00.000Z");
+		allAssignments.add(secondTestAssignment);
+		Assignment thirdTestAssignment = new Assignment("thirdTestAssignment", "2016-08-02T04:00:00.000Z");
+		allAssignments.add(thirdTestAssignment);
+		Assignment fourthTestAssignment = new Assignment("fourthTestAssignment", "2016-11-30T04:00:00.000Z");
+		allAssignments.add(fourthTestAssignment);
+		Assignment fifthTestAssignment = new Assignment("fifthTestAssignment", "2016-07-21T04:00:00.000Z");
+		allAssignments.add(fifthTestAssignment);
+
+		allAssignments = myJsonController.orderAssignmentsByDate(allAssignments);
+		assertEquals(fifthTestAssignment.getName(), allAssignments.get(0).getName());
+		assertEquals(thirdTestAssignment.getName(), allAssignments.get(1).getName());
+		assertEquals(testAssignment.getName(), allAssignments.get(2).getName());
+		assertEquals(secondTestAssignment.getName(), allAssignments.get(3).getName());
+		assertEquals(fourthTestAssignment.getName(), allAssignments.get(4).getName());
+	}
+
+	@Test
+	public void testOrderAssignmentsByDateWithSomeTheSame() {
+		ArrayList<Assignment> allAssignments = new ArrayList<>();
+		Assignment testAssignment = new Assignment("testAssignment", "2017-01-30T04:00:00.000Z");
+		allAssignments.add(testAssignment);
+		Assignment secondTestAssignment = new Assignment("secondTestAssignment", "2016-12-05T04:00:00.000Z");
+		allAssignments.add(secondTestAssignment);
+		Assignment thirdTestAssignment = new Assignment("thirdTestAssignment", "2017-02-19T04:00:00.000Z");
+		allAssignments.add(thirdTestAssignment);
+		Assignment fourthTestAssignment = new Assignment("fourthTestAssignment", "2016-12-05T04:00:00.000Z");
+		allAssignments.add(fourthTestAssignment);
+		Assignment fifthTestAssignment = new Assignment("fifthTestAssignment", "2016-10-09T04:00:00.000Z");
+		allAssignments.add(fifthTestAssignment);
+		Assignment sixthTestAssignment = new Assignment("sixthTestAssignment", "2016-12-21T04:00:00.000Z");
+		allAssignments.add(sixthTestAssignment);
+
+		allAssignments = myJsonController.orderAssignmentsByDate(allAssignments);
+
+//		for (Assignment assignment : allAssignments) {
+//			System.out.println(assignment.getName() + " " + assignment.getDueDate());
+//		}
+
+		assertEquals(fifthTestAssignment.getName(), allAssignments.get(0).getName());
+		assertEquals(secondTestAssignment.getName(), allAssignments.get(1).getName());
+		assertEquals(fourthTestAssignment.getName(), allAssignments.get(2).getName());
+		assertEquals(sixthTestAssignment.getName(), allAssignments.get(3).getName());
+		assertEquals(testAssignment.getName(), allAssignments.get(4).getName());
+		assertEquals(thirdTestAssignment.getName(), allAssignments.get(5).getName());
+	}
 
 	@Test
 	public void testInsertStudentAssignment() {

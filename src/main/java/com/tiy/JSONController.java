@@ -108,16 +108,14 @@ public class JSONController {
             }
         }
 
+        allAssignments = orderAssignmentsByDate(allAssignments);
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
 
         return returnContainer;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 3db9065c2077121ed83baf426c0d1cc3f95c1ed4
     @RequestMapping(path = "/graph.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer graphJSON(@RequestBody int courseId){
         Course course = courseRepository.findOne(courseId);
@@ -140,6 +138,8 @@ public class JSONController {
             }
         }
 
+        allAssignments = orderAssignmentsByDate(allAssignments);
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
 
@@ -157,6 +157,9 @@ public class JSONController {
         for (Student currentStudent : arrayListOfStudents) {
             //find all of their student assignments
             ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
+            //ORDER THE ASSIGNMENTS BY DATE (so it will display them in the correct order on front end)
+            allMyStudentAssignments = orderStudentAssignmentsByDate(allMyStudentAssignments);
+
             //make an arraylist of all of the student's grades on all of their student assignments
             ArrayList<Integer> myAssignmentGrades = new ArrayList<>();
             for (StudentAssignment currentStudentAssignment : allMyStudentAssignments) {
@@ -212,18 +215,49 @@ public class JSONController {
     }
 
     public ArrayList<Assignment> orderAssignmentsByDate(ArrayList<Assignment> allAssignments) {
+
         for (int counter = 0; counter < allAssignments.size() - 1; counter++) {
             for (int dateStringIndex = 0; dateStringIndex < 10; dateStringIndex++) {
                 //If at any index the value is greater than that of the next due date, switch the order, and then break to the next assignment.
-                if (Integer.valueOf(allAssignments.get(counter).getDueDate().charAt(dateStringIndex)) > Integer.valueOf(allAssignments.get(counter + 1).getDueDate().charAt(dateStringIndex))) {
-                    Assignment temporary = allAssignments.get(counter);
-                    allAssignments.set(counter, allAssignments.get(counter + 1));
-                    allAssignments.set(counter + 1, temporary);
-                    break;
+                if (Integer.valueOf(allAssignments.get(counter).getDueDate().charAt(dateStringIndex)) != Integer.valueOf(allAssignments.get(counter + 1).getDueDate().charAt(dateStringIndex))) {
+                    if (Integer.valueOf(allAssignments.get(counter).getDueDate().charAt(dateStringIndex)) < Integer.valueOf(allAssignments.get(counter + 1).getDueDate().charAt(dateStringIndex))) {
+                        //We know we don't want to switch, so break!
+                        break;
+                    } else {
+                        //else it must be larger, so switch them and break!
+                        Assignment temporary = allAssignments.get(counter);
+                        allAssignments.set(counter, allAssignments.get(counter + 1));
+                        allAssignments.set(counter + 1, temporary);
+                        counter = -1;
+                        break;
+                    }
                 }
             }
         }
         return allAssignments;
+    }
+
+    public ArrayList<StudentAssignment> orderStudentAssignmentsByDate(ArrayList<StudentAssignment> allStudentAssignments) {
+
+        for (int counter = 0; counter < allStudentAssignments.size() - 1; counter++) {
+            for (int dateStringIndex = 0; dateStringIndex < 10; dateStringIndex++) {
+                //If at any index the value is greater than that of the next due date, switch the order, and then break to the next assignment.
+                if (Integer.valueOf(allStudentAssignments.get(counter).getAssignment().getDueDate().charAt(dateStringIndex)) != Integer.valueOf(allStudentAssignments.get(counter + 1).getAssignment().getDueDate().charAt(dateStringIndex))) {
+                    if (Integer.valueOf(allStudentAssignments.get(counter).getAssignment().getDueDate().charAt(dateStringIndex)) < Integer.valueOf(allStudentAssignments.get(counter + 1).getAssignment().getDueDate().charAt(dateStringIndex))) {
+                        //We know we don't want to switch, so break!
+                        break;
+                    } else {
+                        //else it must be larger, so switch them and break!
+                        StudentAssignment temporary = allStudentAssignments.get(counter);
+                        allStudentAssignments.set(counter, allStudentAssignments.get(counter + 1));
+                        allStudentAssignments.set(counter + 1, temporary);
+                        counter = -1;
+                        break;
+                    }
+                }
+            }
+        }
+        return allStudentAssignments;
     }
 
     public AssignmentAndStudentAssignmentContainer gradebook(Course course){
@@ -245,6 +279,8 @@ public class JSONController {
                 System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
             }
         }
+
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
 
@@ -289,11 +325,13 @@ public class JSONController {
             studentAssignmentRepository.save(newStudentAssignment);
         }
 
-        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(assignment.course.getId());
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(assignment.course.getId());
+
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
 
-        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(assignmentArrayList, allStudentsInCourse);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
 
 //        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = getAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
 
@@ -328,28 +366,29 @@ public class JSONController {
 
         System.out.println("Order of assignments:");
         //If there are already students, make sure this student's assignments are saved in the same order as the ones that are already in there!!
-        ArrayList<Assignment> currentAssignments = new ArrayList<>();
+        ArrayList<Assignment> allAssignments = new ArrayList<>();
         ArrayList<StudentAssignment> studentAssignmentsOfStudentAlreadyInTable = studentAssignmentRepository.findAllByStudent(allStudentsInCourse.get(0));
         int counter = 1;
         for (StudentAssignment currentStudentAssignment : studentAssignmentsOfStudentAlreadyInTable) {
-            currentAssignments.add(currentStudentAssignment.getAssignment());
+            allAssignments.add(currentStudentAssignment.getAssignment());
             System.out.println(counter + ". " + currentStudentAssignment.getAssignment().getName());
             counter++;
         }
 
         //Give the new student each assignment that is already in the course (give a grade of zero for now)
         StudentAssignment newStudentAssignment;
-        for (Assignment currentAssignment : currentAssignments) {
+        for (Assignment currentAssignment : allAssignments) {
             newStudentAssignment = new StudentAssignment(newStudent, currentAssignment, -1);
             studentAssignmentRepository.save(newStudentAssignment);
 
         }
 
 //        ArrayList<Assignment> assignmentArrayList = assignmentRepository.findAllByCourseId(currentCourse.id);
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
 
-        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(currentAssignments, allStudentsInCourse);
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
@@ -414,6 +453,7 @@ public class JSONController {
 //        ArrayList<StudentAssignment> listOfStudentAssmtsByAssmt = studentAssignmentRepository.findAllByAssignment(currentAssignment);
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudents);
 
@@ -469,6 +509,7 @@ public class JSONController {
         System.out.println();
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
@@ -538,6 +579,7 @@ public class JSONController {
         System.out.println();
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
@@ -591,6 +633,7 @@ public class JSONController {
         System.out.println();
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
@@ -645,6 +688,7 @@ public class JSONController {
 
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(currentAssignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
