@@ -12,7 +12,8 @@
     <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
     <style>
     body {
-    background-color#f2f2f3;
+
+    background-color#f3f3f3;
     font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 	font-size: 14px;
 	font-style: large;
@@ -246,7 +247,9 @@ border-collapse: separate;
                 <!--</tr>-->
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <input type="button" class="btn btn-default btn-sm" ng-click="sendEmailOneStudent(studentContainer)" value="Email"/></td>
+                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                        <span class="glyphicon glyphicon-envelope" > </span> Email
+                    </button></td>
 
                     <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
                 </tr>
@@ -294,7 +297,10 @@ border-collapse: separate;
 
 
 
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <button type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades">
+                    <span class = "glyphicon glyphicon-send"> Send-Grades </span>
+                    </button>
+                    </td>
 
                 </tr>
 
