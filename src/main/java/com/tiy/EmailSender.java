@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.util.ArrayList;
 public class EmailSender {
+    String apiKey;
 
     public void sendEmail(String emailFrom, String subject, String emailTo, String emailContent) throws IOException {
 
@@ -19,18 +20,20 @@ public class EmailSender {
         Content content = new Content("text/plain", emailContent);
         Mail mail = new Mail(from, subject, to, content);
 
-        SendGrid sg = new SendGrid("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", false);
-        // wpFCAeQIR4iOf_YsurKn0g
+        SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"), false);
+        apiKey = System.getenv("SENDGRID_API_KEY");
+        System.out.println(apiKey);
         try {
+            System.out.println("\nIn emailSender...");
             Request request = new Request();
             request.setMethod(Method.POST);
             request.setEndpoint("api.sendgrid.com/v3/mail/send");
-            request.addHeader("Authorization", "Bearer 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");
+            request.addHeader("Authorization", "Bearer " + System.getenv("SENDGRID_API_KEY"));
             request.setBody(mail.build());
             Response response = sg.makeCall(request);
-            System.out.println(response.statusCode);
-            System.out.println(response.body);
-            System.out.println(response.headers);
+            System.out.println("Status code: " + response.statusCode);
+            System.out.println("Body: " + response.body);
+            System.out.println("Headers: " + response.headers);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

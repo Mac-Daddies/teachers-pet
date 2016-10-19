@@ -184,17 +184,23 @@ angular.module('TeachersPetApp', [])
                 }
             }
 
-            //loop to populate allAssignments array in the order that the grades are being displayed
-            var currentStudentToGetAssignmentName;
-            for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                if (counter == 0) {
-                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
-//                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+            //loop to populate allAssignments array order by date
+//            var currentStudentToGetAssignmentName;
+            for (var counter = 0; counter < ($scope.numberOfAssignments - 1); counter++) {
+                if ($scope.gradebookContainer.studentContainers.size > 0) {
+                    //compare date strings
+                    for (var dateIndex = 0; dateIndex < 10; dateIndex++) {
+                        if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].dueDate.)
+                    }
+                    if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].dueDate) {
+                        allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+    //                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
+                        console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                    } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                        allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+    //                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
+                        console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                    }
                 }
 
             }
@@ -220,7 +226,6 @@ angular.module('TeachersPetApp', [])
                     }
                 }
             }
-
 
             var assignmentAveragesArray = new Array($scope.numberOfAssignments);
             //loop to populate assignmentAverages array in the order that the grades are being displayed
@@ -567,7 +572,7 @@ angular.module('TeachersPetApp', [])
                 .then(
                     function successCallback(response) {
 //                        console.log("**This is what we get back: ");
-                        console.log(response.data);
+                        console.log(response.data.message);
                         console.log("Adding data to scope");
                         //could we make a pop-up or something that displays the response message?
                         //will either say email sent or error: put grades in first
@@ -577,19 +582,19 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
-        $scope.sendEmailForAllZeros = function(studentContainers) {
+        $scope.sendEmailForAllZeros = function() {
             console.log("In sendEmailForAllZeros function in gradebook-ng-controller");
 
             curveContainer = {
                 assignment: null,
-                studentContainers: studentContainers
+                studentContainers: $scope.gradebookContainer.studentContainers
             }
 
             $http.post("/sendEmailForAllZeros.json", curveContainer)
                 .then(
                     function successCallback(response) {
 //                        console.log("**This is what we get back: ");
-                        console.log(response.data);
+                        console.log(response.data.message);
                         console.log("Adding data to scope");
                         //could we make a pop-up or something that displays the response message?
                         //will either say email sent or error: put grades in first

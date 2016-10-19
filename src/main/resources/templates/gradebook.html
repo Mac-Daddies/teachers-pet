@@ -243,7 +243,7 @@ border-collapse: separate;
                 <!--</tr>-->
 
                 <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> </td>
+                    <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <input type="button" ng-click="sendEmailOneStudent(studentContainer)" value="Email"/></td>
 
                     <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
                 </tr>
@@ -382,6 +382,8 @@ border-collapse: separate;
 </div>
 
 <br/><br/>
+
+<input type="button" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
 
 <!--<div class="container" id="assignment" >-->
     <!--<h2></h2>-->

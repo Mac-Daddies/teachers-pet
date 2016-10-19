@@ -114,6 +114,34 @@ public class JSONController {
         return returnContainer;
     }
 
+    @RequestMapping(path = "/graph.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer graphJSON(@RequestBody int courseId){
+        Course course = courseRepository.findOne(courseId);
+
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
+
+        //Get a list of all students in the course
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
+        }
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentArrayList);
+
+        //print just for testing
+        for (StudentContainer currentStudentContainer : myArrayListOfStudentContainers) {
+            for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
+                System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
+            }
+        }
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+
+        return returnContainer;
+    }
+
     /**This method makes a list of student containers. Each student container hold a student in the course and
      * an arraylist of all of that student's studentAssignments.
      * (Returns the first parameter needed in the AssignmentAndStudentAssignmentContainer that is returned in every
@@ -177,6 +205,21 @@ public class JSONController {
         }
 
         return myAssignmentAndAverageContainers;
+    }
+
+    public ArrayList<Assignment> orderAssignmentsByDate(ArrayList<Assignment> allAssignments) {
+        for (int counter = 0; counter < allAssignments.size() - 1; counter++) {
+            for (int dateStringIndex = 0; dateStringIndex < 10; dateStringIndex++) {
+                //If at any index the value is greater than that of the next due date, switch the order, and then break to the next assignment.
+                if (Integer.valueOf(allAssignments.get(counter).getDueDate().charAt(dateStringIndex)) > Integer.valueOf(allAssignments.get(counter + 1).getDueDate().charAt(dateStringIndex))) {
+                    Assignment temporary = allAssignments.get(counter);
+                    allAssignments.set(counter, allAssignments.get(counter + 1));
+                    allAssignments.set(counter + 1, temporary);
+                    break;
+                }
+            }
+        }
+        return allAssignments;
     }
 
     public AssignmentAndStudentAssignmentContainer gradebook(Course course){
@@ -647,6 +690,7 @@ public class JSONController {
         }
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(assignment.getCourse().getId());
+        allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
@@ -656,21 +700,24 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/sendEmailOneStudent.json", method = RequestMethod.POST)
-    public String sendEmailOneStudent(@RequestBody StudentContainer studentContainer) throws IOException {
+    public StringContainer sendEmailOneStudent(@RequestBody StudentContainer studentContainer) throws IOException {
+        System.out.println("\nIn sendEmailOneStudent method in json controller");
         String returnString;
         if (studentContainer.getStudentAssignments().size() > 0) {
-            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
+            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(1).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
             returnString = "Email sent for " + studentContainer.getStudent().getFirstName() + "!";
         } else {
             System.out.println("Email not sent because the student has no assignment data yet.");
             returnString = "Error: email not sent because the student has no assignment data yet. Enter assignments first.";
         }
+        StringContainer myMessage = new StringContainer(returnString);
+        System.out.println("BACK IN JSON: " + myMessage.getMessage());
 
-        return returnString;
+        return myMessage;
     }
 
     @RequestMapping(path = "/sendEmailForAllZeros.json", method = RequestMethod.POST)
-    public String sendEmailForAllZeros(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) throws IOException {
+    public StringContainer sendEmailForAllZeros(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) throws IOException {
         String returnString;
         if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
             if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
@@ -682,9 +729,10 @@ public class JSONController {
         } else {
             returnString = "Error: emails not sent because there are no students yet. Add students first.";
         }
+        StringContainer myMessage = new StringContainer(returnString);
+        System.out.println("BACK IN JSON: " + myMessage.getMessage());
 
-
-        return returnString;
+        return myMessage;
     }
 
 

@@ -40,7 +40,7 @@ public class EmailCustomContent {
 
         //send the email!
         myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
-        System.out.println("General email sent for " + studentContainer.getStudent().getFirstName());
+        System.out.println("General email sent for " + studentContainer.getStudent().getFirstName() + " to email " + emailTo);
     }
 
     public void sendEmailForAllZeros(Course course, Teacher teacher, ArrayList<StudentContainer> studentContainers, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
