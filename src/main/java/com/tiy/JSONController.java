@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class JSONController {
     EmailCustomContent myEmailer = new EmailCustomContent();
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
-    public LoginContainer register(@RequestBody Teacher newTeacher){
+    public LoginContainer register(@RequestBody Teacher newTeacher, HttpSession session){
         teacherRepository.save(newTeacher);
 
         Teacher retrievedTeacher = newTeacher;
@@ -47,13 +48,14 @@ public class JSONController {
             loginContainer = new LoginContainer("Error adding you!", null, null);
         }else{
             loginContainer = new LoginContainer(null,retrievedTeacher,courseRepository.findAllByTeacher(retrievedTeacher));
+            session.setAttribute("loggedInTeacher", loginContainer.getTeacher());
         }
 
         return loginContainer;
     }
 
     @RequestMapping(path = "/login.json", method = RequestMethod.POST)
-        public LoginContainer login(@RequestBody emailAndPasswordContainer emailAndPasswordContainer){
+        public LoginContainer login(@RequestBody emailAndPasswordContainer emailAndPasswordContainer, HttpSession session){
         Teacher returnTeacher;
         LoginContainer loginContainer;
         String email = emailAndPasswordContainer.email;
@@ -64,6 +66,7 @@ public class JSONController {
 
         }else{
             loginContainer = new LoginContainer(null,returnTeacher,courseRepository.findAllByTeacher(returnTeacher));
+            session.setAttribute("loggedInTeacher", loginContainer.getTeacher());
         }
 
 
@@ -305,6 +308,14 @@ public class JSONController {
 //        }
 //        return arrayListOfReturnContainers;
 //    }
+
+    @RequestMapping(path = "/getTeacherWhoIsLoggedIn.json", method = RequestMethod.POST)
+    public TeacherAndCourseContainer getTeacherWhoIsLoggedIn(@RequestBody int teacherId) {
+        Teacher currentTeacher = teacherRepository.findOne(teacherId);
+        ArrayList<Course> courses = courseRepository.findAllByTeacher(currentTeacher);
+        TeacherAndCourseContainer teacherAndCourseContainer = new TeacherAndCourseContainer(currentTeacher, courses);
+        return teacherAndCourseContainer;
+    }
 
 
     @RequestMapping(path = "/addAss.json", method = RequestMethod.POST)

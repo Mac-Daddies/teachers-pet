@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TeachersPetApp">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/classList-ng-controller.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=The+Girl+Next+Door" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+
+
+
+
+body{
+
+	background-image: url("https://testdrive-archive.azurewebsites.net/performance/chalkboard/Images/EmptyChalkboard.svg");
+	padding: 100px;
+    border-collapse: collapse;
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size: 75%, 75%;
+
+
+}
+
+
+th, td {
+    padding: 5px;
+}
+th {
+    text-align: left;
+}
+jumbo{
+    color: white;
+}
+register{
+    color: black;
+}
+img{
+right: 10px;
+
+}
+
+li{
+    text-align:center;
+}
+ol{
+list-style-position: inside;
+
+
+}
+form{
+font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+}
+
+</style>
+</head>
+<body ng-controller="ClassListController" class="nice">
+{{! changing the mustache delimiter so it doesn't conflict with }}
+{{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
+{{=<% %>=}}
+<!--<input type="hidden" ng-init="setTeacher(<%teacherId%>)"/>-->
+
+
+
+
+<!--<span ng-if="loginContainer != null">-->
+<!--<span ng-if="loggedInBoolean">-->
+<!--<span ng-if="teacherWhoIsLoggedIn">-->
+    <!--<span ng-if="!loginSuccessful">-->
+         <!--Your login was not successful. <a href="" class="btn btn-default"> <input type="button" class="btn btn-default btn-lg" ng-click="home()" value="Try again"/> </a>-->
+        <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
+    <!--</span>-->
+
+    <!--<span ng-if="loginSuccessful">-->
+        <input type="hidden" ng-model="teacherId" ng-init="getTeacherWhoIsLoggedIn(<%teacherId%>)"/>
+        <font color="white">
+        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <br/><br/>
+        <div>
+            <font color="white">
+            <h2>My Classes:</h2>
+            <ol class="f">
+                <span ng-repeat="course in allCourses">
+                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}
+                        <input type="button" class="btn btn-default btn-lg" ng-click="gradebook(course.id)" value="Gradebook"/>
+                        <input type="button" class="btn btn-default btn-lg" ng-click="graph(course.id)" value="Graph"/>
+                    </li>
+                </span>
+            </ol>
+                </font>
+
+
+            <div> <!-- Trigger the modal with a button -->
+    <button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>
+
+                <!-- Modal -->
+    <div class="modal fade" id="myModals" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Class</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                       Name: <input type="text" ng-model="newClassName"/> <br/>
+                     Subject: <input type="text" ng-model="newClassSubject"/> <br/>
+                        Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
+                     <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+            <!--<input type="button" ng-click="" value="Add class (coming soon)"/>-->
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+<!--</span>-->
+
+
+
+
+
+        <br/><br/><br/>
+
+
+
+
+    <h2></h2>
+
+
+
+
+
+
+
+
+
+
+
+<!--</span>-->
+
+
+</body>
+</html>

@@ -71,18 +71,19 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
 
 </style>
 </head>
-<body ng-controller="SampleController" class="nice">
+<span ng-controller="SampleController" class="nice">
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
-
-
-
+<!--<input type="text" ng-init="setTeacher(<%teacherWhoIsLoggedIn%>)"/>-->
 
 
 
 
 <span ng-if="!loginContainer">
+<!--<span ng-if="!loggedInBoolean">-->
+<!--<span ng-if="!<%teacherWhoIsLoggedIn%>">-->
+<!--<span ng-if="teacherWhoIsLoggedIn == false">-->
 <font color="white">
     <h3> Welcome to Teacher's Pet</h3>
 </font>
@@ -400,95 +401,35 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
 </span>
 
 <span ng-if="loginContainer != null">
-    <span ng-if="!loginSuccessful">
+<!--<span ng-if="loggedInBoolean">-->
+<!--<span ng-if="<%teacherWhoIsLoggedIn%>">-->
+<!--<span ng-if="teacherWhoIsLoggedIn">-->
+    <span ng-if="loginSuccessful == false">
          Your login was not successful. <a href="" class="btn btn-default"> <input type="button" class="btn btn-default btn-lg" ng-click="home()" value="Try again"/> </a>
         <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
     </span>
 
-    <span ng-if="loginSuccessful">
-        <font color="white">
-        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <br/><br/>
-        <div>
-            <font color="white">
-            <h2>My Classes:</h2>
-            <ol class="f">
-                <span ng-repeat="course in allCourses">
-                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}
-                        <input type="button" class="btn btn-default btn-lg" ng-click="gradebook(course.id)" value="Gradebook"/>
-                        <input type="button" class="btn btn-default btn-lg" ng-click="graph(course.id)" value="Graph"/>
-                    </li>
-                </span>
-            </ol>
-                </font>
+    <!--<span ng-if="loginSuccessful">-->
+        <!--<font color="white">-->
+        <!--Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <br/><br/>-->
+        <!--<div>-->
+            <!--<font color="white">-->
+            <!--<h2>My Classes:</h2>-->
+            <!--<ol class="f">-->
+                <!--<span ng-repeat="course in allCourses">-->
+                    <!--<li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}-->
+                        <!--<input type="button" class="btn btn-default btn-lg" ng-click="gradebook(course.id)" value="Gradebook"/>-->
+                        <!--<input type="button" class="btn btn-default btn-lg" ng-click="graph(course.id)" value="Graph"/>-->
+                    <!--</li>-->
+                <!--</span>-->
+            <!--</ol>-->
+                <!--</font>-->
 
 
-            <div> <!-- Trigger the modal with a button -->
-    <button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>
+            <!--<div> &lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
+    <!--<button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>-->
 
-                  <!-- Modal -->
-    <div class="modal fade" id="myModals" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Class</h4>
-                </div>
-                <div class="modal-body">
-                    <div>
-                       Name: <input type="text" ng-model="newClassName"/> <br/>
-                     Subject: <input type="text" ng-model="newClassSubject"/> <br/>
-                        Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
-                     <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
-
-
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-
-
-
-
-</div>
-
-            <!--<input type="button" ng-click="" value="Add class (coming soon)"/>-->
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-</span>
-
-
-
-
-
-        <br/><br/><br/>
-
-
-
-
-    <h2></h2>
-    <!--<div> &lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>-->
-
-      <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                  <!--&lt;!&ndash; Modal &ndash;&gt;-->
     <!--<div class="modal fade" id="myModals" role="dialog">-->
         <!--<div class="modal-dialog">-->
 
@@ -502,7 +443,6 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
                     <!--<div>-->
                        <!--Name: <input type="text" ng-model="newClassName"/> <br/>-->
                      <!--Subject: <input type="text" ng-model="newClassSubject"/> <br/>-->
-
                         <!--Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>-->
                      <!--<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>-->
 
@@ -520,8 +460,11 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
     <!--</div>-->
 
 
+
+
 <!--</div>-->
 
+            <!--&lt;!&ndash;<input type="button" ng-click="" value="Add class (coming soon)"/>&ndash;&gt;-->
 
 
 
@@ -532,27 +475,89 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
 
 
 
-
-
-
-
-
-
-
-
-    <!--<div>-->
-
-
-        <!--<h3>Add a class: </h3>-->
-        <!--Name: <input type="text" ng-model="newClassName"/> <br/>-->
-        <!--Subject: <input type="text" ng-model="newClassSubject"/> <br/>-->
-        <!--Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>-->
-        <!--<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>-->
 
         <!--</div>-->
+<!--</span>-->
 
 
 
+
+
+        <!--<br/><br/><br/>-->
+
+
+
+
+    <!--<h2></h2>-->
+    <!--&lt;!&ndash;<div> &lt;!&ndash; Trigger the modal with a button &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Class</button>&ndash;&gt;-->
+
+      <!--&lt;!&ndash;&lt;!&ndash; Modal &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="modal fade" id="myModals" role="dialog">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="modal-dialog">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;&lt;!&ndash; Modal content&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="modal-content">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="modal-header">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal">&times;</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h4 class="modal-title">Add Class</h4>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="modal-body">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                       <!--&lt;!&ndash;Name: <input type="text" ng-model="newClassName"/> <br/>&ndash;&gt;-->
+                     <!--&lt;!&ndash;Subject: <input type="text" ng-model="newClassSubject"/> <br/>&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>&ndash;&gt;-->
+                     <!--&lt;!&ndash;<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>&ndash;&gt;-->
+
+
+
+
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
+                <!--&lt;!&ndash;<button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--&lt;!&ndash;<div>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;<h3>Add a class: </h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;Name: <input type="text" ng-model="newClassName"/> <br/>&ndash;&gt;-->
+        <!--&lt;!&ndash;Subject: <input type="text" ng-model="newClassSubject"/> <br/>&ndash;&gt;-->
+        <!--&lt;!&ndash;Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+<!--</span>-->
 </span>
 
 

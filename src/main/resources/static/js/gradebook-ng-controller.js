@@ -1,5 +1,5 @@
 angular.module('TeachersPetApp', [])
-   .controller('GradebookController', function($scope, $http) {
+   .controller('GradebookController', function($scope, $http, $window) {
 
         var getCurrentClass = function(courseId) {
             console.log("In getCurrentClass function in ng controller with courseID = " + courseId);
@@ -370,9 +370,22 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
-          $scope.ngBack =function() {
-                                window.history.back();
-                            };
+        $scope.ngBack =function() {
+//                                window.history.back();
+             $window.location.href = '/classList?teacherId=' + $scope.currentClass.teacher.id;
+//            console.log("In ng back function!");
+//            console.log("$scope.currentClass:");
+//            console.log($scope.currentClass);
+//            console.log("$scope.currentClass.teacher:");
+//            console.log($scope.currentClass.teacher);
+//             $http.post("/backToHome", $scope.currentClass.teacher)
+//                .then (function successCallback(response) {
+//                   console.log("Success callback: ");
+//               },
+//               function errorCallback(response) {
+//                   console.log("Unable to get data...");
+//               });
+       };
 
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
