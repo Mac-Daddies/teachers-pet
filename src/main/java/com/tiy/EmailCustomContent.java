@@ -67,7 +67,7 @@ public class EmailCustomContent {
                 emailContent += "\n\nPlease contact me at " + teacher.getEmail() + "with any concerns. Thank you!\n\n" +
                         teacher.getFirstName() + " " + teacher.getLastName();
 
-//                myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
+                myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
             }
         }
     }

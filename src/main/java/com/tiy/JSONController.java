@@ -753,7 +753,7 @@ public class JSONController {
         String returnString;
         if (studentContainer.getStudentAssignments().size() > 0) {
             myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(1).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
-            returnString = "Email sent for " + studentContainer.getStudent().getFirstName() + "!";
+            returnString = "IN JSON: Email sent for " + studentContainer.getStudent().getFirstName() + "to email " + studentContainer.getStudent().getParentEmail();
         } else {
             System.out.println("Email not sent because the student has no assignment data yet.");
             returnString = "Error: email not sent because the student has no assignment data yet. Enter assignments first.";
@@ -766,9 +766,11 @@ public class JSONController {
 
     @RequestMapping(path = "/sendEmailForAllZeros.json", method = RequestMethod.POST)
     public StringContainer sendEmailForAllZeros(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) throws IOException {
+        System.out.println("\nIn sendEmailForAllZeros method in json controller");
         String returnString;
         if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
             if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
+
                 myEmailer.sendEmailForAllZeros(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
                 returnString = "Emails sent for all students with zeros!";
             } else {
