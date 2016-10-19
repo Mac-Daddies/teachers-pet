@@ -114,6 +114,10 @@ public class JSONController {
         return returnContainer;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3db9065c2077121ed83baf426c0d1cc3f95c1ed4
     @RequestMapping(path = "/graph.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer graphJSON(@RequestBody int courseId){
         Course course = courseRepository.findOne(courseId);

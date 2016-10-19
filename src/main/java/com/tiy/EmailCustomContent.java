@@ -39,8 +39,13 @@ public class EmailCustomContent {
                 teacher.getFirstName() + " " + teacher.getLastName();
 
         //send the email!
+<<<<<<< HEAD
         myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
         System.out.println("General email sent for " + studentContainer.getStudent().getFirstName() + " to email " + emailTo);
+=======
+//        myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
+        System.out.println("General email sent for " + studentContainer.getStudent().getFirstName());
+>>>>>>> 3db9065c2077121ed83baf426c0d1cc3f95c1ed4
     }
 
     public void sendEmailForAllZeros(Course course, Teacher teacher, ArrayList<StudentContainer> studentContainers, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
@@ -67,7 +72,7 @@ public class EmailCustomContent {
                 emailContent += "\n\nPlease contact me at " + teacher.getEmail() + "with any concerns. Thank you!\n\n" +
                         teacher.getFirstName() + " " + teacher.getLastName();
 
-                myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
+//                myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
             }
         }
     }
