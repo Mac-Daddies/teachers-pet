@@ -114,6 +114,35 @@ public class JSONController {
         return returnContainer;
     }
 
+
+    @RequestMapping(path = "/graph.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer graphJSON(@RequestBody int courseId){
+        Course course = courseRepository.findOne(courseId);
+
+        ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
+
+        //Get a list of all students in the course
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(course);
+        ArrayList<Student> studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
+        }
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentArrayList);
+
+        //print just for testing
+        for (StudentContainer currentStudentContainer : myArrayListOfStudentContainers) {
+            for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
+                System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
+            }
+        }
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+
+        return returnContainer;
+    }
+
     /**This method makes a list of student containers. Each student container hold a student in the course and
      * an arraylist of all of that student's studentAssignments.
      * (Returns the first parameter needed in the AssignmentAndStudentAssignmentContainer that is returned in every

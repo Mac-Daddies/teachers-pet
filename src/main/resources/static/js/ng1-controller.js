@@ -89,6 +89,16 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
+        $scope.graph = function(courseId){
+                        console.log("In graph function in ng controller");
+                        // go to new window
+                        $scope.currentClassid = courseId;
+
+                        $window.location.href = '/graph?courseId=' + courseId;
+
+
+        };
+
 
         $scope.gradebook = function(courseId) {
             console.log("In gradebook function in ng controller");
