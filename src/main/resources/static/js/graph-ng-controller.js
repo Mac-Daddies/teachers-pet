@@ -138,8 +138,6 @@ angular.module("TeachersPetApp", ["chart.js"])
                              $scope.allAssignments = allAssignments;
 
 
-
-
                              //loop to order the studentAssignments correctly (needed when new students added) AND to make sure the average doesn't show as -1 for new students
                              //TOOK THIS OUT BC WE ARE NOW ORDERING STUDENT ASSIGNMENTS BY DATE ON BACKEND
                  //            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
@@ -189,14 +187,17 @@ angular.module("TeachersPetApp", ["chart.js"])
 
                                   console.log($scope.courseIdForGraph);
 
+                                  var arraynum = new Array(1,2,3,4);
+                                  var arraynum2 = new Array(4,3,2,1);
 
 
-                   $scope.labels = $scope.allAssignments;
 
+
+                   $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
                     $scope.series = ['Series A', 'Series B'];
                     $scope.data = [
-                      [65, 59, 80, 81, 56, 55, 40],
-                      [28, 48, 40, 19, 86, 27, 90]
+                      $scope.assignmentAverages
+
                     ];
                     $scope.onClick = function (points, evt) {
                       console.log(points, evt);
@@ -205,10 +206,11 @@ angular.module("TeachersPetApp", ["chart.js"])
                     // Simulate async data update
                     $timeout(function () {
                       $scope.data = [
-                        [28, 48, 40, 19, 86, 27, 90],
-                        [65, 59, 80, 81, 56, 55, 40]
+                        $scope.assignmentAveragesArray
+
+
                       ];
-                    }, 3000);
+                    }, 100);
                              
                              
 
