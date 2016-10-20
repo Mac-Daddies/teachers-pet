@@ -807,6 +807,77 @@ public class JSONController {
         return allAssignmentNamesArrayList;
     }
 
+    //the endpoint will send back:
+    // (1) an arraylist of percentages of students who got in each range (for original grades)
+    // (2) an arraylist of percentages of students who got in each range (for current grades)
+    //Ranges used in gradebook-ng-controller on chart:
+    // 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60-69, 70-79, 80-89, 90-99, 100+
+
+    @RequestMapping(path = "/graphIndividualAssignment.json", method = RequestMethod.POST)
+    public PercentagesOfGradesAndCurvedGradesContainer graphIndividualAssignment(@RequestBody Assignment assignment) throws IOException{
+        //find all current studentAssignments attached to that assignment
+        ArrayList<StudentAssignment> allStudentAssignmentsForThatAssignment = studentAssignmentRepository.findAllByAssignment(assignment);
+        ArrayList<Double> percentagesOnCurrentGrades = getArrayListOfPercentagesForGraph(allStudentAssignmentsForThatAssignment);
+
+        //find all original assignments attached to that assignment
+        ArrayList<OriginalGrade> allOriginalGradesForThatAssignment = originalGradeRepository.findAllByAssignment(assignment);
+        //make them into studentAssignments so I can use method below
+        ArrayList<StudentAssignment> fakeStudentAssignments = new ArrayList<>();
+        for (OriginalGrade currentOriginalGrade : allOriginalGradesForThatAssignment) {
+            StudentAssignment fakeStudentAssignment = new StudentAssignment(currentOriginalGrade.getStudent(), assignment, currentOriginalGrade.getGrade());
+            fakeStudentAssignments.add(fakeStudentAssignment);
+        }
+        ArrayList<Double> percentagesOnOriginalGrades = getArrayListOfPercentagesForGraph(fakeStudentAssignments);
+
+        PercentagesOfGradesAndCurvedGradesContainer percentagesContainer = new PercentagesOfGradesAndCurvedGradesContainer(percentagesOnOriginalGrades, percentagesOnCurrentGrades);
+
+        return percentagesContainer;
+    }
+
+    public ArrayList<Double> getArrayListOfPercentagesForGraph(ArrayList<StudentAssignment> studentAssignments) {
+        double totalGradeCount = 0;
+        Double[] rangeCount = new Double[11];
+        for (int counter = 0; counter < 11; counter++) {
+            rangeCount[counter] = 0.0;
+        }
+        for (StudentAssignment currentStudentAssignment : studentAssignments) {
+            if (!(currentStudentAssignment.getGrade() < 0)) {
+                if (currentStudentAssignment.getGrade() < 10) {
+                    rangeCount[0] += 1;
+                } else if (currentStudentAssignment.getGrade() < 20) {
+                    rangeCount[1] += 1;
+                } else if (currentStudentAssignment.getGrade() < 30) {
+                    rangeCount[2] += 1;
+                } else if (currentStudentAssignment.getGrade() < 40) {
+                    rangeCount[3] += 1;
+                } else if (currentStudentAssignment.getGrade() < 50) {
+                    rangeCount[4] += 1;
+                } else if (currentStudentAssignment.getGrade() < 60) {
+                    rangeCount[5] += 1;
+                } else if (currentStudentAssignment.getGrade() < 70) {
+                    rangeCount[6] += 1;
+                } else if (currentStudentAssignment.getGrade() < 80) {
+                    rangeCount[7] += 1;
+                } else if (currentStudentAssignment.getGrade() < 90) {
+                    rangeCount[8] += 1;
+                } else if (currentStudentAssignment.getGrade() < 100) {
+                    rangeCount[9] += 1;
+                } else {
+                    rangeCount[10] += 1;
+                }
+                totalGradeCount++;
+            }
+
+        }
+        ArrayList<Double> percentagesOnCurrentGrades = new ArrayList<>();
+        if (totalGradeCount != 0) {
+            for (int counter = 0; counter < 11; counter++) {
+                percentagesOnCurrentGrades.add((rangeCount[counter] / totalGradeCount) * 100.0);
+            }
+        }
+        return percentagesOnCurrentGrades;
+    }
+
 
 
 

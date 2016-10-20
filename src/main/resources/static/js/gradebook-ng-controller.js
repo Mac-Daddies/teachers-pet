@@ -2,12 +2,12 @@ angular.module('TeachersPetApp', ["chart.js"])
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
         ChartJsProvider.setOptions({
-          chartColors: ['#FF5252', '#FF8A80'],
+          chartColors: ['#FF5252', '#4286f4'],
           responsive: false
         });
         // Configure all line charts
         ChartJsProvider.setOptions('line', {
-          showLines: false
+          showLines: true
         });
       }])
    .controller('GradebookController', function($scope, $http, $window, $timeout) {
@@ -334,7 +334,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 //            console.log(studentContainers);
 //            console.log("Sending this assignment: ");
 //            console.log(currentAssignment);
-            populateBlankGradesAndReformatDueDatesBeforeSending(studentContainers);
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
@@ -355,6 +355,7 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log(response.data);
                         console.log("Adding data to scope");
                         fillGradebookContainerWithResponseData(response.data);
+                        $scope.showGraph(currentAssignment);
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -592,46 +593,58 @@ angular.module('TeachersPetApp', ["chart.js"])
 
         $scope.showGraph = function(assignment) {
             console.log("In showGraph function in gradebook-ng-controller");
+            console.log("Assignment: " + assignment.name);
 
-//            $http.post("/sendEmailForAllZeros.json", curveContainer)
-//                .then(
-//                    function successCallback(response) {
-////                        console.log("**This is what we get back: ");
-//                        console.log(response.data.message);
-//                        console.log("Adding data to scope");
-//                        //could we make a pop-up or something that displays the response message?
-//                        //will either say email sent or error: put grades in first
-//                    },
-//                    function errorCallback(response) {
-//                        console.log("Unable to get data...");
-//                    });
+            $http.post("/graphIndividualAssignment.json", assignment)
+                .then(
+                    function successCallback(response) {
+//                        console.log("**This is what we get back: ");
+                        //the endpoint will send back:
+                        // (1) an arraylist of percentages of students who got in each range (for original grades)
+                        // (2) an arraylist of percentages of students who got in each range (for current grades)
 
-//            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-//              $scope.series = ['Series A', 'Series B'];
-//              $scope.data = [
-//                [10, 20, 30, 40, 50, 60, 70],
-//                [5, 10, 15, 20, 25, 30, 35]
-//              ];
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        gradeDataForTable = response.data;
 
+                        updateGraph(assignment);
 
-//Works for hardcoded ordered pairs! But just a scatterplot. No lines/curves betweeen points.
-             $scope.data = [
-               {  x: 10,
-                  y: 5
-               }, {
-                  x: 20,
-                  y: 10
-               }, {
-                  x: 30,
-                  y: 15
-               }, {
-                  x: 40,
-                  y: 20
-               }, {
-                  x: 50,
-                  y: 25
-               }
-             ];
+                },
+                function errorCallback(response) {
+                    console.log("Unable to get data...");
+                });
+            };
+
+        var updateGraph = function(assignment) {
+            console.log("In updateGraph function in gradebook-ng-controller");
+            console.log("Did gradeDataForTable come through?");
+            console.log(gradeDataForTable);
+            //for now, harcode arraylists
+//           Array arrayOfOriginalGrades = [90, 75, 88, 76, 32, 51, 99, 98, 99, 75, 81, 82, 84, 90, 48, 100];
+            var gradeCategories = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-99", "100+"];
+//                        var percentageOfStudentsWhoGotGradeOriginal = [0, 0, 0, 6.67, 6.67, 6.67, 0, 20, 26.67, 33.33, 6.67];
+//                        var percentageOfStudentsWhoGotGradeAfterCurve = [0, 0, 0, 0, 0, 6.67, 13.3, 6.67, 13.33, 53.33, 13.33];
+
+            $scope.labels = gradeCategories;
+
+//                        var dataArray = new Array(gradeCategories.length);
+//                        //populate data set using these arrays
+//                        for (var counter = 0; counter < gradeCategories.length; counter++) {
+//                            var newDataObject = {
+//                                x: gradeCategories[counter],
+//                                y: percentageOfStudentsWhoGotGradeOriginal[counter]
+//                            };
+//
+//                            dataArray[counter] = newDataObject;
+//                        }
+//
+//                        $scope.data = dataArray;
+            $scope.series = ['Original Grades', 'Curved/Modified Grades'];
+            $scope.data = [
+                gradeDataForTable.percentagesOfOriginalGrades,
+                gradeDataForTable.percentagesOfCurvedGrades
+            ];
+
               $scope.onClick = function (points, evt) {
                 console.log(points, evt);
               };
@@ -642,16 +655,18 @@ angular.module('TeachersPetApp', ["chart.js"])
                     },
                     {
                       xAxisID: 'x-axis-1'
-                    },
-                    {
-                      label: "Line chart",
-                      borderWidth: 3,
-                      hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                      hoverBorderColor: "rgba(255,99,132,1)",
-                      type: 'line'
                     }
+
                   ];
               $scope.options = {
+                title: {
+                    display: true,
+                    text: 'Grade Distribution Graph for ' + assignment.name
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
                 scales: {
                   yAxes: [
                     {
@@ -661,32 +676,38 @@ angular.module('TeachersPetApp', ["chart.js"])
                       position: 'left',
                       ticks: {
                         min: 0,
+                        max: 100,
                         beginAtZero: true
+                      },
+                      scaleLabel: {
+                              display: true,
+                              labelString: 'Percentage of students'
                       }
                     }
                   ],
                   xAxes: [
-                    {
-                      id: 'x-axis-1',
-                      type: 'linear',
-                      display: true,
-                      position: 'bottom',
-                      ticks: {
-                        min: 0,
-                        beginAtZero: true
+                      {
+                        id: 'x-axis-1',
+                        display: true,
+                        position: 'bottom',
+                        scaleLabel: {
+                                display: true,
+                                labelString: 'Grade on assignment'
+                        }
                       }
-                    }
-                  ]
+                    ]
                 }
               };
 
-              $scope.graphShowing = true;
+
+            $scope.graphShowing = true;
         };
 
 
         var curveContainer;
         // This is undefined here, so we made ng-init at top to call gradebook with courseId from mustache
         console.log($scope.courseIdForGradebook);
+        var gradeDataForTable;
 
 
    });
