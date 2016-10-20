@@ -26,16 +26,18 @@ public class EmailCustomContent {
 
         if (studentAssignmentsWithZeros.size() > 0) {
             //display missing assignments
+            String dueDate;
             emailContent += studentContainer.getStudent().getFirstName() + "'s missing assignments:\n";
             int counter = 0;
             for (StudentAssignment currentStudentAssignment : studentAssignmentsWithZeros) {
-                emailContent += " - " + currentStudentAssignment.getAssignment().getName() + ", due on " + currentStudentAssignment.getAssignment().getDueDate() + "\n";
+                dueDate = formatDueDate(currentStudentAssignment.getAssignment().getDueDate());
+                emailContent += " - " + currentStudentAssignment.getAssignment().getName() + ", due on " + dueDate + "\n";
             }
         } else {
             emailContent += studentContainer.getStudent().getFirstName() + " has no missing assignments. Great job!";
         }
 
-        emailContent += "\n\nPlease contact me at " + teacher.getEmail() + "with any concerns. Thank you!\n\n" +
+        emailContent += "\n\nPlease contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
                 teacher.getFirstName() + " " + teacher.getLastName();
 
         //send the email!
@@ -59,16 +61,24 @@ public class EmailCustomContent {
             if (currentStudentsStudentAssignmentsWithGradeOfZero.size() > 0) {
                 String subject = course.getName() + ": Missing assignments from " + currentStudentContainer.getStudent().getFirstName();
                 String emailTo = currentStudentContainer.getStudent().getParentEmail();
+                String dueDate;
                 String emailContent = "To the parent/guardian of " + currentStudentContainer.getStudent().getFirstName() + " " + currentStudentContainer.getStudent().getLastName() + ",\n\n" +
                         "This email is to let you know that " + currentStudentContainer.getStudent().getFirstName() + " has " + currentStudentsStudentAssignmentsWithGradeOfZero.size() + " missing assignment(s):\n";
                 for (StudentAssignment currentStudentAssignment : currentStudentsStudentAssignmentsWithGradeOfZero) {
-                    emailContent += " - " + currentStudentAssignment.getAssignment().getName() + ", due on " + currentStudentAssignment.getAssignment().getDueDate() + "\n";
+                    dueDate = formatDueDate(currentStudentAssignment.getAssignment().getDueDate());
+                    emailContent += " - " + currentStudentAssignment.getAssignment().getName() + ", due on " + dueDate + "\n";
                 }
-                emailContent += "\n\nPlease contact me at " + teacher.getEmail() + "with any concerns. Thank you!\n\n" +
+                emailContent += "\n\nPlease contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
                         teacher.getFirstName() + " " + teacher.getLastName();
 
                 myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
             }
         }
+    }
+
+    public String formatDueDate(String dueDate) {
+        String dateString = dueDate.substring(5, 7) + "/" + dueDate.substring(8, 10) + "/" + dueDate.substring(0, 4);
+        return dateString;
+
     }
 }

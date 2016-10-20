@@ -1,5 +1,16 @@
-angular.module('TeachersPetApp', [])
-   .controller('GradebookController', function($scope, $http, $window) {
+angular.module('TeachersPetApp', ["chart.js"])
+    .config(['ChartJsProvider', function (ChartJsProvider) {
+        // Configure all charts
+        ChartJsProvider.setOptions({
+          chartColors: ['#FF5252', '#FF8A80'],
+          responsive: false
+        });
+        // Configure all line charts
+        ChartJsProvider.setOptions('line', {
+          showLines: false
+        });
+      }])
+   .controller('GradebookController', function($scope, $http, $window, $timeout) {
 
         var getCurrentClass = function(courseId) {
             console.log("In getCurrentClass function in ng controller with courseID = " + courseId);
@@ -125,7 +136,7 @@ angular.module('TeachersPetApp', [])
             //AND PUT THIS IN:
 
             //NO I THINK KEEP THIS IN AND WILL HAVE TO DO ORDERING ONCE WE LIST STUDENT ASSIGNMENTS ON BACKEND IN POPULATING METHOD OF RETURNING STUDENT CONTAINERS IN JSON CONTROLLER
-            var currentStudentToGetAssignmentName;
+//            var currentStudentToGetAssignmentName;
             for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                 if (counter == 0) {
                     allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
@@ -138,7 +149,7 @@ angular.module('TeachersPetApp', [])
                 }
 
             }
-            $scope.allAssignments = allAssignments;
+
 
 
             //loop to order the studentAssignments correctly (needed when new students added) AND to make sure the average doesn't show as -1 for new students
@@ -161,6 +172,16 @@ angular.module('TeachersPetApp', [])
 //                        }
 //                    }
 //                }
+
+            //Format the date correctly for each assignment (make sure to put formatting back before sending back to backend)
+            for (var counter = 0; counter < allAssignments.length; counter++) {
+                var dueDate = allAssignments[counter].dueDate;
+                var dateString = dueDate.substring(5, 7) + "/" + dueDate.substring(8, 10) + "/" + dueDate.substring(0, 4);
+                allAssignments[counter].dueDate = dateString;
+            }
+
+
+            $scope.allAssignments = allAssignments;
 
             //Don't display average (-1) for students who have no grades entered yet
             for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
@@ -200,11 +221,16 @@ angular.module('TeachersPetApp', [])
                         console.log("Grade is empty, changing to -1 before sending back.");
                         studentContainers[counter].studentAssignments[insideCounter].grade = -1;
                     }
+//                    var dueDate = studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate;
+//                    var dateString = dueDate.substring(6, 10) + "-" + dueDate.substring(0, 2) + "-" + dueDate.substring(3, 5) + "T04:00:00.000Z";
+                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is " + studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate);
+//                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
                 }
             }
             console.log("Updated version to send to backend:");
             console.log(studentContainers);
         };
+
 
 //        $scope.allGradebooks = function() {
 //            console.log("In allGradebooks function in ng controller");
@@ -308,7 +334,7 @@ angular.module('TeachersPetApp', [])
 //            console.log(studentContainers);
 //            console.log("Sending this assignment: ");
 //            console.log(currentAssignment);
-            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+            populateBlankGradesAndReformatDueDatesBeforeSending(studentContainers);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
@@ -562,6 +588,53 @@ angular.module('TeachersPetApp', [])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
+        };
+
+        $scope.showGraph = function(assignment) {
+            console.log("In showGraph function in gradebook-ng-controller");
+
+//            $http.post("/sendEmailForAllZeros.json", curveContainer)
+//                .then(
+//                    function successCallback(response) {
+////                        console.log("**This is what we get back: ");
+//                        console.log(response.data.message);
+//                        console.log("Adding data to scope");
+//                        //could we make a pop-up or something that displays the response message?
+//                        //will either say email sent or error: put grades in first
+//                    },
+//                    function errorCallback(response) {
+//                        console.log("Unable to get data...");
+//                    });
+            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+              $scope.series = ['Series A', 'Series B'];
+              $scope.data = [
+                [65, 59, 80, 81, 56, 55, 40],
+                [28, 48, 40, 19, 86, 27, 90]
+              ];
+              $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+              };
+              $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+              $scope.options = {
+                scales: {
+                  yAxes: [
+                    {
+                      id: 'y-axis-1',
+                      type: 'linear',
+                      display: true,
+                      position: 'left'
+                    },
+                    {
+                      id: 'y-axis-2',
+                      type: 'linear',
+                      display: true,
+                      position: 'right'
+                    }
+                  ]
+                }
+              };
+
+              $scope.graphShowing = true;
         };
 
 
