@@ -125,7 +125,7 @@ angular.module('TeachersPetApp', [])
             //AND PUT THIS IN:
 
             //NO I THINK KEEP THIS IN AND WILL HAVE TO DO ORDERING ONCE WE LIST STUDENT ASSIGNMENTS ON BACKEND IN POPULATING METHOD OF RETURNING STUDENT CONTAINERS IN JSON CONTROLLER
-            var currentStudentToGetAssignmentName;
+//            var currentStudentToGetAssignmentName;
             for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
                 if (counter == 0) {
                     allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
@@ -138,7 +138,7 @@ angular.module('TeachersPetApp', [])
                 }
 
             }
-            $scope.allAssignments = allAssignments;
+
 
 
             //loop to order the studentAssignments correctly (needed when new students added) AND to make sure the average doesn't show as -1 for new students
@@ -161,6 +161,16 @@ angular.module('TeachersPetApp', [])
 //                        }
 //                    }
 //                }
+
+            //Format the date correctly for each assignment (make sure to put formatting back before sending back to backend)
+            for (var counter = 0; counter < allAssignments.length; counter++) {
+                var dueDate = allAssignments[counter].dueDate;
+                var dateString = dueDate.substring(5, 7) + "/" + dueDate.substring(8, 10) + "/" + dueDate.substring(0, 4);
+                allAssignments[counter].dueDate = dateString;
+            }
+
+
+            $scope.allAssignments = allAssignments;
 
             //Don't display average (-1) for students who have no grades entered yet
             for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
@@ -200,11 +210,16 @@ angular.module('TeachersPetApp', [])
                         console.log("Grade is empty, changing to -1 before sending back.");
                         studentContainers[counter].studentAssignments[insideCounter].grade = -1;
                     }
+//                    var dueDate = studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate;
+//                    var dateString = dueDate.substring(6, 10) + "-" + dueDate.substring(0, 2) + "-" + dueDate.substring(3, 5) + "T04:00:00.000Z";
+                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is " + studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate);
+//                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
                 }
             }
             console.log("Updated version to send to backend:");
             console.log(studentContainers);
         };
+
 
 //        $scope.allGradebooks = function() {
 //            console.log("In allGradebooks function in ng controller");
@@ -308,7 +323,7 @@ angular.module('TeachersPetApp', [])
 //            console.log(studentContainers);
 //            console.log("Sending this assignment: ");
 //            console.log(currentAssignment);
-            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+            populateBlankGradesAndReformatDueDatesBeforeSending(studentContainers);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
