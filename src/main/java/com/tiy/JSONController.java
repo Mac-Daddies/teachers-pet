@@ -795,6 +795,17 @@ public class JSONController {
 
         return myMessage;
     }
+    @RequestMapping(path = "/getallassNames.json", method = RequestMethod.POST)
+    public ArrayList<String> getAllAss() throws IOException{
+        Iterable<Assignment> assignmentIterable = assignmentRepository.findAll();
+        ArrayList<String> allAssignmentNamesArrayList = new ArrayList<>();
+
+        for(Assignment assignment: assignmentIterable){
+            allAssignmentNamesArrayList.add(assignment.getName());
+
+        }
+        return allAssignmentNamesArrayList;
+    }
 
 
 
