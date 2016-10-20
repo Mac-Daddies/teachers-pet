@@ -67,6 +67,7 @@ angular.module('TeachersPetApp', [])
                                     console.log("User who is logged in: " + $scope.teacherWhoIsLoggedIn.firstName + ", id: " + $scope.teacherWhoIsLoggedIn.id);
                                     $scope.loginSuccessful = true;
 //                                    $scope.loggedInBoolean = true;
+                                    $window.location.href = '/classList?teacherId=' + $scope.teacherWhoIsLoggedIn.id;
                                 } else {
                                     $scope.loginSuccessful = false;
 //                                    $scope.loggedInBoolean = true;

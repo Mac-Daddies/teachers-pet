@@ -1,5 +1,16 @@
-angular.module('TeachersPetApp', [])
-   .controller('GradebookController', function($scope, $http, $window) {
+angular.module('TeachersPetApp', ["chart.js"])
+    .config(['ChartJsProvider', function (ChartJsProvider) {
+        // Configure all charts
+        ChartJsProvider.setOptions({
+          chartColors: ['#FF5252', '#FF8A80'],
+          responsive: false
+        });
+        // Configure all line charts
+        ChartJsProvider.setOptions('line', {
+          showLines: false
+        });
+      }])
+   .controller('GradebookController', function($scope, $http, $window, $timeout) {
 
         var getCurrentClass = function(courseId) {
             console.log("In getCurrentClass function in ng controller with courseID = " + courseId);
@@ -577,6 +588,53 @@ angular.module('TeachersPetApp', [])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
+        };
+
+        $scope.showGraph = function(assignment) {
+            console.log("In showGraph function in gradebook-ng-controller");
+
+//            $http.post("/sendEmailForAllZeros.json", curveContainer)
+//                .then(
+//                    function successCallback(response) {
+////                        console.log("**This is what we get back: ");
+//                        console.log(response.data.message);
+//                        console.log("Adding data to scope");
+//                        //could we make a pop-up or something that displays the response message?
+//                        //will either say email sent or error: put grades in first
+//                    },
+//                    function errorCallback(response) {
+//                        console.log("Unable to get data...");
+//                    });
+            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+              $scope.series = ['Series A', 'Series B'];
+              $scope.data = [
+                [65, 59, 80, 81, 56, 55, 40],
+                [28, 48, 40, 19, 86, 27, 90]
+              ];
+              $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+              };
+              $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+              $scope.options = {
+                scales: {
+                  yAxes: [
+                    {
+                      id: 'y-axis-1',
+                      type: 'linear',
+                      display: true,
+                      position: 'left'
+                    },
+                    {
+                      id: 'y-axis-2',
+                      type: 'linear',
+                      display: true,
+                      position: 'right'
+                    }
+                  ]
+                }
+              };
+
+              $scope.graphShowing = true;
         };
 
 

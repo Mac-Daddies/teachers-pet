@@ -340,240 +340,27 @@ border-collapse: separate;
                 <tr>
                     <td>
 
-                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades (coming soon)"/> </td>
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades"/> </td>
                 </tr>
 
-                    <!--<td>-->
-                        <!--<button name="but" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>-->
+                <tr>
+                    <td>
 
-                        <!--&lt;!&ndash; Modal &ndash;&gt;-->
-                        <!--<div class="modal fade" id="myModal" role="dialog">-->
-                            <!--<div class="modal-dialog">-->
-
-                                <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-                                <!--<div class="modal-content">-->
-                                    <!--<div class="modal-header">-->
-                                        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                                        <!--<h4 class="modal-title">Add assignment</h4>-->
-                                    <!--</div>-->
-                                    <!--<div class="modal-body">-->
-                                        <!--<div>-->
-
-
-                                            <!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
-                                            <!--Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>-->
-                                            <!--<input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
-
-
-
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="modal-footer">-->
-                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                        <!--</div>-->
-
-
-
-
-
-
-
-
-
-
-                    <!--</td>-->
-
+                    <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="showGraph(allAssignments[$index])" value="Show graph!"/> </td>
+                </tr>
 
             </table>
 </div>
 
+<div ng-if="graphShowing">
+    <canvas id="line" class="chart chart-line" chart-data="data"
+            chart-labels="labels" chart-series="series" chart-options="options"
+            chart-dataset-override="datasetOverride" chart-click="onClick"
+    </canvas>
+</div>
+
+
 <br/><br/>
-
-
-
-<!--<div class="container" id="assignment" >-->
-    <!--<h2></h2>-->
-    <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button name="but" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>-->
-
-    <!--&lt;!&ndash; Modal &ndash;&gt;-->
-    <!--<div class="modal fade" id="myModal" role="dialog">-->
-        <!--<div class="modal-dialog">-->
-
-            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-            <!--<div class="modal-content">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                    <!--<h4 class="modal-title">Add assignment</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<div>-->
-
-
-                        <!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
-                        <!--Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>-->
-                        <!--<input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
-
-
-
-                    <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                <!--</div>-->
-            <!--</div>-->
-
-        <!--</div>-->
-    <!--</div>-->
-
-
-<!--<div class="container" id="student">-->
-    <!--<h2></h2>-->
-    <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Student</button>-->
-
-    <!--&lt;!&ndash; Modal &ndash;&gt;-->
-    <!--<div class="modal fade" id="myModals" role="dialog">-->
-        <!--<div class="modal-dialog">-->
-
-            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-            <!--<div class="modal-content">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                    <!--<h4 class="modal-title">Add Student</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<div>-->
-                        <!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
-                        <!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
-                        <!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
-                        <!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
-
-
-
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-<!--</div>-->
-
-
-
-
-
-
-<!--<div class="container1">-->
-    <!--<h2></h2>-->
-    <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Student</button>-->
-
-    <!--&lt;!&ndash; Modal &ndash;&gt;-->
-    <!--<div class="modal fade" id="myModal1" role="dialog">-->
-        <!--<div class="modal-dialog">-->
-
-            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-            <!--<div class="modal-content1">-->
-                <!--<div class="modal-header1">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                    <!--<h4 class="modal-title">Add Student</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body1">-->
-                    <!--<div>-->
-
-
-
-                        <!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
-                        <!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
-                        <!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
-                        <!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
-
-
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-<!--</div>-->
-
-<!--</div>-->
-
-
-
-
-
-    <!--<div class="dropdown">-->
-        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-            <!--Add Assignment-->
-            <!--<span class="caret"></span>-->
-        <!--</button>-->
-        <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
-           <!--<div>-->
-
-               <!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
-               <!--Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>-->
-               <!--<input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
-
-           <!--</div>-->
-
-
-
-            <!--&lt;!&ndash;<li ng-repeat="currentAssignment in allAssignments"><a href="#">{{currentAssignment.name}}</a></li>&ndash;&gt;-->
-        <!--</ul>-->
-        <!--</button>-->
-    <!--</div>-->
-
-
-
-
-
-
-
-
-
-
-            <!--<br/><br/>-->
-            <!--*** We'll make the forms below separate pop-ups that only shows when we click "Add student" or "Add assignment" above ***-->
-            <!--<h3>Add a student: </h3>-->
-            <!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
-            <!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
-            <!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
-            <!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
-
-            <!--<br/><br/><br/>-->
-            <!--<h3>Add an assignment: </h3>-->
-            <!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
-            <!--Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>-->
-            <!--<input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -583,6 +370,8 @@ border-collapse: separate;
 </body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js" integrity="sha256-LyocQFwqh0JslfDVDlJqJamo/nJP/5rAQdYtCAtB4hU=" crossorigin="anonymous"></script>
+<script src ="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 <script src="js/gradebook-ng-controller.js"></script>
 
 </html>
