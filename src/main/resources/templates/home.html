@@ -68,6 +68,17 @@ list-style-position: inside;
 form{
 font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 }
+#trans{
+width: 100px;
+    height: 40px;
+
+    transition: width 4s;
+
+}
+
+#trans:hover {
+    width: 300px;
+}
 
 </style>
 </head>
@@ -152,7 +163,7 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
                <input type="password" class="form-control" id="pwd" placeholder="Enter password" ng-model="loginPassword">
         </div>
 
-        <input type="button"  class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>
+        <input type="button"  id="trans"  class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>
 
     </form>
 

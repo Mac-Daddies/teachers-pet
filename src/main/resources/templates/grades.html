@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TeachersPetApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles2.css">
+    <link rel="stylesheet" type="text/css" href="css/styles2.css">
+    <meta charset="UTF-8">
+    <title>Teacher's Pet</title>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
+
+
+</head>
+<body ng-controller="GradebookController">
+{{! changing the mustache delimiter so it doesn't conflict with }}
+{{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
+{{=<% %>=}}
+
+
+
+<input type="hidden" ng-model="courseIdForGradebook" ng-init="gradebook(<%courseId%>)"/>
+
+<input type="hidden" ng-click="testMustacheVar()" value="Testing"/>
+<!--<div style="text-align: center">-->
+<!--Welcome to Teacher's Pet-->
+<!--</div>-->
+
+<!--<span ng-if="loginSuccessful">-->
+<!--Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! <br/><br/>-->
+<!--<h3>Add a class: </h3>-->
+<!--Name: <input type="text" ng-model="newClassName"/> <br/>-->
+<!--Subject: <input type="text" ng-model="newClassSubject"/> <br/>-->
+<!--Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>-->
+<!--<input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>-->
+<!--<div>-->
+<!--<h2>My Classes: </h2>-->
+<!--<ol>-->
+<!--<span ng-repeat="course in allCourses">-->
+<!--<li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}} <input type="button" ng-click="gradebook(course)" value="Gradebook"/> </li>-->
+<!--</span>-->
+<!--</ol>-->
+
+<!--</div>-->
+
+<!--<div ng-if="currentClass">-->
+<!--<h3>{{currentClass.name}}'s students: </h3>-->
+<!--<ul>-->
+<!--<span ng-repeat="student in allStudents">-->
+<!--<li>{{student.firstName}} {{student.lastName}} </li>-->
+<!--</span>-->
+<!--</ul>-->
+<!--<br/>-->
+
+<!--<h3>Add a student to {{currentClass.name}}: </h3>-->
+<!--Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>-->
+<!--Last name: <input type="text" ng-model="newStudentLastName"/> <br/>-->
+<!--Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>-->
+<!--<input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>-->
+
+<!--<br/><br/>-->
+<!--&lt;!&ndash;<h3>{{currentClass.name}}'s assignments: </h3>&ndash;&gt;-->
+<!--&lt;!&ndash;<ul>&ndash;&gt;-->
+<!--&lt;!&ndash;<span ng-repeat="assmt in allAssignments">&ndash;&gt;-->
+<!--&lt;!&ndash;<li>{{assmt.name}}, due on {{assmt.dueDate}} </li>&ndash;&gt;-->
+<!--&lt;!&ndash;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;<br/>&ndash;&gt;-->
+
+<!--<h3>Add an assignment: </h3>-->
+<!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
+<!--Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>-->
+<!--<input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
+
+<h3 id="class-header"> {{currentClass.name}} Gradebook </h3>
+<div>
+    <ul class="pager">
+        <li> <a ng-click="ngBack()"> Go Back </a> </li>
+    </ul>
+
+    <div class="container">
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <button name="but" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Add assignment</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+
+
+                                        Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>
+                                        Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>
+                                        <input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}, due {{currentAssignment.dueDate}} </td>
+            </tr>
+
+
+
+
+
+            <!---->
+            <!---->
+            <!--<tr>-->
+            <!--<td>-->
+            <!--<button name="but" type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">Add Assignment</button>-->
+
+            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+            <!--<div class="modal fade" id="myModal" role="dialog">-->
+            <!--<div class="modal-dialog">-->
+
+            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+            <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+            <!--<h4 class="modal-title">Add assignment</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+            <!--<div>-->
+
+
+            <!--Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>-->
+            <!--Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>-->
+            <!--<input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
+
+
+
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--</td>-->
+
+
+
+
+
+            <!--</tr>-->
+
+            <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
+                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                    <span class="glyphicon glyphicon-envelope" > </span> Email
+                </button></td>
+
+                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
+            </tr>
+
+            <tr>
+
+            </tr>
+
+            <tr>
+                <td> <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModals">Add Student</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModals" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Add Student</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>
+                                        Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
+                                        Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
+                                        <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
+
+                </td>
+
+
+
+
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <button type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades">
+                    <span class = "glyphicon glyphicon-send"> Send-Grades </span>
+                </button>
+                </td>
+
+            </tr>
+
+            <!--<tr>-->
+            <!--<td> </td>-->
+
+            <!--<td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" ng-click="getAverage(allAssignments[$index], gradebookContainer.studentContainers)" value="Get Average"/> </td>-->
+            <!--</tr>-->
+
+            <tr>
+                <td> </td>
+
+                <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
+                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}} </td>
+            </tr>
+
+            <tr>
+                <td> </td>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number"  ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/> </td>
+            </tr>
+
+            <tr>
+                <td> </td>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
+            </tr>
+
+            <tr>
+                <td> </td>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve"/> </td>
+            </tr>
+
+            <tr>
+                <td> </td>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
+            </tr>
+
+            <tr>
+                <td>
+
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades"/> </td>
+            </tr>
+
+            <tr>
+                <td>
+
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="showGraph(allAssignments[$index])" value="Show graph!"/> </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div ng-if="graphShowing">
+        <canvas id="line" class="chart chart-line" chart-data="data"
+                chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride" chart-click="onClick"
+        </canvas>
+    </div>
+
+
+    <br/><br/>
+
+
+
+
+
+
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js" integrity="sha256-LyocQFwqh0JslfDVDlJqJamo/nJP/5rAQdYtCAtB4hU=" crossorigin="anonymous"></script>
+<script src ="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+<script src="js/gradebook-ng-controller.js"></script>
+
+</html>

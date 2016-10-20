@@ -6,97 +6,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles2.css">
+    <link rel="stylesheet" type="text/css" href="css/styles2.css">
     <meta charset="UTF-8">
     <title>Teacher's Pet</title>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
-    <style>
-    body {
-
-    background-color#f3f3f3;
-    font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
-	font-size: 14px;
-	font-style: large;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 15.4px;
-	 width: 100%;
-	 height: 100%;
-
-
-
-
-}
-
-table, th, td {
-    border: 2px solid grey;
-    border-collapse: collapse;
-    background-color: #f2f2f3;
-    color: black;
-    font-weight: 900;
-
-
-
-}
-
-
-tr:hover{background-color:#f5f5f5}
-th, td {
-    padding: 5px;
-    height: 50px;
-    vertical-align: bottom;
-
-}
-th {
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-
-
-}
-
-#assignment{
-
-
-
-}
-
-#student{
-
-top:500px;
-right:75px;
-
-
-
-}
-tr{
- height: 100%;
-
-}
-
-table{
-
-border-collapse: separate;
-    <!--empty-cells: hide;-->
-  	font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
-	font-size: 14px;
-	font-style: large;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 15.4px;
-	width: 150%; height: 150%
-}
 
 
 
 
 
-</style>
+
 </head>
 <body ng-controller="GradebookController">
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
+<div class="page-wrap">
+
+
 
 
 
@@ -153,11 +82,13 @@ border-collapse: separate;
             <!--Due date: <input type="text" ng-model="newAssignmentDate"/> <br/>-->
             <!--<input type="button" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>-->
 
-            <h3 id="class-header"> {{currentClass.name}} Gradebook </h3>
+            <!--<h3 id="class-header"> {{currentClass.name}} Gradebook </h3>-->
 
-<button ng-click="ngBack()">Go Back</button>
+<!--<ul class="pager">-->
+    <!--<li> <a ng-click="ngBack()"> Go Back </a> </li>-->
+<!--</ul>-->
 
-<div class="container">
+<section class="table-responsive">
             <table class="table table-bordered">
                 <tr>
                     <td>
@@ -350,14 +281,18 @@ border-collapse: separate;
                 </tr>
 
             </table>
-</div>
+</section>
 
-<div ng-if="graphShowing">
-    <canvas id="line" class="chart chart-line" chart-data="data"
+
+    <section class="right-half1" ng-if="graphShowing">
+        <canvas height="500" width="800" class="chart chart-line" chart-data="data"
             chart-labels="labels" chart-series="series" chart-options="options"
             chart-dataset-override="datasetOverride" chart-click="onClick"
     </canvas>
-</div>
+
+
+
+    </section>
 
 
 <br/><br/>
@@ -366,7 +301,7 @@ border-collapse: separate;
 
 
 
-
+</div>
 </body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
