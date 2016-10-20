@@ -605,16 +605,52 @@ angular.module('TeachersPetApp', ["chart.js"])
 //                    function errorCallback(response) {
 //                        console.log("Unable to get data...");
 //                    });
-            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-              $scope.series = ['Series A', 'Series B'];
-              $scope.data = [
-                [65, 59, 80, 81, 56, 55, 40],
-                [28, 48, 40, 19, 86, 27, 90]
-              ];
+
+//            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+//              $scope.series = ['Series A', 'Series B'];
+//              $scope.data = [
+//                [10, 20, 30, 40, 50, 60, 70],
+//                [5, 10, 15, 20, 25, 30, 35]
+//              ];
+
+
+//Works for hardcoded ordered pairs! But just a scatterplot. No lines/curves betweeen points.
+             $scope.data = [
+               {  x: 10,
+                  y: 5
+               }, {
+                  x: 20,
+                  y: 10
+               }, {
+                  x: 30,
+                  y: 15
+               }, {
+                  x: 40,
+                  y: 20
+               }, {
+                  x: 50,
+                  y: 25
+               }
+             ];
               $scope.onClick = function (points, evt) {
                 console.log(points, evt);
               };
-              $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+//              $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { xAxisID: 'x-axis-1' }];
+              $scope.datasetOverride = [
+                    {
+                      yAxisID: 'y-axis-1'
+                    },
+                    {
+                      xAxisID: 'x-axis-1'
+                    },
+                    {
+                      label: "Line chart",
+                      borderWidth: 3,
+                      hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                      hoverBorderColor: "rgba(255,99,132,1)",
+                      type: 'line'
+                    }
+                  ];
               $scope.options = {
                 scales: {
                   yAxes: [
@@ -622,13 +658,23 @@ angular.module('TeachersPetApp', ["chart.js"])
                       id: 'y-axis-1',
                       type: 'linear',
                       display: true,
-                      position: 'left'
-                    },
+                      position: 'left',
+                      ticks: {
+                        min: 0,
+                        beginAtZero: true
+                      }
+                    }
+                  ],
+                  xAxes: [
                     {
-                      id: 'y-axis-2',
+                      id: 'x-axis-1',
                       type: 'linear',
                       display: true,
-                      position: 'right'
+                      position: 'bottom',
+                      ticks: {
+                        min: 0,
+                        beginAtZero: true
+                      }
                     }
                   ]
                 }
