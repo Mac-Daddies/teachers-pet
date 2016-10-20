@@ -68,7 +68,7 @@ public class Controller {
 
     @RequestMapping(path = "/graph", method = RequestMethod.GET)
     public String graph(int courseId,Model model){
-        model.addAttribute("courseId ", courseId);
+        model.addAttribute("courseId", courseId);
         return "graph";
     }
 

@@ -77,7 +77,7 @@ angular.module("TeachersPetApp", ["chart.js"])
                                 console.log(response.data);
                                 console.log("Adding data to scope");
 
-                                 fillGraphContainerWithResponseData(response.data);
+                                 fillGradebookContainerWithResponseData(response.data);
 
                                  },
                                    function errorCallback(response) {
@@ -91,7 +91,7 @@ angular.module("TeachersPetApp", ["chart.js"])
 
                                    };
 
-                    var fillGraphContainerWithResponseData = function(responseData) {
+                    var fillGradebookContainerWithResponseData = function(responseData) {
                              $scope.gradebookContainer = responseData;
                              // $scope.allAssignments = $scope.gradebookContainer.assignments;
                  //                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
@@ -185,6 +185,75 @@ angular.module("TeachersPetApp", ["chart.js"])
                              $scope.assignmentAveragesArray = assignmentAveragesArray;
                         };
 
+                       $scope.getAllAss = function(){
+                         $http.post("/getallassNames.json")
+                            .then(
+                                function successCallback(response) {
+                                        console.log(response.data);
+
+                                        $scope.allAssNames = response.data;
+
+                                        $scope.labels = $scope.allAssNames;
+                                        $scope.series = ['Series A', 'Series B'];
+                                        $scope.data = [
+                                        $scope.assignmentAveragesArray,
+                                        arraynum
+
+
+                                        ];
+                                        $scope.onClick = function (points, evt) {
+                                          console.log(points, evt);
+                                        };
+
+                                        $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+                                         $scope.options = {
+                                            scales: {
+                                              yAxes: [
+                                                {
+                                                  id: 'y-axis-1',
+                                                  type: 'linear',
+                                                  display: true,
+                                                  position: 'left'
+                                                },
+                                                {
+                                                  id: 'y-axis-2',
+                                                  type: 'linear',
+                                                  display: true,
+                                                  position: 'right'
+                                                }
+                                              ]
+                                            }
+                                          };
+
+                                        // Simulate async data update
+
+
+
+
+
+                                },
+                                    function errorCallback(response){
+                                            console.log("unable to get shit")
+                                    }
+
+                            );
+
+
+
+
+                       };
+
+
+
+
+
+
+
+
+
+
+
+
                                   console.log($scope.courseIdForGraph);
 
                                   var arraynum = new Array(1,2,3,4);
@@ -193,25 +262,28 @@ angular.module("TeachersPetApp", ["chart.js"])
 
 
 
-                   $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-                    $scope.series = ['Series A', 'Series B'];
-                    $scope.data = [
-                      $scope.assignmentAverages
-
-                    ];
-                    $scope.onClick = function (points, evt) {
-                      console.log(points, evt);
-                    };
-
-                    // Simulate async data update
-                    $timeout(function () {
-                      $scope.data = [
-                        $scope.assignmentAveragesArray
-
-
-                      ];
-                    }, 100);
-                             
+//                   $scope.labels = $scope.allAssNames;
+//                    $scope.series = ['Series A', 'Series B'];
+//                    $scope.data = [
+//                    $scope.assignmentAveragesArray,
+//                    arraynum
+//
+//
+//                    ];
+//                    $scope.onClick = function (points, evt) {
+//                      console.log(points, evt);
+//                    };
+//
+//                    // Simulate async data update
+//                    $timeout(function () {
+//                      $scope.data = [
+//                        arraynum2,
+//                        arraynum
+//
+//
+//                      ];
+//                    }, 100);
+//
                              
 
 }]);
