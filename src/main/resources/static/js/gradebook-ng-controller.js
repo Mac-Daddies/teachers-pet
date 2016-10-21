@@ -106,46 +106,38 @@ angular.module('TeachersPetApp', ["chart.js"])
         };
 
         var fillGradebookContainerWithResponseData = function(responseData) {
-            $scope.gradebookContainer = responseData;
-            // $scope.allAssignments = $scope.gradebookContainer.assignments;
-//                        $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignments;
-            $scope.allAssignmentsToGetLength = $scope.gradebookContainer.assignmentAndAverageContainers;
+            var gradebookContainer = responseData;
+            var allAssignmentsToGetLength = gradebookContainer.assignmentAndAverageContainers;
 //                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
-            console.log($scope.allAssignmentsToGetLength);
-            $scope.allStudentAssignments = $scope.gradebookContainer.studentContainers.studentAssignments;
-            // $scope.numberOfAssignments = $scope.allAssignments.length;
-            $scope.numberOfAssignments = $scope.allAssignmentsToGetLength.length;
+            console.log(allAssignmentsToGetLength);
+            var allStudentAssignments = gradebookContainer.studentContainers.studentAssignments;
+            var numberOfAssignments = allAssignmentsToGetLength.length;
 
             // new all assignments by getting out of studentAssignments list
-            var allAssignments = new Array($scope.numberOfAssignments);
+            var allAssignments = new Array(numberOfAssignments);
 
             //if any of the grades are -1, we need to change them to not showing!! N/A for now.
-            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
-                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-                    if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade === -1) {
+            for (var counter = 0; counter < gradebookContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    if (gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade === -1) {
                         //replace -1 with blank
 //                        console.log("!!!!!!!!!!CHANGING -1 GRADE TO BLANK!!!!!!!!!!");
-                        $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade = "";
-//                        console.log($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+                        gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade = "";
+//                        console.log(gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
                     }
                 }
             }
 
-            //loop to populate allAssignments array in the order that the grades are being displayed
-            //TOOK OUT BC IM ORDERING THEM BY DATE ON THE BACKEND!!!
-            //AND PUT THIS IN:
-
-            //NO I THINK KEEP THIS IN AND WILL HAVE TO DO ORDERING ONCE WE LIST STUDENT ASSIGNMENTS ON BACKEND IN POPULATING METHOD OF RETURNING STUDENT CONTAINERS IN JSON CONTROLLER
-//            var currentStudentToGetAssignmentName;
-            for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
+            //loop to populate allAssignments array in the order that the grades are being displayed (studentAssignments are ordered by date assignment on the back end)
+            for (var counter = 0; counter < numberOfAssignments; counter++) {
                 if (counter == 0) {
-                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+                    allAssignments[counter] = gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
 //                                console.log("****In gradebook loop (counter is 0)**** (counter = " + counter + ") Assignment name added: ");
-                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
-                } else if (!(($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
-                    allAssignments[counter] = $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
+                    console.log(gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                } else if (!((gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name) === (gradebookContainer.studentContainers[0].studentAssignments[counter - 1].assignment.name))) {
+                    allAssignments[counter] = gradebookContainer.studentContainers[0].studentAssignments[counter].assignment;
 //                                console.log("****In gradebook loop (name isn't same as last)**** (counter = " + counter + ") Assignment name added: ");
-                    console.log($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
+                    console.log(gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name);
                 }
 
             }
@@ -154,20 +146,20 @@ angular.module('TeachersPetApp', ["chart.js"])
 
             //loop to order the studentAssignments correctly (needed when new students added) AND to make sure the average doesn't show as -1 for new students
             //TOOK THIS OUT BC WE ARE NOW ORDERING STUDENT ASSIGNMENTS BY DATE ON BACKEND
-//            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
-//                if ($scope.gradebookContainer.studentContainers[counter].average === -1) {
-//                    $scope.gradebookContainer.studentContainers[counter].average = "";
+//            for (var counter = 0; counter < gradebookContainer.studentContainers.length; counter++) {
+//                if (gradebookContainer.studentContainers[counter].average === -1) {
+//                    gradebookContainer.studentContainers[counter].average = "";
 //                }
-//                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-//                    if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name === allAssignments[insideCounter].name) {
+//                for (var insideCounter = 0; insideCounter < gradebookContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    if (gradebookContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name === allAssignments[insideCounter].name) {
 //                        //don't do anything
 //                    } else {
 //                        //go find this student's student assignment for assignment at index insideCounter in allAssignments and swap their positions in studentAssignments
-//                        for (var insideInsideCounter = insideCounter; insideInsideCounter < $scope.gradebookContainer.studentContainers[counter].studentAssignments.length; insideInsideCounter++) {
-//                            if ($scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter].assignment.name === allAssignments[insideCounter].name) {
-//                                var temporary = $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter];
-//                                $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideCounter] =  $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter];
-//                                $scope.gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter] = temporary;
+//                        for (var insideInsideCounter = insideCounter; insideInsideCounter < gradebookContainer.studentContainers[counter].studentAssignments.length; insideInsideCounter++) {
+//                            if (gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter].assignment.name === allAssignments[insideCounter].name) {
+//                                var temporary = gradebookContainer.studentContainers[counter].studentAssignments[insideCounter];
+//                                gradebookContainer.studentContainers[counter].studentAssignments[insideCounter] =  gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter];
+//                                gradebookContainer.studentContainers[counter].studentAssignments[insideInsideCounter] = temporary;
 //                            }
 //                        }
 //                    }
@@ -181,32 +173,38 @@ angular.module('TeachersPetApp', ["chart.js"])
             }
 
 
-            $scope.allAssignments = allAssignments;
+//            $scope.allAssignments = allAssignments;
 
             //Don't display average (-1) for students who have no grades entered yet
-            for (var counter = 0; counter < $scope.gradebookContainer.studentContainers.length; counter++) {
-                if ($scope.gradebookContainer.studentContainers[counter].average === -1) {
-                    $scope.gradebookContainer.studentContainers[counter].average = "";
+            for (var counter = 0; counter < gradebookContainer.studentContainers.length; counter++) {
+                if (gradebookContainer.studentContainers[counter].average === -1) {
+                    gradebookContainer.studentContainers[counter].average = "";
                 }
             }
 
 
 //NEW VERSION
 
-            var assignmentAveragesArray = new Array($scope.numberOfAssignments);
+            var assignmentAveragesArray = new Array(numberOfAssignments);
             //loop to populate assignmentAverages array in the order that the grades are being displayed
-            for (var counter = 0; counter < $scope.numberOfAssignments; counter++) {
-                for (var insideCounter = 0; insideCounter < $scope.gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
-                    if ($scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                        assignmentAveragesArray[counter] = $scope.gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                        console.log("First average added for " + $scope.gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
+            for (var counter = 0; counter < numberOfAssignments; counter++) {
+                for (var insideCounter = 0; insideCounter < gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
+                    if (gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
+                        assignmentAveragesArray[counter] = gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
+                        console.log("First average added for " + gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
                         if (assignmentAveragesArray[counter] === -1) {
                             assignmentAveragesArray[counter] = "";
                         }
                     }
                 }
             }
+
             $scope.assignmentAveragesArray = assignmentAveragesArray;
+
+            $scope.allAssignments = allAssignments;
+            $scope.numberOfAssignments = numberOfAssignments;
+            $scope.gradebookContainer = gradebookContainer;
+
        };
 
 
@@ -705,6 +703,8 @@ angular.module('TeachersPetApp', ["chart.js"])
 
 
         var curveContainer;
+//        var gradebookContainer;
+
         // This is undefined here, so we made ng-init at top to call gradebook with courseId from mustache
         console.log($scope.courseIdForGradebook);
         var gradeDataForTable;
