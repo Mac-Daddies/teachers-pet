@@ -1,3 +1,4 @@
+//Gradebook angular controller
 angular.module('TeachersPetApp', ["chart.js"])
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
@@ -30,6 +31,23 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
+
+        $scope.ngBack =function() {
+//                                window.history.back();
+             $window.location.href = '/classList?teacherId=' + $scope.currentClass.teacher.id;
+//            console.log("In ng back function!");
+//            console.log("$scope.currentClass:");
+//            console.log($scope.currentClass);
+//            console.log("$scope.currentClass.teacher:");
+//            console.log($scope.currentClass.teacher);
+//             $http.post("/backToHome", $scope.currentClass.teacher)
+//                .then (function successCallback(response) {
+//                   console.log("Success callback: ");
+//               },
+//               function errorCallback(response) {
+//                   console.log("Unable to get data...");
+//               });
+       };
 
 
         $scope.gradebook = function(courseId) {
@@ -328,23 +346,53 @@ angular.module('TeachersPetApp', ["chart.js"])
 
         $scope.addGrades = function(currentAssignment, studentContainers) {
             console.log("In addGrades function in ng controller");
-//            console.log("Sending this list of student containers to backend:");
-//            console.log(studentContainers);
-//            console.log("Sending this assignment: ");
-//            console.log(currentAssignment);
-            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+//            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+//
+//            var addGradesContainer = {
+//                assignment: currentAssignment,
+//                studentContainers: studentContainers
+//            }
+//
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
+//
+//            $http.post("/addGrades.json", addGradesContainer)
+//                .then(
+//                    function successCallback(response) {
+//                        console.log("This is what we get back: ");
+//                        console.log(response.data);
+//                        console.log("Adding data to scope");
+//                        fillGradebookContainerWithResponseData(response.data);
+//                        $scope.showGraph(currentAssignment);
+//                    },
+//                    function errorCallback(response) {
+//                        console.log("Unable to get data...");
+//                    });
+        };
+
+
+        $scope.getNumberOfAssignments = function(num) {
+            return new Array(num);
+        }
+
+        var sendGradesFromTable = function(currentAssignment, studentContainers) {
+                        populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
 
             var addGradesContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
 
-            console.log("These are the grades I'm sending through:");
-            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
-                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
-                }
-            }
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
 
             $http.post("/addGrades.json", addGradesContainer)
                 .then(
@@ -358,29 +406,20 @@ angular.module('TeachersPetApp', ["chart.js"])
                     function errorCallback(response) {
                         console.log("Unable to get data...");
                     });
-        };
 
-
-        $scope.getNumberOfAssignments = function(num) {
-            return new Array(num);
         }
 
         $scope.addExtraCredit = function(extraCreditAmount, currentAssignment, studentContainers) {
             console.log("In curveByTakingRoot function in ng controller");
+
+            // first send the grades that are in there (for if the user altered data, then pressed add extra credit w/o saving grades first)
+            sendGradesFromTable(currentAssignment, studentContainers);
 
             curveContainer = {
                 extraCreditAmount: extraCreditAmount,
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
-
-
-
-
-//            console.log("**About to send this currentAssignment: ");
-//            console.log(curveContainer.assignment);
-//            console.log("**About to send this list of StudentContainers:");
-//            console.log(curveContainer.studentContainers);
 
             $http.post("/addExtraCredit.json", curveContainer)
                 .then(
@@ -395,22 +434,6 @@ angular.module('TeachersPetApp', ["chart.js"])
                     });
         };
 
-        $scope.ngBack =function() {
-//                                window.history.back();
-             $window.location.href = '/classList?teacherId=' + $scope.currentClass.teacher.id;
-//            console.log("In ng back function!");
-//            console.log("$scope.currentClass:");
-//            console.log($scope.currentClass);
-//            console.log("$scope.currentClass.teacher:");
-//            console.log($scope.currentClass.teacher);
-//             $http.post("/backToHome", $scope.currentClass.teacher)
-//                .then (function successCallback(response) {
-//                   console.log("Success callback: ");
-//               },
-//               function errorCallback(response) {
-//                   console.log("Unable to get data...");
-//               });
-       };
 
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
@@ -708,6 +731,7 @@ angular.module('TeachersPetApp', ["chart.js"])
         // This is undefined here, so we made ng-init at top to call gradebook with courseId from mustache
         console.log($scope.courseIdForGradebook);
         var gradeDataForTable;
+        var isGradeDataDoneSaving;
 
 
    });
