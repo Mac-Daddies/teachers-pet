@@ -200,9 +200,6 @@ angular.module('TeachersPetApp', ["chart.js"])
                 }
             }
 
-
-//NEW VERSION
-
             var assignmentAveragesArray = new Array(numberOfAssignments);
             //loop to populate assignmentAverages array in the order that the grades are being displayed
             for (var counter = 0; counter < numberOfAssignments; counter++) {

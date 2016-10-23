@@ -154,6 +154,9 @@ public class JSONController {
      * (Returns the first parameter needed in the AssignmentAndStudentAssignmentContainer that is returned in every
      * method that updates the gradebook) */
     public ArrayList<StudentContainer> prepareArrayListOfStudentContainersToReturn(ArrayList<Student> arrayListOfStudents) {
+        //first order the students by last name
+        arrayListOfStudents = sortStudentsAlphabeticallyByLastName(arrayListOfStudents);
+
         ArrayList<StudentContainer> myArrayListOfStudentContainers= new ArrayList<>();
 
         //For each student in the course, make  a student container, and add it to the arrayList of student containers
@@ -261,6 +264,31 @@ public class JSONController {
             }
         }
         return allStudentAssignments;
+    }
+
+    public ArrayList<Student> sortStudentsAlphabeticallyByLastName(ArrayList<Student> students) {
+        ArrayList<String> lastNames = new ArrayList<>();
+        for (Student currentStudent : students) {
+            lastNames.add(currentStudent.getLastName());
+        }
+        java.util.Collections.sort(lastNames);
+
+//        for (String lastName : lastNames) {
+//            System.out.println("* " + lastName);
+//        }
+        //order student assignments in same order as lastNAmes are in
+        ArrayList<Student> orderedStudents = new ArrayList<>();
+
+        for (String lastName : lastNames) {
+            int currentIndex = 0;
+            while (!(students.get(currentIndex).getLastName().equals(lastName))) {
+                currentIndex++;
+            }
+            //when it gets out of loop, it means they are the same, so add to the ordered list, remove that element from the list (in case of duplicate last names), and move to the next last name!
+            orderedStudents.add(students.get(currentIndex));
+            students.remove(students.get(currentIndex));
+        }
+        return orderedStudents;
     }
 
     public AssignmentAndStudentAssignmentContainer gradebook(Course course){
