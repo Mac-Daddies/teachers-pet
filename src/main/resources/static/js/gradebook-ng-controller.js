@@ -32,6 +32,10 @@ angular.module('TeachersPetApp', ["chart.js"])
                     });
         };
 
+        $scope.logout = function() {
+            $window.location.href = '/';
+        }
+
         $scope.ngBack =function() {
              $window.location.href = '/classList?teacherId=' + $scope.currentClass.teacher.id;
        };

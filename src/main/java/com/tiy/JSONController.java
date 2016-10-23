@@ -1113,6 +1113,7 @@ public class JSONController {
         ArrayList<Double> percentagesOnCurrentGrades = new ArrayList<>();
         if (totalGradeCount != 0) {
             for (int counter = 0; counter < 11; counter++) {
+//                double percentage = (rangeCount[counter] / totalGradeCount) * 100.0;
                 percentagesOnCurrentGrades.add((rangeCount[counter] / totalGradeCount) * 100.0);
             }
         }
