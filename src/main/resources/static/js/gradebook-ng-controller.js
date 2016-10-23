@@ -373,47 +373,47 @@ angular.module('TeachersPetApp', ["chart.js"])
             // first send the grades that are in there (for if the user altered data, then pressed add extra credit w/o saving grades first)
 //            sendGradesFromTable(currentAssignment, studentContainers);
             console.log("Adding grades first...");
-                        populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
 
-                        var addGradesContainer = {
+            var addGradesContainer = {
+                assignment: currentAssignment,
+                studentContainers: studentContainers
+            }
+
+            console.log("These are the grades I'm sending through:");
+            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+                }
+            }
+
+            $http.post("/addGrades.json", addGradesContainer)
+                .then(
+                    function successCallback(response) {
+
+                       curveContainer = {
+                            extraCreditAmount: extraCreditAmount,
                             assignment: currentAssignment,
                             studentContainers: studentContainers
                         }
 
-                        console.log("These are the grades I'm sending through:");
-                        for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
-                            for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-                                console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
-                            }
-                        }
-
-                        $http.post("/addGrades.json", addGradesContainer)
+                        $http.post("/addExtraCredit.json", curveContainer)
                             .then(
                                 function successCallback(response) {
-
-                                   curveContainer = {
-                                        extraCreditAmount: extraCreditAmount,
-                                        assignment: currentAssignment,
-                                        studentContainers: studentContainers
-                                    }
-
-                                    $http.post("/addExtraCredit.json", curveContainer)
-                                        .then(
-                                            function successCallback(response) {
-                        //                        console.log("**This is what we get back: ");
-                                                console.log(response.data);
-                                                console.log("Adding data to scope");
-                                                fillGradebookContainerWithResponseData(response.data);
-                                                $scope.showGraph(currentAssignment);
-                                            },
-                                            function errorCallback(response) {
-                                                console.log("Unable to get data at addExtraCredit endpoint...");
-                                            });
-
+            //                        console.log("**This is what we get back: ");
+                                    console.log(response.data);
+                                    console.log("Adding data to scope");
+                                    fillGradebookContainerWithResponseData(response.data);
+                                    $scope.showGraph(currentAssignment);
                                 },
                                 function errorCallback(response) {
-                                    console.log("Unable to get data at addGrades endpoint...");
+                                    console.log("Unable to get data at addExtraCredit endpoint...");
                                 });
+
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data at addGrades endpoint...");
+                    });
 
 
         };
@@ -422,33 +422,49 @@ angular.module('TeachersPetApp', ["chart.js"])
         $scope.curveFlat = function(currentAssignment, studentContainers) {
             console.log("In curveFlat function in ng controller");
 
-            curveContainer = {
+            console.log("Adding grades first...");
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+
+            var addGradesContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
 
-//            console.log("**About to send this currentAssignment: ");
-//            console.log(curveContainer.assignment);
-//            console.log("**About to send this list of StudentContainers:");
-//            console.log(curveContainer.studentContainers);
+            console.log("These are the grades I'm sending through:");
+            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+                }
+            }
 
-            $http.post("/curveFlat.json", curveContainer)
+            $http.post("/addGrades.json", addGradesContainer)
                 .then(
                     function successCallback(response) {
-//                        console.log("**This is what we get back: ");
-                        console.log(response.data);
-                        console.log("Adding data to scope");
 
-                        fillGradebookContainerWithResponseData(response.data);
-//                        console.log("Printing out allAssignments:");
-//                        for (var index = 0; index < $scope.allAssignments.length; index++) {
-//                            console.log($scope.allAssignments[index]);
-//                        }
+                         curveContainer = {
+                             assignment: currentAssignment,
+                             studentContainers: studentContainers
+                         }
+
+                         $http.post("/curveFlat.json", curveContainer)
+                             .then(
+                                 function successCallback(response) {
+                                     console.log(response.data);
+                                     console.log("Adding data to scope");
+
+                                     fillGradebookContainerWithResponseData(response.data);
+                                     $scope.showGraph(currentAssignment);
+
+                                 },
+                                 function errorCallback(response) {
+                                     console.log("Unable to get data...");
+                                 });
 
                     },
                     function errorCallback(response) {
-                        console.log("Unable to get data...");
+                        console.log("Unable to get data at addGrades endpoint...");
                     });
+
         };
 
 
