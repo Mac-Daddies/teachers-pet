@@ -128,6 +128,7 @@
             <tr>
                 <td></td>
                 <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}, due {{currentAssignment.dueDate}} </td>
+                <button type="button" class="btn btn-default" ng-click="deleteAssignment(currentAssignment)" value="Delete Assignment"> </button>
             </tr>
 
 
@@ -180,7 +181,11 @@
             <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
                     <span class="glyphicon glyphicon-envelope" > </span> Email
-                </button></td>
+                </button>
+                    <span>
+                    <button type="button" class="btn btn-default" ng-click="deleteStudent(studentContainer.student)" value="Delete Student"> </button>
+                    </span>
+                </td>
 
                 <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
             </tr>
