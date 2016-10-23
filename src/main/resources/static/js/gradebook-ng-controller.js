@@ -430,12 +430,12 @@ angular.module('TeachersPetApp', ["chart.js"])
                 studentContainers: studentContainers
             }
 
-            console.log("These are the grades I'm sending through:");
-            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
-                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
-                }
-            }
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
 
             $http.post("/addGrades.json", addGradesContainer)
                 .then(
@@ -457,7 +457,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 
                                  },
                                  function errorCallback(response) {
-                                     console.log("Unable to get data...");
+                                     console.log("Unable to get data at curveFlat endpoint...");
                                  });
 
                     },
@@ -471,58 +471,100 @@ angular.module('TeachersPetApp', ["chart.js"])
         $scope.curveAsPercentageOfHighestGrade = function(currentAssignment, studentContainers) {
             console.log("In curveAsPercentageOfHighestGrade function in ng controller");
 
-            curveContainer = {
+            console.log("Adding grades first...");
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+
+            var addGradesContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
 
-//            console.log("**About to send this currentAssignment: ");
-//            console.log(curveContainer.assignment);
-//            console.log("**About to send this list of StudentContainers:");
-//            console.log(curveContainer.studentContainers);
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
 
-            $http.post("/curveAsPercentageOfHighestGrade.json", curveContainer)
+            $http.post("/addGrades.json", addGradesContainer)
                 .then(
                     function successCallback(response) {
-//                        console.log("**This is what we get back: ");
-                        console.log(response.data);
-                        console.log("Adding data to scope");
-                        fillGradebookContainerWithResponseData(response.data);
-//                        console.log("Printing out allAssignments:");
-//                        for (var index = 0; index < $scope.allAssignments.length; index++) {
-//                            console.log($scope.allAssignments[index]);
-//                        }
+
+                        curveContainer = {
+                            assignment: currentAssignment,
+                            studentContainers: studentContainers
+                        }
+
+                        $http.post("/curveAsPercentageOfHighestGrade.json", curveContainer)
+                            .then(
+                                function successCallback(response) {
+                                    console.log(response.data);
+                                    console.log("Adding data to scope");
+                                    fillGradebookContainerWithResponseData(response.data);
+                                    $scope.showGraph(currentAssignment);
+                                },
+                                function errorCallback(response) {
+                                    console.log("Unable to get data at curveAsPercentageOfHighestGrade endpoint...");
+                                });
+
                     },
                     function errorCallback(response) {
-                        console.log("Unable to get data...");
+                        console.log("Unable to get data at addGrades endpoint...");
                     });
+
         };
 
 
         $scope.curveByTakingRoot = function(currentAssignment, studentContainers) {
             console.log("In curveByTakingRoot function in ng controller");
 
-            curveContainer = {
+            console.log("Adding grades first...");
+            populateBlankGradesWithNegativeOnesBeforeSending(studentContainers);
+
+            var addGradesContainer = {
                 assignment: currentAssignment,
                 studentContainers: studentContainers
             }
 
-//            console.log("**About to send this currentAssignment: ");
-//            console.log(curveContainer.assignment);
-//            console.log("**About to send this list of StudentContainers:");
-//            console.log(curveContainer.studentContainers);
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
 
-            $http.post("/curveByTakingRoot.json", curveContainer)
+            $http.post("/addGrades.json", addGradesContainer)
                 .then(
                     function successCallback(response) {
-//                        console.log("**This is what we get back: ");
-                        console.log(response.data);
-                        console.log("Adding data to scope");
-                        fillGradebookContainerWithResponseData(response.data);
+
+                        curveContainer = {
+                            assignment: currentAssignment,
+                            studentContainers: studentContainers
+                        }
+
+            //            console.log("**About to send this currentAssignment: ");
+            //            console.log(curveContainer.assignment);
+            //            console.log("**About to send this list of StudentContainers:");
+            //            console.log(curveContainer.studentContainers);
+
+                        $http.post("/curveByTakingRoot.json", curveContainer)
+                            .then(
+                                function successCallback(response) {
+            //                        console.log("**This is what we get back: ");
+                                    console.log(response.data);
+                                    console.log("Adding data to scope");
+                                    fillGradebookContainerWithResponseData(response.data);
+                                    $scope.showGraph(currentAssignment);
+                                },
+                                function errorCallback(response) {
+                                    console.log("Unable to get data at curveByTakingRoot endpoint...");
+                                });
+
                     },
                     function errorCallback(response) {
-                        console.log("Unable to get data...");
+                        console.log("Unable to get data at addGrades endpoint...");
                     });
+
         };
 
 //        $scope.getAverage = function(currentAssignment, studentContainers) {
@@ -553,25 +595,21 @@ angular.module('TeachersPetApp', ["chart.js"])
 //        };
 
         $scope.getOriginalGrades = function(currentAssignment) {
-                      console.log("In getOriginalGrades function in gradebook-ng-controller");
+              console.log("In getOriginalGrades function in gradebook-ng-controller");
 
-          //            console.log("**About to send this currentAssignment: ");
-          //            console.log(curveContainer.assignment);
-          //            console.log("**About to send this list of StudentContainers:");
-          //            console.log(curveContainer.studentContainers);
+              $http.post("/getOriginalGrades.json", currentAssignment)
+                  .then(
+                      function successCallback(response) {
+                          console.log(response.data);
+                          console.log("Adding data to scope");
+                          fillGradebookContainerWithResponseData(response.data);
+                          $scope.showGraph(currentAssignment);
+                      },
+                      function errorCallback(response) {
+                          console.log("Unable to get data...");
+                      });
+        };
 
-                      $http.post("/getOriginalGrades.json", currentAssignment)
-                          .then(
-                              function successCallback(response) {
-          //                        console.log("**This is what we get back: ");
-                                  console.log(response.data);
-                                  console.log("Adding data to scope");
-                                  fillGradebookContainerWithResponseData(response.data);
-                              },
-                              function errorCallback(response) {
-                                  console.log("Unable to get data...");
-                              });
-                  };
 
         $scope.sendEmailOneStudent = function(studentContainer) {
             console.log("In sendEmailOneStudent function in gradebook-ng-controller");
