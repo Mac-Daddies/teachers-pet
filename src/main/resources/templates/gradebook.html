@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="TeachersPetApp">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/styles2.css">
-    <link rel="stylesheet" type="text/css" href="css/styles2.css">
+    <link  rel="stylesheet" type="text/css" href="css/styles2.css">
+    <link rel="alternate stylesheet" type="text/css" href="../static/css/styles3.css">
+    <link id="pagestyle" rel="alternate stylesheet" type="text/css" href="css/styles3.css">
+
     <meta charset="UTF-8">
     <title>Teacher's Pet</title>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
@@ -17,9 +21,13 @@
 
 
 
-
 </head>
+
+
+
 <body ng-controller="GradebookController">
+<!--<button ngclick="swapStyleSheet('styles2.css')"> </button>-->
+<!--<button onclick="swapStyleSheet('styles3.css')"> </button>-->
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
@@ -88,7 +96,24 @@
     <!--<li> <a ng-click="ngBack()"> Go Back </a> </li>-->
     <!--</ul>-->
 
-    <section class="table-responsive">
+    <section class="table-responsive" id="square">
+        <div class="dropdown" id="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Graph View</button> </a> </li>
+            <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>
+        </ul>
+        </div>
+
+
+
+
+
+
+
+
+
         <table class="table table-bordered">
             <tr>
                 <td>
@@ -123,12 +148,23 @@
                         </div>
 
                     </div>
+
+
+
                 </td>
             </tr>
             <tr>
                 <td></td>
-                <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}, due {{currentAssignment.dueDate}} </td>
-                <button type="button" class="btn btn-default" ng-click="deleteAssignment(currentAssignment)" value="Delete Assignment"> </button>
+                <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}, due {{currentAssignment.dueDate}}
+                    <button type="button" class="btn btn-default" ng-click="deleteAssignment(currentAssignment)" value="Delete">
+                        <span class="glyphicon glyphicon-trash" > </span> Delete
+                    </button>
+                    <button type="button" class="btn btn-default btn-md"  ng-click="showGraph(currentAssignment)" value="Show graph!">
+                            <span class="glyphicon glyphicon-signal" > </span> Graph
+                        </button>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="hideGraph()" value="hide graph!"> Hide Graph </button>
+                </td>
+
             </tr>
 
 
@@ -179,15 +215,15 @@
             <!--</tr>-->
 
             <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }} </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
                     <span class="glyphicon glyphicon-envelope" > </span> Email
                 </button>
-                    <span>
-                    <button type="button" class="btn btn-default" ng-click="deleteStudent(studentContainer.student)" value="Delete Student"> </button>
-                    </span>
+                    <button type="button" class="btn btn-default" ng-click="deleteStudent(studentContainer.student)" value="Delete">
+                        <span class="glyphicon glyphicon-trash" > </span> Delete
+                    </button>
                 </td>
 
-                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
+                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> {{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
             </tr>
 
             <!--<tr>-->
@@ -213,10 +249,6 @@
                                         Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
                                         Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
                                         <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
-
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +283,7 @@
                 <td> </td>
 
                 <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
-                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}} </td>
+                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}}</td>
             </tr>
 
             <tr>
@@ -290,12 +322,13 @@
     </section>
 
 
-    <section class="right-half1" ng-if="graphShowing">
+    <section class="right-half1" id="right">
+        <div ng-if="graphShowing">
         <canvas height="500" width="800" class="chart chart-line" chart-data="data"
                 chart-labels="labels" chart-series="series" chart-options="options"
                 chart-dataset-override="datasetOverride" chart-click="onClick" width="700" height="400"
-        </canvas
-
+        />
+        </div>
 
 
     </section>

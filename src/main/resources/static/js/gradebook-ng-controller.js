@@ -341,6 +341,14 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
+         $scope.switchtogradeandgraph = function(courseId) {
+                    console.log("In joint function in ng controller");
+                    // go to new window
+                    $scope.currentClassid = courseId;
+
+        //            $window.location.href = '/gradebook?courseId=' + courseId;
+                    $window.location.href = '/gradebookandgraph?courseId=' + courseId;
+                };
 
 
         $scope.addGrades = function(currentAssignment, studentContainers) {
@@ -719,6 +727,67 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
+    var square1, right1;
+
+    square1 = document.getElementById("square"),
+
+    right1 = document.getElementById("right"),
+
+
+
+
+
+        clickMe = document.getElementById('clickMe');
+        clickMe1 = document.getElementById('clickMe1');
+
+    function doDemo () {
+
+      var button = this;
+      square1.style.width = "35%";
+      right.style.right = "40%";
+      right.style.position = "fixed";
+
+
+    }
+
+
+
+    clickMe.onclick = doDemo
+
+      var right = document.getElementById("right"),
+
+            clickMe = document.getElementById('clickMe');
+
+
+
+
+
+
+
+        function doDemo1 () {
+
+          var button1 = this;
+          square.style.width = "100%";
+          right.style.position = "relative";
+           right.style.right = "0";
+
+
+        }
+
+
+
+        clickMe1.onclick = doDemo1
+
+
+
+
+
+
+
+
+
+
+
 
 
         $scope.showGraph = function(assignment) {
@@ -744,6 +813,10 @@ angular.module('TeachersPetApp', ["chart.js"])
                     console.log("Unable to get data...");
                 });
             };
+
+            $scope.swapStyle = function(sheet){
+                    document.getElementById('pagestyle').setAttribute('href',sheet);
+            }
 
         var updateGraph = function(assignment) {
             console.log("In updateGraph function in gradebook-ng-controller");
@@ -832,6 +905,62 @@ angular.module('TeachersPetApp', ["chart.js"])
 
             $scope.graphShowing = true;
         };
+        $scope.hideGraph = function(){
+            $scope.graphShowing = false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         var curveContainer;
