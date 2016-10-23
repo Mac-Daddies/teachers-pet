@@ -236,7 +236,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 
 
         $scope.addAssignment = function(newAssignmentName, newAssignmentDate) {
-            console.log("In gradebook function in ng controller");
+            console.log("In gradebook function in gradebook-ng-controller");
 
             var newAssignmentInfo = {
                 name: newAssignmentName,
@@ -261,6 +261,28 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
+
+        $scope.deleteAssignment = function(Assignment assignment) {
+            console.log("In deleteAssignment function in gradebook-ng-controller");
+
+            $http.post("/deleteAss.json", assignment)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        // $scope.allAssignments = response.data;
+
+                        fillGradebookContainerWithResponseData(response.data);
+//                        console.log("Printing out allAssignments:");
+//                        for (var index = 0; index < $scope.allAssignments.length; index++) {
+//                            console.log($scope.allAssignments[index]);
+//                        }
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
 
 
         $scope.addStudent = function(newStudentFirstName, newStudentLastName, newStudentParentEmail) {
