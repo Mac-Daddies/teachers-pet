@@ -154,6 +154,8 @@ angular.module('TeachersPetApp', ["chart.js"])
             }
 
             $scope.assignmentAveragesArray = assignmentAveragesArray;
+            console.log("Here is the assignmentAveragesArray that is set on the scope:");
+            console.log($scope.assignmentAveragesArray);
 
             $scope.allAssignments = allAssignments;
             $scope.numberOfAssignments = numberOfAssignments;

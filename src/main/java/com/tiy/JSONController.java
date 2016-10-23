@@ -91,7 +91,10 @@ public class JSONController {
 
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
+        System.out.println("IN GRADEBOOK.................................................");
         Course course = courseRepository.findOne(courseId);
+        System.out.println("Course ID: " + courseId);
+        System.out.println("Course retrieved from db: " + course.getName());
 
         ArrayList<Assignment> allAssignments = assignmentRepository.findAllByCourseId(course.getId());
 
@@ -102,6 +105,18 @@ public class JSONController {
             studentArrayList.add(currentStudentCourse.getStudent());
         }
 
+        System.out.print("THESE are the students in allStudentCoursesByCourse:\n*");
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            System.out.print(" " + studentCourse.getStudent().getFirstName() + ",");
+        }
+        System.out.println();
+
+        System.out.print("THESE are the students in studentArrayList:\n*");
+        for (Student student : studentArrayList) {
+            System.out.print(" " + student.getFirstName() + ",");
+        }
+        System.out.println();
+
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentArrayList);
 
         //print just for testing
@@ -110,6 +125,18 @@ public class JSONController {
                 System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
             }
         }
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
+        }
+
+        System.out.print("Again, THESE are the students in studentArrayList:\n*");
+        for (Student student : studentArrayList) {
+            System.out.print(" " + student.getFirstName() + ",");
+        }
+        System.out.println();
 
         allAssignments = orderAssignmentsByDate(allAssignments);
 
@@ -154,13 +181,13 @@ public class JSONController {
      * (Returns the first parameter needed in the AssignmentAndStudentAssignmentContainer that is returned in every
      * method that updates the gradebook) */
     public ArrayList<StudentContainer> prepareArrayListOfStudentContainersToReturn(ArrayList<Student> arrayListOfStudents) {
-        //first order the students by last name
-        arrayListOfStudents = sortStudentsAlphabeticallyByLastName(arrayListOfStudents);
+        //first order the students by last name IN A NEW ARRAYLIST
+        ArrayList<Student> orderedArrayListOfStudents = sortStudentsAlphabeticallyByLastName(arrayListOfStudents);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers= new ArrayList<>();
 
         //For each student in the course, make  a student container, and add it to the arrayList of student containers
-        for (Student currentStudent : arrayListOfStudents) {
+        for (Student currentStudent : orderedArrayListOfStudents) {
             //find all of their student assignments
             ArrayList<StudentAssignment> allMyStudentAssignments = studentAssignmentRepository.findAllByStudent(currentStudent);
             //ORDER THE ASSIGNMENTS BY DATE (so it will display them in the correct order on front end)
@@ -187,6 +214,7 @@ public class JSONController {
      * (Returns the second parameter needed in the AssignmentAndStudentAssignmentContainer that is returned in
      * every method that updates the gradebook) */
     public ArrayList<AssignmentAndAverageContainer> prepareArrayListOfAssignmentAndAverageContainerToReturn(ArrayList<Assignment> arrayListOfAssignments, ArrayList<Student> arrayListOfStudents) {
+        System.out.println("IN PREPAREARRAYLISTOFBLAHBLAH.............................");
 //        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
 //
 //        for (Assignment currentAssignment : arrayListOfAssignments) {
@@ -202,17 +230,28 @@ public class JSONController {
 //            myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
 //        }
 
+
+        System.out.print("THESE are the students in arrayListOfStudents:\n*");
+        for (Student student : arrayListOfStudents) {
+            System.out.print(" " + student.getFirstName() + ",");
+        }
+        System.out.println();
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = new ArrayList<>();
 
         for (Assignment currentAssignment : arrayListOfAssignments) {
+            System.out.println("* current assignment: " + currentAssignment.getName());
             AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
             ArrayList<Integer> gradesToCurve = new ArrayList<>();
             for (Student currentStudent : arrayListOfStudents) {
                 StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                System.out.println("** current student assignment: " + currentStudentAssignment.getStudent() + ", " + currentStudentAssignment.getAssignment() + ", " + currentStudentAssignment.getGrade());
                 int currentGrade = currentStudentAssignment.getGrade();
                 gradesToCurve.add(currentGrade);
+                System.out.println("** Added to grades list");
             }
             int average = myCurver.getAverage(gradesToCurve);
+            System.out.println("* average of grades on " + currentAssignment.getName() + ": " + average);
             currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
             myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
         }
@@ -267,8 +306,10 @@ public class JSONController {
     }
 
     public ArrayList<Student> sortStudentsAlphabeticallyByLastName(ArrayList<Student> students) {
+        //Make a new arraylist so we don't actually alter the student list when we remove
+        ArrayList<Student> holderOfStudents = students;
         ArrayList<String> lastNames = new ArrayList<>();
-        for (Student currentStudent : students) {
+        for (Student currentStudent : holderOfStudents) {
             lastNames.add(currentStudent.getLastName());
         }
         java.util.Collections.sort(lastNames);
@@ -281,12 +322,12 @@ public class JSONController {
 
         for (String lastName : lastNames) {
             int currentIndex = 0;
-            while (!(students.get(currentIndex).getLastName().equals(lastName))) {
+            while (!(holderOfStudents.get(currentIndex).getLastName().equals(lastName))) {
                 currentIndex++;
             }
             //when it gets out of loop, it means they are the same, so add to the ordered list, remove that element from the list (in case of duplicate last names), and move to the next last name!
-            orderedStudents.add(students.get(currentIndex));
-            students.remove(students.get(currentIndex));
+            orderedStudents.add(holderOfStudents.get(currentIndex));
+            holderOfStudents.remove(holderOfStudents.get(currentIndex));
         }
         return orderedStudents;
     }
@@ -309,6 +350,12 @@ public class JSONController {
             for (StudentAssignment currentStudentAssignment : currentStudentContainer.getStudentAssignments()) {
                 System.out.println("Grade on " + currentStudentAssignment.getStudent().getFirstName() + "'s " + currentStudentAssignment.getAssignment().getName() + ": " + currentStudentAssignment.getGrade());
             }
+        }
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentArrayList = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            studentArrayList.add(currentStudentCourse.getStudent());
         }
 
         allAssignments = orderAssignmentsByDate(allAssignments);
@@ -370,6 +417,12 @@ public class JSONController {
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
 
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(currentStudentCourse.getStudent());
+        }
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
 
 //        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = getAssignmentAndAverageContainerToReturn(allAssignments, studentArrayList);
@@ -426,6 +479,12 @@ public class JSONController {
         allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(currentStudentCourse.getStudent());
+        }
 
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
 
@@ -496,6 +555,12 @@ public class JSONController {
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudents);
 
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        allStudents = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            allStudents.add(currentStudentContainer.getStudent());
+        }
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudents);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
@@ -551,6 +616,12 @@ public class JSONController {
         allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentsInCourse = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            studentsInCourse.add(currentStudentContainer.getStudent());
+        }
 
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentsInCourse);
 
@@ -622,6 +693,12 @@ public class JSONController {
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentsInCourse = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            studentsInCourse.add(currentStudentContainer.getStudent());
+        }
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentsInCourse);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
@@ -675,6 +752,12 @@ public class JSONController {
         allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentsInCourse = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            studentsInCourse.add(currentStudentContainer.getStudent());
+        }
 
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentsInCourse);
 
@@ -731,6 +814,12 @@ public class JSONController {
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(studentsInCourse);
 
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        studentsInCourse = new ArrayList<>();
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            studentsInCourse.add(currentStudentContainer.getStudent());
+        }
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, studentsInCourse);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
@@ -780,6 +869,13 @@ public class JSONController {
         allAssignments = orderAssignmentsByDate(allAssignments);
 
         ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudentsInCourse);
+
+        //Have to repopulate arraylist of students (workaround, try to find out why it's empty later)
+        allStudentsInCourse = new ArrayList<>();
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudentsInCourse.add(studentCourse.getStudent());
+        }
+
         ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignments, allStudentsInCourse);
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
 
