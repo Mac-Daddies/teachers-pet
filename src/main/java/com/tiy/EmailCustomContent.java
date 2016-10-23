@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class EmailCustomContent {
     EmailSender myEmailSender = new EmailSender();
+    public static final int HIGH_AVERAGE_AMOUNT = 95;
 
     public void sendEmailOneStudent(Course course, Teacher teacher, StudentContainer studentContainer, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
         String emailFrom = teacher.getEmail();
@@ -37,8 +38,7 @@ public class EmailCustomContent {
             emailContent += studentContainer.getStudent().getFirstName() + " has no missing assignments. Great job!";
         }
 
-        emailContent += "\n\nPlease contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
-                teacher.getFirstName() + " " + teacher.getLastName();
+        emailContent += "\n\n" + getEmailSignature(teacher);
 
         //send the email!
         myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
@@ -68,9 +68,28 @@ public class EmailCustomContent {
                     dueDate = formatDueDate(currentStudentAssignment.getAssignment().getDueDate());
                     emailContent += " - " + currentStudentAssignment.getAssignment().getName() + ", due on " + dueDate + "\n";
                 }
-                emailContent += "\n\nPlease contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
-                        teacher.getFirstName() + " " + teacher.getLastName();
+                emailContent += "\n\n" + getEmailSignature(teacher);
 
+                myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
+            }
+        }
+    }
+
+    public void sendEmailForAllHighAverages(Course course, Teacher teacher, ArrayList<StudentContainer> studentContainers, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
+        System.out.println("In sendEmailForAllHighAverages method in EmailCustomContent...");
+        String emailFrom = teacher.getEmail();
+        String subject;
+        String emailTo;
+        String emailContent;
+        //send an email for each student who has an average over HIGH_AVERAGE_AMOUNT.
+        //Make an arraylist of studentAssignments that have grade of zero for each student.
+        for (StudentContainer currentStudentContainer : studentContainers) {
+            System.out.println(currentStudentContainer.getStudent().getFirstName() + "'s average: " + currentStudentContainer.getAverage());
+            if(currentStudentContainer.getAverage() > HIGH_AVERAGE_AMOUNT) {
+                //send email
+                subject = course.getName() + ": Great job " + currentStudentContainer.getStudent().getFirstName() + "!";
+                emailTo = currentStudentContainer.getStudent().getParentEmail();
+                emailContent = getEmailContentForHighAverages(currentStudentContainer, teacher);
                 myEmailSender.sendEmail(emailFrom, subject, emailTo, emailContent);
             }
         }
@@ -80,5 +99,21 @@ public class EmailCustomContent {
         String dateString = dueDate.substring(5, 7) + "/" + dueDate.substring(8, 10) + "/" + dueDate.substring(0, 4);
         return dateString;
 
+    }
+
+    public String getEmailContentForHighAverages(StudentContainer studentContainer, Teacher teacher) {
+        String emailContent = "To the parent/guardian of " + studentContainer.getStudent().getFirstName() + " " + studentContainer.getStudent().getLastName() + ",\n\n" +
+                "This email is to let you know that your student is doing exceptionally well in my class!\n" +
+                studentContainer.getStudent().getFirstName() + " currently has an average of " + studentContainer.getAverage() + "%. " +
+                "Keep up the great work!\n\n" + getEmailSignature(teacher);
+
+        return emailContent;
+    }
+
+    public String getEmailSignature(Teacher teacher) {
+        String emailSignature = "Please contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
+        teacher.getFirstName() + " " + teacher.getLastName();
+
+        return emailSignature;
     }
 }
