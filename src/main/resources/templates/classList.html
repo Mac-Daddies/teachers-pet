@@ -89,9 +89,11 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
     <!--</span>-->
 
     <!--<span ng-if="loginSuccessful">-->
+
         <input type="hidden" ng-model="teacherId" ng-init="getTeacherWhoIsLoggedIn(<%teacherId%>)"/>
         <font color="white">
-        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <br/><br/>
+        Welcome, {{teacherWhoIsLoggedIn.firstName}} {{teacherWhoIsLoggedIn.lastName}}! </font> <button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>
+        <br/><br/>
         <div>
             <font color="white">
             <h2>My Classes:</h2>

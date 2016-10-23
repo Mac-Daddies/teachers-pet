@@ -17,6 +17,10 @@ angular.module('TeachersPetApp', [])
 
         };
 
+        $scope.logout = function() {
+            $window.location.href = '/';
+        }
+
 
         $scope.addClass = function(newClassName, newClassSubject, newClassGradeLevel) {
             console.log("In addClass function in ng controller");

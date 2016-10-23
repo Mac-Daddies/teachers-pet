@@ -97,20 +97,21 @@
     <!--</ul>-->
 
     <section class="table-responsive" id="square">
-        <div class="dropdown" id="dropdown">
-        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Graph View</button> </a> </li>
-            <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>
-        </ul>
+        <div style="display: inline-block">
+            <div class="dropdown" id="dropdown" style="display: inline-block">
+            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Graph View</button> </a> </li>
+                <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>
+            </ul>
+            </div>
+
+
+            <div style="display: inline-block">
+                <button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>
+            </div>
         </div>
-
-
-
-
-
-
 
 
 
