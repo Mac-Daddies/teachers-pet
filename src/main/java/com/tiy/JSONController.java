@@ -537,7 +537,7 @@ public class JSONController {
         return returnContainer;
     }
 
-    @RequestMapping(path = "/deletestudent.json", method = RequestMethod.POST)
+    @RequestMapping(path = "/deleteStudent.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer deleteStudent(@RequestBody Student studentToDelete){
         ArrayList<StudentCourse> thisStudentCourse = studentCourseRepository.findAllByStudent(studentToDelete);
 
