@@ -483,7 +483,7 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/addstudent.json", method = RequestMethod.POST)
-    public AssignmentAndStudentAssignmentContainer addStudents(@RequestBody StudentCourse studentCourse){
+    public AssignmentAndStudentAssignmentContainer addStudent(@RequestBody StudentCourse studentCourse){
         Student newStudent = studentCourse.getStudent();
         Course currentCourse = studentCourse.getCourse();
 
@@ -537,7 +537,57 @@ public class JSONController {
         return returnContainer;
     }
 
-    @RequestMapping(path = "/addGrades.json", method = RequestMethod.POST)
+    @RequestMapping(path = "/deletestudent.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer deleteStudent(@RequestBody Student studentToDelete){
+        ArrayList<StudentCourse> thisStudentCourse = studentCourseRepository.findAllByStudent(studentToDelete);
+
+        //delete all studentAssignments attached to that student
+        ArrayList<StudentAssignment> studentAssignments = studentAssignmentRepository.findAllByStudent(studentToDelete);
+        for (StudentAssignment studentAssignment : studentAssignments) {
+            studentAssignmentRepository.delete(studentAssignment);
+        }
+
+        //delete all originalGrades attached to that student
+        ArrayList<OriginalGrade> originalGrades = originalGradeRepository.findAllByStudent(studentToDelete);
+        for (OriginalGrade originalGrade : originalGrades) {
+            originalGradeRepository.delete(originalGrade);
+        }
+
+        //delete all studentCourses attached to that student
+        ArrayList<StudentCourse> studentCourses = studentCourseRepository.findAllByStudent(studentToDelete);
+        for (StudentCourse studentCourse : studentCourses) {
+            studentCourseRepository.delete(studentCourse);
+        }
+
+        //delete student
+        Student retrievedStudent = studentRepository.findOne(studentToDelete.getId());
+        studentRepository.delete(retrievedStudent);
+
+        ArrayList<Student> allStudents = new ArrayList<>();
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(thisStudentCourse.get(0).getCourse());
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudents.add(studentCourse.getStudent());
+        }
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudents);
+
+        //repopulate (until I find out why it's deleting)
+        allStudents = new ArrayList<>();
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudents.add(studentCourse.getStudent());
+        }
+
+        ArrayList<Assignment> allAssignmentsInCourse = assignmentRepository.findAllByCourseId(thisStudentCourse.get(0).getCourse().getId());
+        allAssignmentsInCourse = orderAssignmentsByDate(allAssignmentsInCourse);
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignmentsInCourse, allStudents);
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+        return returnContainer;
+    }
+
+
+        @RequestMapping(path = "/addGrades.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer addGrade(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer){
         // ^ We're getting a container holding an assignment and a list of student containers. Each student container in the list has a student and a list of student assignments.
         // For each student, we need to get out their list of studentAssignments and update the studentAssignment for just that assignment.
