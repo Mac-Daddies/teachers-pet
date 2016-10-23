@@ -16,7 +16,7 @@
     <title>Teacher's Pet</title>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
-
+    
 
 
 
@@ -283,7 +283,12 @@
                 <td> </td>
 
                 <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
-                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}}</td>
+                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}}
+                    <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades">
+                        <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
+                    </button>
+
+                </td>
             </tr>
 
             <tr>
@@ -293,30 +298,34 @@
 
             <tr>
                 <td> </td>
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve"/> </td>
-            </tr>
+                <div>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
+                    <button type="button" class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve">
+                        Flat Curve
+                    </button>
 
-            <tr>
-                <td> </td>
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve"/> </td>
-            </tr>
 
-            <tr>
-                <td> </td>
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve"/> </td>
-            </tr>
 
+
+                    <button href="#" title="Header" data-toggle="popover" data-trigger="hover" data-content="Some content" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve">
+                        Percent of Highest Curve
+                    </button>
+
+
+
+                    <button type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve">
+                        Square Root Curve
+                    </button>
+
+                </td>
+
+            </tr>
             <tr>
                 <td>
-
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades"/> </td>
+            </td>
             </tr>
 
-            <tr>
-                <td>
 
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <input type="button" class="btn btn-default btn-md"  ng-click="showGraph(allAssignments[$index])" value="Show graph!"/> </td>
-            </tr>
 
         </table>
     </section>
