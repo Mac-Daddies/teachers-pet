@@ -247,10 +247,12 @@ public class JSONController {
             ArrayList<Integer> gradesToCurve = new ArrayList<>();
             for (Student currentStudent : arrayListOfStudents) {
                 StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
-                System.out.println("** current student assignment: " + currentStudentAssignment.getStudent() + ", " + currentStudentAssignment.getAssignment() + ", " + currentStudentAssignment.getGrade());
-                int currentGrade = currentStudentAssignment.getGrade();
-                gradesToCurve.add(currentGrade);
-                System.out.println("** Added to grades list");
+                if (currentStudentAssignment != null) {
+                    System.out.println("** current student assignment: " + currentStudentAssignment.getStudent() + ", " + currentStudentAssignment.getAssignment() + ", " + currentStudentAssignment.getGrade());
+                    int currentGrade = currentStudentAssignment.getGrade();
+                    gradesToCurve.add(currentGrade);
+                    System.out.println("** Added to grades list");
+                }
             }
             int average = myCurver.getAverage(gradesToCurve);
             System.out.println("* average of grades on " + currentAssignment.getName() + ": " + average);
@@ -434,6 +436,47 @@ public class JSONController {
 //            System.out.println(currentContainer.getAssignment().getName());
 //        }
 //        System.out.println();
+
+        AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
+        return returnContainer;
+    }
+
+    @RequestMapping(path = "/deleteAss.json", method = RequestMethod.POST)
+    public AssignmentAndStudentAssignmentContainer deleteAss(@RequestBody Assignment assignment){
+        //delete all studentAssignments attached to that assignment
+        ArrayList<StudentAssignment> allStudentAssignmentsByAssignment = studentAssignmentRepository.findAllByAssignment(assignment);
+        for (StudentAssignment studentAssignment : allStudentAssignmentsByAssignment) {
+            studentAssignmentRepository.delete(studentAssignment);
+        }
+
+        //delete all original grades attached to that assignment
+        ArrayList<OriginalGrade> allOriginalGradesByAssignment = originalGradeRepository.findAllByAssignment(assignment);
+        for (OriginalGrade originalGrade : allOriginalGradesByAssignment) {
+            originalGradeRepository.delete(originalGrade);
+        }
+
+        //delete assignment
+        Assignment retrievedAssignment = assignmentRepository.findOne(assignment.getId());
+        assignmentRepository.delete(retrievedAssignment);
+
+        ArrayList<Student> allStudents = new ArrayList<>();
+        ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(assignment.getCourse());
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudents.add(studentCourse.getStudent());
+        }
+
+        ArrayList<StudentContainer> myArrayListOfStudentContainers = prepareArrayListOfStudentContainersToReturn(allStudents);
+
+        //repopulate (until I find out why it's deleting)
+        allStudents = new ArrayList<>();
+        for (StudentCourse studentCourse : allStudentCoursesByCourse) {
+            allStudents.add(studentCourse.getStudent());
+        }
+
+        ArrayList<Assignment> allAssignmentsInCourse = assignmentRepository.findAllByCourseId(assignment.getCourse().getId());
+        allAssignmentsInCourse = orderAssignmentsByDate(allAssignmentsInCourse);
+
+        ArrayList<AssignmentAndAverageContainer> myAssignmentAndAverageContainers = prepareArrayListOfAssignmentAndAverageContainerToReturn(allAssignmentsInCourse, allStudents);
 
         AssignmentAndStudentAssignmentContainer returnContainer = new AssignmentAndStudentAssignmentContainer(myArrayListOfStudentContainers, myAssignmentAndAverageContainers);
         return returnContainer;
