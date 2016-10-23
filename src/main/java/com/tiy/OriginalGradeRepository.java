@@ -9,5 +9,6 @@ import java.util.ArrayList;
  */
 public interface OriginalGradeRepository extends CrudRepository<OriginalGrade, Integer> {
     ArrayList<OriginalGrade> findAllByAssignment(Assignment assignment);
+    ArrayList<OriginalGrade> findAllByStudent(Student student);
     OriginalGrade findByStudentAndAssignment(Student student, Assignment assignment);
 }
