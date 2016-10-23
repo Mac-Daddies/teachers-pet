@@ -37,6 +37,8 @@ public class JSONController {
     CurveMyScores myCurver = new CurveMyScores();
     EmailCustomContent myEmailer = new EmailCustomContent();
 
+
+
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginContainer register(@RequestBody Teacher newTeacher, HttpSession session){
         teacherRepository.save(newTeacher);
@@ -919,6 +921,28 @@ public class JSONController {
 
         return myMessage;
     }
+
+    @RequestMapping(path = "/sendEmailForAllHighAverages.json", method = RequestMethod.POST)
+    public StringContainer sendEmailForAllHighAverages(@RequestBody AssignmentAndStudentContainerListContainer assignmentAndStudentContainerListContainer) throws IOException {
+        System.out.println("\nIn sendEmailForAllHighAverages method in json controller");
+        String returnString;
+        if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
+            if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
+
+                myEmailer.sendEmailForAllHighAverages(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
+                returnString = "Emails sent for all students with average above " + EmailCustomContent.HIGH_AVERAGE_AMOUNT + "!";
+            } else {
+                returnString = "Error: emails not sent because there is no assignment data yet. Enter assignments first.";
+            }
+        } else {
+            returnString = "Error: emails not sent because there are no students yet. Add students first.";
+        }
+        StringContainer myMessage = new StringContainer(returnString);
+        System.out.println("BACK IN JSON: " + myMessage.getMessage());
+
+        return myMessage;
+    }
+
     @RequestMapping(path = "/getallassNames.json", method = RequestMethod.POST)
     public ArrayList<String> getAllAss() throws IOException{
         Iterable<Assignment> assignmentIterable = assignmentRepository.findAll();

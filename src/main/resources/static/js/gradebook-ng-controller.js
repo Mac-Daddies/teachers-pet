@@ -654,6 +654,30 @@ angular.module('TeachersPetApp', ["chart.js"])
                     });
         };
 
+
+        $scope.sendEmailForAllHighAverages = function() {
+            console.log("In sendEmailForAllHighAverages function in gradebook-ng-controller");
+
+            curveContainer = {
+                assignment: null,
+                studentContainers: $scope.gradebookContainer.studentContainers
+            }
+
+            $http.post("/sendEmailForAllHighAverages.json", curveContainer)
+                .then(
+                    function successCallback(response) {
+//                        console.log("**This is what we get back: ");
+                        console.log(response.data.message);
+                        console.log("Adding data to scope");
+                        //could we make a pop-up or something that displays the response message?
+                        //will either say email sent or error: put grades in first
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+
         $scope.showGraph = function(assignment) {
             console.log("In showGraph function in gradebook-ng-controller");
             console.log("Assignment: " + assignment.name);
