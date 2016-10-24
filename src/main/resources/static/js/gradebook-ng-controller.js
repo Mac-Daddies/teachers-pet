@@ -67,7 +67,11 @@ angular.module('TeachersPetApp', ["chart.js"])
         };
 
         var fillGradebookContainerWithResponseData = function(responseData) {
+
             var gradebookContainer = responseData;
+            if(gradebookContainer.studentContainers.length > 0) {
+                $scope.showAddAssignmentButton = true;
+            }
             var allAssignmentsToGetLength = gradebookContainer.assignmentAndAverageContainers;
 //                        console.log("****Here is allAssignmentsToGetLength - check to make sure all in there");
             console.log(allAssignmentsToGetLength);
@@ -974,6 +978,7 @@ angular.module('TeachersPetApp', ["chart.js"])
         console.log($scope.courseIdForGradebook);
         var gradeDataForTable;
         var isGradeDataDoneSaving;
+        $scope.showAddAssignmentButton = false;
 
 
    });
