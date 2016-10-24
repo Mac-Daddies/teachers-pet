@@ -217,8 +217,7 @@
 
             <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
-                    <span class="glyphicon glyphicon-envelope" > </span> Email
-                </button>
+                    <span class="glyphicon glyphicon-envelope" > </span> Email </button>
                     <button type="button" class="btn btn-default" ng-click="deleteStudent(studentContainer.student)" value="Delete">
                         <span class="glyphicon glyphicon-trash" > </span> Delete
                     </button>
@@ -259,9 +258,10 @@
                         </div>
 
                     </div>
-                    <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
-                    <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over 95"/>
-
+                    <span ng-if="gradebookContainer.studentContainers[0] != undefined">
+                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
+                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over 95"/>
+                    </span>
                 </td>
 
 

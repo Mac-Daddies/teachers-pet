@@ -982,8 +982,8 @@ public class JSONController {
         System.out.println("\nIn sendEmailOneStudent method in json controller");
         String returnString;
         if (studentContainer.getStudentAssignments().size() > 0) {
-            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(1).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
-            returnString = "IN JSON: Email sent for " + studentContainer.getStudent().getFirstName() + "to email " + studentContainer.getStudent().getParentEmail();
+            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
+            returnString = "Email sent for " + studentContainer.getStudent().getFirstName() + " to email " + studentContainer.getStudent().getParentEmail();
         } else {
             System.out.println("Email not sent because the student has no assignment data yet.");
             returnString = "Error: email not sent because the student has no assignment data yet. Enter assignments first.";

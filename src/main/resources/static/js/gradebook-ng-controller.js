@@ -677,18 +677,25 @@ angular.module('TeachersPetApp', ["chart.js"])
 
             populateBlankGradesWithNegativeOnesBeforeSendingSingleStudent(studentContainer);
 
-            $http.post("/sendEmailOneStudent.json", studentContainer)
-                .then(
-                    function successCallback(response) {
-//                        console.log("**This is what we get back: ");
-                        console.log(response.data.message);
-                        console.log("Adding data to scope");
-                        //could we make a pop-up or something that displays the response message?
-                        //will either say email sent or error: put grades in first
-                    },
-                    function errorCallback(response) {
-                        console.log("Unable to get data...");
-                    });
+            if (studentContainer.average != -1) {
+                $http.post("/sendEmailOneStudent.json", studentContainer)
+                    .then(
+                        function successCallback(response) {
+    //                        console.log("**This is what we get back: ");
+                            console.log(response.data.message);
+                            console.log("Adding data to scope");
+                            //could we make a pop-up or something that displays the response message?
+                            //will either say email sent or error: put grades in first
+                            fillGradebookContainerWithResponseData($scope.gradebookContainer);
+                            $window.alert(response.data.message);
+                        },
+                        function errorCallback(response) {
+                            console.log("Unable to get data...");
+                        });
+            } else {
+                //Make popup say not sent because no grade data entered yet.
+                $window.alert("Email could not be sent because there is no grade data for this student yet!");
+            }
         };
 
         $scope.sendEmailForAllZeros = function() {
@@ -707,6 +714,7 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Adding data to scope");
                         //could we make a pop-up or something that displays the response message?
                         //will either say email sent or error: put grades in first
+                        $window.alert(response.data.message);
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -730,6 +738,7 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Adding data to scope");
                         //could we make a pop-up or something that displays the response message?
                         //will either say email sent or error: put grades in first
+                        $window.alert(response.data.message);
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
