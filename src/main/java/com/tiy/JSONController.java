@@ -93,6 +93,41 @@ public class JSONController {
         return courseArrayList;
     }
 
+    @RequestMapping(path = "/deleteClass.json", method = RequestMethod.POST)
+    public ArrayList<Course> deleteClass(@RequestBody Course courseToDelete){
+        //delete all student courses
+        ArrayList<StudentCourse> studentCoursesForThisCourse = studentCourseRepository.findAllByCourse(courseToDelete);
+        for (StudentCourse studentCourse : studentCoursesForThisCourse) {
+            studentCourseRepository.delete(studentCourse);
+        }
+
+        //delete all assignments in the course
+        ArrayList<Assignment> allAssignmentsInCourse = assignmentRepository.findAllByCourseId(courseToDelete.getId());
+        ArrayList<StudentAssignment> allStudentAssignmentsForThatAssignment;
+        for (Assignment assignment : allAssignmentsInCourse) {
+            allStudentAssignmentsForThatAssignment = studentAssignmentRepository.findAllByAssignment(assignment);
+            for (StudentAssignment studentAssignment : allStudentAssignmentsForThatAssignment) {
+                studentAssignmentRepository.delete(studentAssignment);
+            }
+            assignmentRepository.delete(assignment);
+        }
+
+        //delete course
+        Course retrievedCourse = courseRepository.findOne(courseToDelete.getId());
+        courseRepository.delete(retrievedCourse);
+
+        //return all of the teachers courses (the one we just deleted should be gone)
+        ArrayList<Course> courseArrayList = new ArrayList<Course>();
+
+        Iterable<Course> courseIterable = courseRepository.findAllByTeacher(courseToDelete.getTeacher());
+
+        for(Course thisClass : courseIterable){
+            courseArrayList.add(thisClass);
+        }
+
+        return courseArrayList;
+    }
+
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
         System.out.println("IN GRADEBOOK.................................................");

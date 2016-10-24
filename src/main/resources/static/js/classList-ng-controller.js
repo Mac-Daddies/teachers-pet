@@ -23,7 +23,7 @@ angular.module('TeachersPetApp', [])
 
 
         $scope.addClass = function(newClassName, newClassSubject, newClassGradeLevel) {
-            console.log("In addClass function in ng controller");
+            console.log("In addClass function in classList-ng-controller");
 
             var newClassInfo = {
                 name: newClassName,
@@ -33,6 +33,21 @@ angular.module('TeachersPetApp', [])
             }
 
             $http.post("/addclass.json", newClassInfo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.allCourses = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+        $scope.deleteClass = function(course) {
+            console.log("In deleteClass function in classList-ng-controller");
+
+            $http.post("/deleteClass.json", course)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
