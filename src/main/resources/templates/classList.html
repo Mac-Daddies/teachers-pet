@@ -99,10 +99,21 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
             <h2>My Classes:</h2>
             <ol class="f">
                 <span ng-repeat="course in allCourses">
-                    <li>{{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}
-                        <input type="button" class="btn btn-default btn-lg" ng-click="gradebook(course.id)" value="Gradebook"/>
-                        <input type="button" class="btn btn-default btn-lg" ng-click="graph(course.id)" value="Graph"/>
+                    <div>
+                    <li>
+
+
+
+                        <button type="button" class="btn btn-link btn-lg" ng-click="gradebook(course.id)" value="Gradebook">
+                            <font color="white">
+                        {{course.name}}, Subject: {{course.subject}}, Grade Level: {{course.gradeLevel}}
+                                </font>
+                        </button>
+
+
                     </li>
+                        </div>
+
                 </span>
             </ol>
                 </font>
@@ -123,11 +134,13 @@ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif
                 </div>
                 <div class="modal-body">
                     <div>
-                       Name: <input type="text" ng-model="newClassName"/> <br/>
-                     Subject: <input type="text" ng-model="newClassSubject"/> <br/>
-                        Grade Level: <input type="number" ng-model="newClassGradeLevel"/> <br/>
-                     <input type="button" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
-
+                        <form valign="top">
+                       Name: <input type="text" class="form-control" ng-model="newClassName"/> <br/>
+                     Subject: <input type="text" class="form-control" ng-model="newClassSubject"/> <br/>
+                        Grade Level: <input type="number" class="form-control" ng-model="newClassGradeLevel"/> <br/>
+                     <input type="button" class="btn btn-info" ng-click="addClass(newClassName, newClassSubject, newClassGradeLevel)" value="Add class"/> <br/>
+                        <input class="btn btn-default" type="reset" value="Reset">
+                        </form>
 
 
 

@@ -65,20 +65,8 @@ list-style-position: inside;
 
 
 }
-form{
-font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
-}
-#trans{
-width: 100px;
-    height: 40px;
 
-    transition: width 4s;
 
-}
-
-#trans:hover {
-    width: 300px;
-}
 
 </style>
 </head>
@@ -157,10 +145,14 @@ width: 100px;
 <div class="container" id="jumbo">
     <form class="form-inline">
         <div class="form-group">
+            <font color="white">
               <label for="email">Email:</label>
-               <input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="loginEmail"/>
+                </font>
+               <input type="text" class="form-control notnice" id="email" placeholder="Enter Email" ng-model="loginEmail"/>
+                <font color="white">
                 <label for="pwd">Password:</label>
-               <input type="password" class="form-control" id="pwd" placeholder="Enter password" ng-model="loginPassword">
+                    </font>
+               <input type="password" class="form-control notnice" id="pwd" placeholder="Enter password" ng-model="loginPassword">
         </div>
 
         <input type="button"  id="trans"  class="btn btn-default btn-lg" ng-click="login(loginEmail, loginPassword)" value="Login"/> <br/><br/>

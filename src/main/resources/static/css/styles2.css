@@ -99,7 +99,18 @@ border-collapse: separate;
 }
 
 #dropdown{
-    position: rl
+    position: fixed;
+
+    top: 2%;
+    left: 1%;
+
+}
+#logout{
+
+position: fixed;
+
+top: 2%;
+left: 8%;
 
 }
 

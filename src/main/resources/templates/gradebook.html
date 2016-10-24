@@ -108,7 +108,7 @@
             </div>
 
 
-            <div style="display: inline-block">
+                <div id="logout" style="display: inline-block">
                 <button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>
             </div>
         </div>
@@ -134,10 +134,13 @@
                                 <div class="modal-body">
                                     <div>
 
-
-                                        Assignment name: <input type="text" ng-model="newAssignmentName"/> <br/>
-                                        Due date: <input type="date" ng-model="newAssignmentDate"/> <br/>
-                                        <input type="button"  ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/> <br/>
+                                        <form>
+                                        Assignment name: <input class="form-control" type="text" ng-model="newAssignmentName"/> <br/>
+                                        Due date: <input class="form-control" type="date" ng-model="newAssignmentDate"/> <br/>
+                                        <input type="button" class="btn btn-default" ng-click="addAssignment(newAssignmentName, newAssignmentDate)" value="Add Assignment"/>
+                                        <input class="btn btn-default" type="reset" value="Reset">
+                                        <br/>
+                                        </form>
 
 
 
@@ -157,13 +160,15 @@
             <tr>
                 <td></td>
                 <td ng-repeat="currentAssignment in allAssignments"> {{currentAssignment.name}}, due {{currentAssignment.dueDate}}
-                    <button type="button" class="btn btn-default" ng-click="deleteAssignment(currentAssignment)" value="Delete">
-                        <span class="glyphicon glyphicon-trash" > </span> Delete
-                    </button>
-                    <button type="button" class="btn btn-default btn-md"  ng-click="showGraph(currentAssignment)" value="Show graph!">
+                    <div>
+                        <button type="button" class="btn btn-default btn-sm"  ng-click="showGraph(currentAssignment)" value="Show graph!">
                             <span class="glyphicon glyphicon-signal" > </span> Graph
                         </button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="deleteAssignment(currentAssignment)" value="Delete">
+                            <span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>
+                        </button>
                     <button type="button" class="btn btn-default btn-xs" ng-click="hideGraph()" value="hide graph!"> Hide Graph </button>
+                    </div>
                 </td>
 
             </tr>
@@ -216,11 +221,15 @@
             <!--</tr>-->
 
             <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span> <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
+                    <div>
+                    <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+
                     <span class="glyphicon glyphicon-envelope" > </span> Email </button>
-                    <button type="button" class="btn btn-default" ng-click="deleteStudent(studentContainer.student)" value="Delete">
-                        <span class="glyphicon glyphicon-trash" > </span> Delete
+                    <button type="button" class="btn btn-default " ng-click="deleteStudent(studentContainer.student)" value="Delete">
+                        <span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>
                     </button>
+                    </div>
                 </td>
 
                 <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> {{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
@@ -245,10 +254,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <div>
-                                        Student first name: <input type="text" ng-model="newStudentFirstName"/> <br/>
-                                        Last name: <input type="text" ng-model="newStudentLastName"/> <br/>
-                                        Parent email: <input type="text" ng-model="newStudentParentEmail"/> <br/>
-                                        <input type="button" ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/> <br/>
+                                        <form>
+                                        Student first name: <input class="form-control" type="text" ng-model="newStudentFirstName"/> <br/>
+                                        Last name: <input  class="form-control" type="text" ng-model="newStudentLastName"/> <br/>
+                                        Parent email: <input class="form-control" type="text" ng-model="newStudentParentEmail"/> <br/>
+                                        <input type="button" class="btn btn-info " ng-click="addStudent(newStudentFirstName, newStudentLastName, newStudentParentEmail)" value="Add Student"/>
+                                            <input class="btn btn-default " type="reset" value="Reset">
+                                            <br/>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
