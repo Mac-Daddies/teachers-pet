@@ -126,7 +126,7 @@
 
 <!-- Email settings -->
 <div> <!-- Trigger the modal with a button -->
-    <button type="button" id="classes" class="btn btn-default btn-lg"  ng-click="getCurrentHighAverage()" data-toggle="modal" data-target="#myModalsEmail">Edit Email Settings</button>
+    <button type="button" id="classes" class="btn btn-default btn-lg"  ng-click="getCurrentEmailInfo()" data-toggle="modal" data-target="#myModalsEmail">Edit Email Settings</button>
 
     <!-- Modal -->
     <div class="modal fade" id="myModalsEmail" role="dialog">
@@ -147,6 +147,15 @@
                             <input type="button" class="btn btn-info" style="display: inline-block" ng-click="setNewHighAverageAmount(newHighAverage)" value="Change"/> <br/>
                             <!--<input class="btn btn-default" type="reset" value="Reset">-->
                         </form>
+                        <br/><br/><br/>
+                        <b> Settings for email signature: </b> <br/><br/>
+                        Current email signature: {{emailSignature}}
+                        <form valign="top">
+                            Set a new email signature: <input type="text" class="form-control" ng-model="newEmailSignature"/>
+                            <input type="button" class="btn btn-info" ng-click="setNewEmailSignature(newEmailSignature)" value="Change"/> <br/>
+                            <!--<input class="btn btn-default" type="reset" value="Reset">-->
+                        </form>
+
 
 
 

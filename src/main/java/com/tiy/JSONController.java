@@ -37,7 +37,7 @@ public class JSONController {
     OriginalGradeRepository originalGradeRepository;
 
     CurveMyScores myCurver = new CurveMyScores();
-    EmailCustomContent myEmailer = new EmailCustomContent();
+    EmailCustomContent emailCustomContent = new EmailCustomContent();
 
 
 
@@ -128,9 +128,11 @@ public class JSONController {
         return courseArrayList;
     }
 
-    @RequestMapping(path = "/getCurrentHighAverage.json", method = RequestMethod.POST)
-    public int getCurrentHighAverage() {
-        return EmailCustomContent.highAverageAmount;
+    @RequestMapping(path = "/getCurrentEmailInfo.json", method = RequestMethod.POST)
+    public EmailContentContainer getCurrentEmailInfo(@RequestBody Teacher teacher) {
+        String emailSignature = emailCustomContent.getEmailSignature(teacher);
+        EmailContentContainer emailContentContainer = new EmailContentContainer(EmailCustomContent.highAverageAmount, emailSignature);
+        return emailContentContainer;
     }
 
     @RequestMapping(path = "/setNewHighAverageAmount.json", method = RequestMethod.POST)
@@ -138,6 +140,12 @@ public class JSONController {
         EmailCustomContent.setHighAverageAmount(newHighAverage);
         System.out.println("New high average in EmailCustomContentClass: " + EmailCustomContent.highAverageAmount);
         return EmailCustomContent.highAverageAmount;
+    }
+
+    @RequestMapping(path = "/setNewEmailSignature.json", method = RequestMethod.POST)
+    public StringContainer setNewEmailSignature(@RequestBody StringContainer stringContainer) {
+        emailCustomContent.setEmailSignature(stringContainer.getMessage());
+        return stringContainer;
     }
 
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
@@ -1041,7 +1049,7 @@ public class JSONController {
         System.out.println("\nIn sendEmailOneStudent method in json controller");
         String returnString;
         if (studentContainer.getStudentAssignments().size() > 0) {
-            myEmailer.sendEmailOneStudent(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
+            emailCustomContent.sendEmailOneStudent(studentContainer.getStudentAssignments().get(0).getAssignment().getCourse(), studentContainer.getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), studentContainer, studentAssignmentRepository);
             returnString = "Email sent for " + studentContainer.getStudent().getFirstName() + " to email " + studentContainer.getStudent().getParentEmail();
         } else {
             System.out.println("Email not sent because the student has no assignment data yet.");
@@ -1060,7 +1068,7 @@ public class JSONController {
         if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
             if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
 
-                myEmailer.sendEmailForAllZeros(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
+                emailCustomContent.sendEmailForAllZeros(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
                 returnString = "Emails sent for all students with zeros!";
             } else {
                 returnString = "Error: emails not sent because there is no assignment data yet. Enter assignments first.";
@@ -1081,7 +1089,7 @@ public class JSONController {
         if (assignmentAndStudentContainerListContainer.getStudentContainers().size() > 0) {
             if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
 
-                myEmailer.sendEmailForAllHighAverages(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
+                emailCustomContent.sendEmailForAllHighAverages(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
                 returnString = "Emails sent for all students with average above " + EmailCustomContent.highAverageAmount + "!";
             } else {
                 returnString = "Error: emails not sent because there is no assignment data yet. Enter assignments first.";

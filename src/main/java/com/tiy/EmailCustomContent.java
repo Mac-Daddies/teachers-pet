@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public class EmailCustomContent {
     EmailSender myEmailSender = new EmailSender();
+    String emailSignatureGlobal;
+
     public static int highAverageAmount = 95;
 
     public static void setHighAverageAmount(int newHighAverage) {
@@ -115,9 +117,18 @@ public class EmailCustomContent {
     }
 
     public String getEmailSignature(Teacher teacher) {
-        String emailSignature = "Please contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
-        teacher.getFirstName() + " " + teacher.getLastName();
+        String emailSignature;
+        if (emailSignatureGlobal != null) {
+            emailSignature = emailSignatureGlobal;
+        } else {
+            emailSignature = "Please contact me at " + teacher.getEmail() + " with any concerns. Thank you!\n\n" +
+                    teacher.getFirstName() + " " + teacher.getLastName();
+        }
 
         return emailSignature;
+    }
+
+    public void setEmailSignature(String emailSignature) {
+        this.emailSignatureGlobal = emailSignature;
     }
 }

@@ -59,15 +59,16 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
-        $scope.getCurrentHighAverage = function() {
-            console.log("In getCurrentHighAverage function in classList-ng-controller");
+        $scope.getCurrentEmailInfo = function() {
+            console.log("In getCurrentEmailInfo function in classList-ng-controller");
 
-            $http.post("/getCurrentHighAverage.json")
+            $http.post("/getCurrentEmailInfo.json", $scope.teacherWhoIsLoggedIn)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("Adding data to scope");
-                        $scope.highAverage = response.data;
+                        $scope.highAverage = response.data.highAverage;
+                        $scope.emailSignature = response.data.emailSignature;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -83,6 +84,25 @@ angular.module('TeachersPetApp', [])
                         console.log(response.data);
                         console.log("Adding data to scope");
                         $scope.highAverage = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+        $scope.setNewEmailSignature = function(newEmailSignature) {
+            console.log("In setNewEmailSignature function in classList-ng-controller");
+
+            var newEmailSignatureStringContainer = {
+                message: newEmailSignature
+            }
+
+            $http.post("/setNewEmailSignature.json", newEmailSignatureStringContainer)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.emailSignature = response.data.message;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
