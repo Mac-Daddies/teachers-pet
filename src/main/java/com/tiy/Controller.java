@@ -100,7 +100,7 @@ public class Controller {
     @PostConstruct
     public void init() {
         Teacher teacher = new Teacher("Yehia", "Abdullah", "yehia.abdullah@tiy.com", "password", "THS");
-        Teacher retrievedTeacher = teacherRepository.findOne(teacher.getId());
+        Teacher retrievedTeacher = teacherRepository.findByEmailAndPassword(teacher.getEmail(), teacher.getPassword());
         if (retrievedTeacher == null) {
             teacherRepository.save(teacher);
 
