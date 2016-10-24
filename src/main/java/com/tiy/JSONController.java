@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 @RestController
@@ -1111,10 +1113,16 @@ public class JSONController {
 
         }
         ArrayList<Double> percentagesOnCurrentGrades = new ArrayList<>();
+        NumberFormat formatter = new DecimalFormat("#0.00");
         if (totalGradeCount != 0) {
             for (int counter = 0; counter < 11; counter++) {
-//                double percentage = (rangeCount[counter] / totalGradeCount) * 100.0;
-                percentagesOnCurrentGrades.add((rangeCount[counter] / totalGradeCount) * 100.0);
+                double percentage = (rangeCount[counter] / totalGradeCount) * 100.0;
+                String formattedPercentage = formatter.format(percentage);
+                percentage = Double.valueOf(formattedPercentage);
+
+//                percentagesOnCurrentGrades.add((rangeCount[counter] / totalGradeCount) * 100.0);
+                percentagesOnCurrentGrades.add(percentage);
+
             }
         }
         return percentagesOnCurrentGrades;
