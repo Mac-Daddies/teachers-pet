@@ -42,6 +42,7 @@ table, th, td {
     background-color: #f2f2f3;
     color: black;
     font-weight: 900;
+    z-index: -1;
 
 
 

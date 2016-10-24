@@ -2,13 +2,14 @@
 font-family: "The Girl Next Door";
 
 
-	font-size: 14px;
+
 	font-style: large;
 	font-variant: normal;
 	font-weight: bold;
 	line-height: 15.4px;
 	text-align: center;
 	font-size: 200%;
+
 
 }
 
@@ -26,7 +27,24 @@ font-size: 14px;
 
 }
 
+.title{
+
+color: white;
+
+
+
+}
+
+
   body {
+
+    background-image: url("https://testdrive-archive.azurewebsites.net/performance/chalkboard/Images/EmptyChalkboard.svg");
+  	padding: 100px;
+      border-collapse: collapse;
+      background-position: center;
+      background-repeat:no-repeat;
+      background-position: top center;
+
 
     background-color#f3f3f3;
     font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
@@ -41,6 +59,18 @@ font-size: 14px;
 
 
 
+
+}
+
+#jumbo{
+
+
+        font-style: large;
+    	font-variant: normal;
+    	font-weight: bold;
+    	line-height: 15.4px;
+    	text-align: center;
+    	font-size: 100%;
 }
 
 table, th, td {
@@ -70,11 +100,7 @@ th {
 
 }
 
-#assignment{
 
-
-
-}
 
 #student{
 
@@ -101,5 +127,37 @@ border-collapse: separate;
 	line-height: 15.4px;
 	width: 150%; height: 150%
 }
+img{
+right: 10px;
+
+}
+
+li{
+    text-align:center;
+}
+.f{
+list-style-position: inside;
+
+}
+register{
+    color: black;
+}
+form{
+font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+}
+#addgrade{
+color: white;
+
+	font-style: large;
+	font-variant: normal;
+	font-weight: bold;
+	line-height: 15.4px;
+	text-align: center;
+	font-size: 150%;
+}
+.title{
+text-decoration: underline;
+}
+
 
 

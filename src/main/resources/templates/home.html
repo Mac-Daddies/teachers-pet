@@ -22,53 +22,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <style>
 
 
 
 
-body{
-
-	background-image: url("https://testdrive-archive.azurewebsites.net/performance/chalkboard/Images/EmptyChalkboard.svg");
-	padding: 100px;
-    border-collapse: collapse;
-    background-position: center;
-    background-repeat:no-repeat;
-    background-size: 75%, 75%;
-
-
-}
-
-
-th, td {
-    padding: 5px;
-}
-th {
-    text-align: left;
-}
-jumbo{
-    color: white;
-}
-register{
-    color: black;
-}
-img{
-right: 10px;
-
-}
-
-li{
-    text-align:center;
-}
-ol{
-list-style-position: inside;
-
-
-}
 
 
 
-</style>
+
+
+
+
+
+
 </head>
 <span ng-controller="SampleController" class="nice">
 {{! changing the mustache delimiter so it doesn't conflict with }}
@@ -83,9 +49,11 @@ list-style-position: inside;
 <!--<span ng-if="!loggedInBoolean">-->
 <!--<span ng-if="!<%teacherWhoIsLoggedIn%>">-->
 <!--<span ng-if="teacherWhoIsLoggedIn == false">-->
-<font color="white">
+<div class="title">
     <h3> Welcome to Teacher's Pet</h3>
-</font>
+</div>
+
+
 
 
 <!--<div class="container" id="jumbo">-->
@@ -162,6 +130,8 @@ list-style-position: inside;
 
 </div>
 
+
+
 <br/><br/>
 
 
@@ -206,6 +176,9 @@ list-style-position: inside;
                         </div>
 
                     </div>
+
+
+
 
 
 
@@ -561,6 +534,7 @@ list-style-position: inside;
 
 <!--</span>-->
 </span>
+    </span>
 
 
 </body>
