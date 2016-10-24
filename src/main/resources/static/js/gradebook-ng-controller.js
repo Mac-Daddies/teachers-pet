@@ -750,72 +750,138 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
-    var square1, right1;
+    var square, rightone;
 
-    square1 = document.getElementById("square"),
+    square = document.getElementById("square"),
 
-    right1 = document.getElementById("right"),
-
-
+    rightone = document.getElementById("rightone"),
 
 
 
-        clickMe = document.getElementById('clickMe');
-        clickMe1 = document.getElementById('clickMe1');
 
-    function doDemo () {
 
-      var button = this;
-      square1.style.width = "35%";
-      right.style.right = "40%";
-      right.style.position = "fixed";
+
+
+        clickMe = document.getElementById("clickMe");
+
+
+
+
+
+
+    function split () {
+
+
+
+
+      square.style.width = "35%";
+      rightone.style.right = "40%";
+      square.style.position = "absolute";
+
+      rightone.style.position = "fixed";
+
+
+
+      right.style.display = "none";
+
+
+
+
+
+
+
+
 
 
     }
 
 
 
-    clickMe.onclick = doDemo
+    clickMe.onclick = split
 
-      var right = document.getElementById("right"),
+    var right1 = document.getElementById("right"),
 
-            clickMe = document.getElementById('clickMe');
-
-
+       clickMe1 = document.getElementById("clickMe1");
 
 
 
 
 
-        function doDemo1 () {
 
-          var button1 = this;
+
+
+
+
+
+
+
+
+
+        function book () {
+
+
+
           square.style.width = "100%";
-          right.style.position = "relative";
-           right.style.right = "0";
+          square.style.position = "absolute";
+          right.style.display= "none";
+          rightone.style.display= "none";
+
+
+
 
 
         }
 
+         clickMe1.onclick = book
+
+         var right1 = document.getElementById("right"),
+          gb = document.getElementById("gb"),
+          group = document.getElementById("group"),
 
 
-        clickMe1.onclick = doDemo1
-
-
-
-
-
-
-
-
+          clickMe2 = document.getElementById("clickMe2");
 
 
 
 
+       function graph () {
+            square.style.display = "none";
 
-        $scope.showGraph = function(assignment) {
+            rightone.style.display = "none";
+
+            right1.style.position = "absolute";
+            right1.style.width = "100%";
+            right1.style.height = "100%";
+            right1.style.left = "0";
+            right1.style.right = "0";
+            right1.style.top = "2%";
+
+
+
+
+
+            right1.style.display = "inline";
+
+
+
+
+
+
+            gb.style.display = "flex";
+
+
+       }
+
+       clickMe2.onclick = graph
+
+
+
+
+
+       $scope.showGraph = function(assignment) {
             console.log("In showGraph function in gradebook-ng-controller");
             console.log("Assignment: " + assignment.name);
+
 
             $http.post("/graphIndividualAssignment.json", assignment)
                 .then(
@@ -927,6 +993,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 
 
             $scope.graphShowing = true;
+            $scope.assforgraph = assignment;
         };
         $scope.hideGraph = function(){
             $scope.graphShowing = false;
