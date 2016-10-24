@@ -97,7 +97,7 @@
     <!--</ul>-->
 
     <section class="table-responsive" id="square">
-        <div style="display: inline-block">
+        <div class="container" style="display: inline-block">
             <div class="dropdown" id="dropdown" style="display: inline-block">
             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
             <span class="caret"></span></button>
@@ -220,7 +220,7 @@
 
             <!--</tr>-->
 
-            <tr ng-repeat="studentContainer in gradebookContainer.studentContainers">
+            <tr class="header" ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
                     <div>
                     <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
