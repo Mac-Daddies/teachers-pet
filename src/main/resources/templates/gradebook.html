@@ -297,7 +297,7 @@
                 <td> </td>
 
                 <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
-                <td ng-repeat="currentAverage in assignmentAveragesArray track by $index"> Average: {{currentAverage}}
+                <td ng-repeat="average in assignmentAveragesContainerArray track by $index"> <span style="color: gray"> Uncurved average: {{average.originalAverage}} </span> <br/> Current average: {{average.currentAverage}}
                     <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades">
                         <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
                     </button>

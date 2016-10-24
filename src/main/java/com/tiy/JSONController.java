@@ -281,19 +281,29 @@ public class JSONController {
         for (Assignment currentAssignment : arrayListOfAssignments) {
             System.out.println("* current assignment: " + currentAssignment.getName());
             AssignmentAndAverageContainer currentAssignmentAndAverageContainer;
-            ArrayList<Integer> gradesToCurve = new ArrayList<>();
+            ArrayList<Integer> currentGradesToCurve = new ArrayList<>();
+            ArrayList<Integer> originalGradesToCurve = new ArrayList<>();
             for (Student currentStudent : arrayListOfStudents) {
                 StudentAssignment currentStudentAssignment = studentAssignmentRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
+                OriginalGrade currentOriginalGrade = originalGradeRepository.findByStudentAndAssignment(currentStudent, currentAssignment);
                 if (currentStudentAssignment != null) {
                     System.out.println("** current student assignment: " + currentStudentAssignment.getStudent() + ", " + currentStudentAssignment.getAssignment() + ", " + currentStudentAssignment.getGrade());
                     int currentGrade = currentStudentAssignment.getGrade();
-                    gradesToCurve.add(currentGrade);
+                    currentGradesToCurve.add(currentGrade);
                     System.out.println("** Added to grades list");
                 }
+                if (currentOriginalGrade != null) {
+                    int currentOriginalGradeInt = currentOriginalGrade.getGrade();
+                    originalGradesToCurve.add(currentOriginalGradeInt);
+                }
             }
-            int average = myCurver.getAverage(gradesToCurve);
-            System.out.println("* average of grades on " + currentAssignment.getName() + ": " + average);
-            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, average);
+            int currentAverage = myCurver.getAverage(currentGradesToCurve);
+            System.out.println("* average of grades on " + currentAssignment.getName() + ": " + currentAverage);
+
+            int originalAverage = myCurver.getAverage(originalGradesToCurve);
+
+
+            currentAssignmentAndAverageContainer = new AssignmentAndAverageContainer(currentAssignment, currentAverage, originalAverage);
             myAssignmentAndAverageContainers.add(currentAssignmentAndAverageContainer);
         }
 

@@ -5,14 +5,16 @@ package com.tiy;
  */
 public class AssignmentAndAverageContainer {
     Assignment assignment;
-    int average;
+    int currentAverage;
+    int originalAverage;
 
     public AssignmentAndAverageContainer() {
     }
 
-    public AssignmentAndAverageContainer(Assignment assignment, int average) {
+    public AssignmentAndAverageContainer(Assignment assignment, int currentAverage, int originalAverage) {
         this.assignment = assignment;
-        this.average = average;
+        this.currentAverage = currentAverage;
+        this.originalAverage = originalAverage;
     }
 
     //Getters and setters
@@ -24,11 +26,20 @@ public class AssignmentAndAverageContainer {
         this.assignment = assignment;
     }
 
-    public int getAverage() {
-        return average;
+    public int getCurrentAverage() {
+        return currentAverage;
     }
 
-    public void setAverage(int average) {
-        this.average = average;
+    public void setCurrentAverage(int currentAverage) {
+        this.currentAverage = currentAverage;
     }
+
+    public int getOriginalAverage() {
+        return originalAverage;
+    }
+
+    public void setOriginalAverage(int originalAverage) {
+        this.originalAverage = originalAverage;
+    }
+
 }

@@ -147,23 +147,29 @@ angular.module('TeachersPetApp', ["chart.js"])
                 }
             }
 
-            var assignmentAveragesArray = new Array(numberOfAssignments);
+            var assignmentAveragesContainerArray = new Array(numberOfAssignments);
             //loop to populate assignmentAverages array in the order that the grades are being displayed
+            console.log("******** Here is the assignment and average containers:");
+            console.log(gradebookContainer.assignmentAndAverageContainers);
             for (var counter = 0; counter < numberOfAssignments; counter++) {
                 for (var insideCounter = 0; insideCounter < gradebookContainer.assignmentAndAverageContainers.length; insideCounter++) {
                     if (gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name === gradebookContainer.assignmentAndAverageContainers[insideCounter].assignment.name) {
-                        assignmentAveragesArray[counter] = gradebookContainer.assignmentAndAverageContainers[insideCounter].average;
-                        console.log("First average added for " + gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesArray[counter]);
-                        if (assignmentAveragesArray[counter] === -1) {
-                            assignmentAveragesArray[counter] = "";
+                        assignmentAveragesContainerArray[counter] = gradebookContainer.assignmentAndAverageContainers[insideCounter];
+                        console.log("First average (current) added for " + gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesContainerArray[counter].currentAverage);
+                        console.log("First average (original) added for " + gradebookContainer.studentContainers[0].studentAssignments[counter].assignment.name + ": " + assignmentAveragesContainerArray[counter].originalAverage);
+                        if (assignmentAveragesContainerArray[counter].originalAverage === -1) {
+                            assignmentAveragesContainerArray[counter].originalAverage = "";
+                        }
+                        if (assignmentAveragesContainerArray[counter].currentAverage === -1) {
+                            assignmentAveragesContainerArray[counter].currentAverage = "";
                         }
                     }
                 }
             }
 
-            $scope.assignmentAveragesArray = assignmentAveragesArray;
+            $scope.assignmentAveragesContainerArray = assignmentAveragesContainerArray;
             console.log("Here is the assignmentAveragesArray that is set on the scope:");
-            console.log($scope.assignmentAveragesArray);
+            console.log($scope.assignmentAveragesContainerArray);
 
             $scope.allAssignments = allAssignments;
             $scope.numberOfAssignments = numberOfAssignments;
