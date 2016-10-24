@@ -7,11 +7,11 @@ import java.util.Arrays;
  * Created by jessicatracy on 10/11/16.
  */
 public class CurveMyScores {
-    public static void main(String[] args) {
-        CurveMyScores myRunner = new CurveMyScores();
-        ArrayList<Integer> listOfGradesToCurve = new ArrayList<>(Arrays.asList(70, 72, 61, 89, 100, 53, 79));
-        myRunner.getAverage(listOfGradesToCurve);
-    }
+//    public static void main(String[] args) {
+//        CurveMyScores myRunner = new CurveMyScores();
+//        ArrayList<Integer> listOfGradesToCurve = new ArrayList<>(Arrays.asList(70, 72, 61, 89, 100, 53, 79));
+//        myRunner.getAverage(listOfGradesToCurve);
+//    }
 
     // Curve 1: Adds any amount of extra credit to each grade
     public ArrayList<Integer> curveByAddingExtraCredit(ArrayList<Integer> gradesToCurve, int amountToAdd) {
