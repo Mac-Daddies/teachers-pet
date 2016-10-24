@@ -8,7 +8,11 @@ import java.util.ArrayList;
  */
 public class EmailCustomContent {
     EmailSender myEmailSender = new EmailSender();
-    public static final int HIGH_AVERAGE_AMOUNT = 95;
+    public static int highAverageAmount = 95;
+
+    public static void setHighAverageAmount(int newHighAverage) {
+        highAverageAmount = newHighAverage;
+    }
 
     public void sendEmailOneStudent(Course course, Teacher teacher, StudentContainer studentContainer, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
         String emailFrom = teacher.getEmail();
@@ -81,11 +85,11 @@ public class EmailCustomContent {
         String subject;
         String emailTo;
         String emailContent;
-        //send an email for each student who has an average over HIGH_AVERAGE_AMOUNT.
+        //send an email for each student who has an average over highAverageAmount.
         //Make an arraylist of studentAssignments that have grade of zero for each student.
         for (StudentContainer currentStudentContainer : studentContainers) {
             System.out.println(currentStudentContainer.getStudent().getFirstName() + "'s average: " + currentStudentContainer.getAverage());
-            if(currentStudentContainer.getAverage() > HIGH_AVERAGE_AMOUNT) {
+            if(currentStudentContainer.getAverage() > highAverageAmount) {
                 //send email
                 subject = course.getName() + ": Great job " + currentStudentContainer.getStudent().getFirstName() + "!";
                 emailTo = currentStudentContainer.getStudent().getParentEmail();

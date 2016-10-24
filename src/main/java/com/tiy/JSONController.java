@@ -128,6 +128,18 @@ public class JSONController {
         return courseArrayList;
     }
 
+    @RequestMapping(path = "/getCurrentHighAverage.json", method = RequestMethod.POST)
+    public int getCurrentHighAverage() {
+        return EmailCustomContent.highAverageAmount;
+    }
+
+    @RequestMapping(path = "/setNewHighAverageAmount.json", method = RequestMethod.POST)
+    public int setNewHighAverageAmount(@RequestBody int newHighAverage) {
+        EmailCustomContent.setHighAverageAmount(newHighAverage);
+        System.out.println("New high average in EmailCustomContentClass: " + EmailCustomContent.highAverageAmount);
+        return EmailCustomContent.highAverageAmount;
+    }
+
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
         System.out.println("IN GRADEBOOK.................................................");
@@ -1070,7 +1082,7 @@ public class JSONController {
             if (assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().size() > 0) {
 
                 myEmailer.sendEmailForAllHighAverages(assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse(), assignmentAndStudentContainerListContainer.getStudentContainers().get(0).getStudentAssignments().get(0).getAssignment().getCourse().getTeacher(), assignmentAndStudentContainerListContainer.getStudentContainers(), studentAssignmentRepository);
-                returnString = "Emails sent for all students with average above " + EmailCustomContent.HIGH_AVERAGE_AMOUNT + "!";
+                returnString = "Emails sent for all students with average above " + EmailCustomContent.highAverageAmount + "!";
             } else {
                 returnString = "Error: emails not sent because there is no assignment data yet. Enter assignments first.";
             }

@@ -125,45 +125,45 @@
 </div>
 
 <!-- Email settings -->
-<!--<div> &lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button type="button" id="classes" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModalsEmail">Edit Email Settings</button>-->
+<div> <!-- Trigger the modal with a button -->
+    <button type="button" id="classes" class="btn btn-default btn-lg"  ng-click="getCurrentHighAverage()" data-toggle="modal" data-target="#myModalsEmail">Edit Email Settings</button>
 
-    <!--&lt;!&ndash; Modal &ndash;&gt;-->
-    <!--<div class="modal fade" id="myModalsEmail" role="dialog">-->
-        <!--<div class="modal-dialog">-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModalsEmail" role="dialog">
+        <div class="modal-dialog">
 
-            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-            <!--<div class="modal-content">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                    <!--<h4 class="modal-title">Edit Email Settings</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<div>-->
-                        <!--Email all with high average settings:<br/><br/>-->
-                        <!--Currently the email is set to send to the parents of any student with an average of over {{highAverage}}.-->
-                        <!--<form valign="top">-->
-                            <!--Set new high average amount: <input type="number" class="form-control" ng-model="newHighAverage"/> <br/>-->
-                            <!--<input type="button" class="btn btn-info" ng-click="setNewHighAverageAmount(newHighAverage)" value="Change"/> <br/>-->
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Email Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: left">
+                        <b> Settings for high average email: </b> <br/><br/>
+                        Currently the email is set to send to the parents of any student with an average of over {{highAverage}}.
+                        <form valign="top">
+                            Set new high average amount: <input type="number" style="width: 60px; display: inline-block" class="form-control" ng-model="newHighAverage"/>
+                            <input type="button" class="btn btn-info" style="display: inline-block" ng-click="setNewHighAverageAmount(newHighAverage)" value="Change"/> <br/>
                             <!--<input class="btn btn-default" type="reset" value="Reset">-->
-                        <!--</form>-->
+                        </form>
 
 
 
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>-->
-            <!--</div>-->
-        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+            </div>
+        </div>
 
-    <!--</div>-->
-
-
+    </div>
 
 
-<!--</div>-->
+
+
+</div>
 
 
             <!--<input type="button" ng-click="" value="Add class (coming soon)"/>-->

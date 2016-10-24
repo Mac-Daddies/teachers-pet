@@ -59,6 +59,36 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
+        $scope.getCurrentHighAverage = function() {
+            console.log("In getCurrentHighAverage function in classList-ng-controller");
+
+            $http.post("/getCurrentHighAverage.json")
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.highAverage = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+        $scope.setNewHighAverageAmount = function(newHighAverage) {
+            console.log("In setNewHighAverageAmount function in classList-ng-controller");
+
+            $http.post("/setNewHighAverageAmount.json", newHighAverage)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.highAverage = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
         $scope.graph = function(courseId){
                         console.log("In graph function in ng controller");
                         // go to new window
