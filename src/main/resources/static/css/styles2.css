@@ -43,6 +43,8 @@ table, th, td {
     background-color: #f2f2f3;
     color: black;
     font-weight: 900;
+    line-height:14px;
+
 
 
 
@@ -59,6 +61,7 @@ border-collapse: separate;
 	font-weight: bold;
 	line-height: 15.4px;
 	width: 150%; height: 150%
+	white-space:nowrap;
 }
 
 #square {
@@ -75,10 +78,8 @@ border-collapse: separate;
      background: white;
 
      position: relative;
-     top: 0;
-     bottom: 0;
-     left: 0;
-     right: 0;
+
+
 
 
 

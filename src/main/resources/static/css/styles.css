@@ -1,17 +1,31 @@
 .nice{
-font-family: "The Girl Next Door";
+ font-family: "The Girl Next Door";
 
 
 
-	font-style: large;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 15.4px;
-	text-align: center;
-	font-size: 200%;
+ 	font-style: large;
+ 	font-variant: normal;
+ 	font-weight: bold;
+ 	line-height: 15.4px;
+ 	text-align: center;
+ 	font-size: 200%;
 
 
-}
+ }
+ .nice1{
+ font-family: "The Girl Next Door";
+
+
+
+ 	font-style: large;
+ 	font-variant: normal;
+ 	font-weight: bold;
+ 	line-height: 15.4px;
+ 	text-align: center;
+ 	font-size: 110%;
+
+
+ }
 
 .notnice{
 font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
