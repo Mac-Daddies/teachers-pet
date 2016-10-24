@@ -96,6 +96,42 @@ public class Controller {
         return "graph";
     }
 
+    @RequestMapping(path = "/deleteTeacher", method = RequestMethod.GET)
+    public String deleteTeacher(int teacherId) {
+        Teacher teacher = teacherRepository.findOne(teacherId);
+
+        ArrayList<Course> allCourses = courseRepository.findAllByTeacher(teacher);
+        for (Course currentCourse : allCourses) {
+            ArrayList<Assignment> allAssignmentsInCourse = assignmentRepository.findAllByCourseId(currentCourse.getId());
+            for (Assignment currentAssignment : allAssignmentsInCourse) {
+                // (1) delete all studentAssignments
+                ArrayList<StudentAssignment> allStudentAssignmentsForCurrentAssignment = studentAssignmentRepository.findAllByAssignment(currentAssignment);
+                for (StudentAssignment currentStudentAssignment : allStudentAssignmentsForCurrentAssignment) {
+                    studentAssignmentRepository.delete(currentStudentAssignment);
+                }
+                // (2) delete all originalGrades
+                ArrayList<OriginalGrade> allOriginalGradesForCurrentAssignment = originalGradeRepository.findAllByAssignment(currentAssignment);
+                for (OriginalGrade currentOriginalGrade : allOriginalGradesForCurrentAssignment) {
+                    originalGradeRepository.delete(currentOriginalGrade);
+                }
+                // (3) delete the current assignment
+                assignmentRepository.delete(currentAssignment);
+            }
+            //(4) delete all student courses and students
+            ArrayList<StudentCourse> allStudentCoursesByCourse = studentCourseRepository.findAllByCourse(currentCourse);
+            for (StudentCourse currentStudentCourse : allStudentCoursesByCourse) {
+                studentCourseRepository.delete(currentStudentCourse);
+                studentRepository.delete(currentStudentCourse.getStudent());
+            }
+            // (5) delete course
+            courseRepository.delete(currentCourse);
+        }
+        // (6) delete teacher
+        teacherRepository.delete(teacher);
+
+        return "redirect:/";
+    }
+
 
     @PostConstruct
     public void init() {
@@ -336,8 +372,8 @@ public class Controller {
             OriginalGrade os112a12 = new OriginalGrade(s112, a12, 45);
             studentAssignmentRepository.save(s112a12);
             originalGradeRepository.save(os112a12);
-            StudentAssignment s113a12 = new StudentAssignment(s113, a12, 45);
-            OriginalGrade os113a12 = new OriginalGrade(s113, a12, 45);
+            StudentAssignment s113a12 = new StudentAssignment(s113, a12, 63);
+            OriginalGrade os113a12 = new OriginalGrade(s113, a12, 63);
             studentAssignmentRepository.save(s113a12);
             originalGradeRepository.save(os113a12);
             StudentAssignment s114a12 = new StudentAssignment(s114, a12, 59);
@@ -428,8 +464,8 @@ public class Controller {
             OriginalGrade os112a13 = new OriginalGrade(s112, a13, 100);
             studentAssignmentRepository.save(s112a13);
             originalGradeRepository.save(os112a13);
-            StudentAssignment s113a13 = new StudentAssignment(s113, a13, 100);
-            OriginalGrade os113a13 = new OriginalGrade(s113, a13, 100);
+            StudentAssignment s113a13 = new StudentAssignment(s113, a13, 0);
+            OriginalGrade os113a13 = new OriginalGrade(s113, a13, 0);
             studentAssignmentRepository.save(s113a13);
             originalGradeRepository.save(os113a13);
             StudentAssignment s114a13 = new StudentAssignment(s114, a13, 95);
@@ -917,8 +953,8 @@ public class Controller {
             OriginalGrade os44a41 = new OriginalGrade(s44, a41, 80);
             studentAssignmentRepository.save(s44a41);
             originalGradeRepository.save(os44a41);
-            StudentAssignment s45a41 = new StudentAssignment(s45, a41, 85);
-            OriginalGrade os45a41 = new OriginalGrade(s45, a41, 85);
+            StudentAssignment s45a41 = new StudentAssignment(s45, a41, 94);
+            OriginalGrade os45a41 = new OriginalGrade(s45, a41, 94);
             studentAssignmentRepository.save(s45a41);
             originalGradeRepository.save(os45a41);
             StudentAssignment s46a41 = new StudentAssignment(s46, a41, -1);
@@ -972,8 +1008,8 @@ public class Controller {
 
             Assignment a42 = new Assignment("Probability Unit Test", "2016-08-20T04:00:00.000Z", thirdPeriod);
             assignmentRepository.save(a42);
-            StudentAssignment s41a42 = new StudentAssignment(s41, a42, 96);
-            OriginalGrade os41a42 = new OriginalGrade(s41, a42, 96);
+            StudentAssignment s41a42 = new StudentAssignment(s41, a42, 98);
+            OriginalGrade os41a42 = new OriginalGrade(s41, a42, 98);
             studentAssignmentRepository.save(s41a42);
             originalGradeRepository.save(os41a42);
             StudentAssignment s42a42 = new StudentAssignment(s42, a42, 90);
@@ -988,8 +1024,8 @@ public class Controller {
             OriginalGrade os44a42 = new OriginalGrade(s44, a42, 72);
             studentAssignmentRepository.save(s44a42);
             originalGradeRepository.save(os44a42);
-            StudentAssignment s45a42 = new StudentAssignment(s45, a42, 68);
-            OriginalGrade os45a42 = new OriginalGrade(s45, a42, 68);
+            StudentAssignment s45a42 = new StudentAssignment(s45, a42, 98);
+            OriginalGrade os45a42 = new OriginalGrade(s45, a42, 98);
             studentAssignmentRepository.save(s45a42);
             originalGradeRepository.save(os45a42);
             StudentAssignment s46a42 = new StudentAssignment(s46, a42, 72);

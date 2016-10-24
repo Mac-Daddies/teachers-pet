@@ -71,6 +71,7 @@ public class JSONController {
         }else{
             loginContainer = new LoginContainer(null,returnTeacher,courseRepository.findAllByTeacher(returnTeacher));
             session.setAttribute("loggedInTeacher", loginContainer.getTeacher());
+            System.out.println("::::::::::::::::::::::::::: Teacher's ID is " + returnTeacher.getId() + " :::::::::::::::::::::::::::");
         }
 
 
