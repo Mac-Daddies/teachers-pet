@@ -32,6 +32,23 @@
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 <div class="page-wrap">
+    <!--<div class="container" style="display: inline-block">-->
+        <!--<div class="dropdown" id="dropdown" style="display: inline-block">-->
+            <!--<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View-->
+                <!--<span class="caret"></span></button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Split View</button> </a> </li>-->
+                <!--<li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>-->
+                <!--<li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe2">Graph View</button>  </a> </li>-->
+
+            <!--</ul>-->
+        <!--</div>-->
+
+
+        <!--<div id="logout" style="display: inline-block">-->
+            <!--<button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>-->
+        <!--</div>-->
+    <!--</div>-->
 
 
 
@@ -59,7 +76,7 @@
     <!--</span>-->
     <!--</ol>-->
 
-    </div>
+
 
     <!--<div ng-if="currentClass">-->
     <!--<h3>{{currentClass.name}}'s students: </h3>-->
@@ -99,18 +116,18 @@
     <section class="table-responsive" id="square">
         <div class="container" style="display: inline-block">
             <div class="dropdown" id="dropdown" style="display: inline-block">
-            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Split View</button> </a> </li>
-                <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>
-                <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe2">Graph View</button>  </a> </li>
+                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe">Split View</button> </a> </li>
+                    <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe1">Gradebook View</button>  </a> </li>
+                    <li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe2">Graph View</button>  </a> </li>
 
-            </ul>
+                </ul>
             </div>
 
 
-                <div id="logout" style="display: inline-block">
+            <div id="logout" style="display: inline-block">
                 <button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>
             </div>
         </div>
@@ -234,7 +251,7 @@
                     </div>
                 </td>
 
-                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> {{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }}</td>
+                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input type="number" style="width: 45px" ng-model="studentAssignment.grade" ng-keyup="storeGrades"> </td>
             </tr>
 
             <!--<tr>-->
@@ -348,6 +365,26 @@
 
 
     <section id="right">
+
+        <div class="container" style="display: inline-block">
+            <div class="dropdown" id="dropdown1" style="display: inline-block">
+                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li> <a href="#"> <button type="button" class="btn btn-default" id="clickThis">Split View</button> </a> </li>
+                    <li> <a href="#"> <button type="button" class="btn btn-default" id="clickThis1">Gradebook View</button>  </a> </li>
+                    <!--<li> <a href="#"> <button type="button" class="btn btn-default" id="clickMe2">Graph View</button>  </a> </li>-->
+
+                </ul>
+            </div>
+
+
+            <div id="logout1" style="display: inline-block">
+                <button type="button" class="btn btn-default btn-s" ng-click="logout()"> Logout </button>
+            </div>
+        </div>
+
+
         <div ng-if="graphShowing">
         <canvas id="canvas" height="600" width="1650" class="chart chart-line" chart-data="data"
                 chart-labels="labels" chart-series="series" chart-options="options"
@@ -407,7 +444,7 @@
 
 
 
-<section id="rightone">
+<div id="rightone">
 
     <div ng-if="graphShowing">
         <canvas id="canvases" height="600" width="1000" class="chart chart-line" chart-data="data"
@@ -462,7 +499,10 @@
 
 
 
-</section>
+</div>
+
+
+
 
 
 
