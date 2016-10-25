@@ -16,7 +16,7 @@
     <title>Teacher's Pet</title>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <!--<link rel="stylesheet" type="text/css" href="styles.css">-->
-    
+
 
 
 
@@ -26,6 +26,7 @@
 
 
 <body ng-controller="GradebookController">
+
 <!--<button ngclick="swapStyleSheet('styles2.css')"> </button>-->
 <!--<button onclick="swapStyleSheet('styles3.css')"> </button>-->
 {{! changing the mustache delimiter so it doesn't conflict with }}
@@ -114,6 +115,10 @@
     <!--</ul>-->
 
     <section class="table-responsive" id="square">
+
+
+
+
         <div class="container" style="display: inline-block">
             <div class="dropdown" id="dropdown" style="display: inline-block">
                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
@@ -242,7 +247,7 @@
             <tr class="header" ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
                     <div>
-                    <button type="button" class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
 
                     <span class="glyphicon glyphicon-envelope" > </span> Email </button>
                     <button type="button" class="btn btn-default " ng-click="deleteStudent(studentContainer.student)" value="Delete">
@@ -291,8 +296,8 @@
 
                     </div>
                     <span ng-if="gradebookContainer.studentContainers[0] != undefined">
-                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
-                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over 95"/>
+                        <input type="button" class="btn btn-link btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
+                        <input type="button" class="btn btn-link btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over 95"/>
                     </span>
                 </td>
 
@@ -300,7 +305,7 @@
 
 
                 <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <button type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades">
-                    <span class = "glyphicon glyphicon-send"> Send-Grades </span>
+                    <span class = "glyphicon glyphicon-send"> Update Grades </span>
                 </button>
                 </td>
 
@@ -333,20 +338,26 @@
                 <td> </td>
                 <div>
                 <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
-                    <button type="button" class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve">
-                        Flat Curve
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Computes the difference of highest grade and 100, and adds the difference to each grade." class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve">
+                       Flat Curve
                     </button>
 
+                    <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
 
 
 
-                    <button href="#" title="Header" data-toggle="popover" data-trigger="hover" data-content="Some content" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve">
+
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Sets the highest to 100%, and calculates all other grades as percentage of the highest grade." class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve">
                         Percent of Highest Curve
                     </button>
 
 
 
-                    <button type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve">
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Replaces each grade with its sq. root multiplied by ten." class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve">
                         Square Root Curve
                     </button>
 
@@ -366,7 +377,7 @@
 
     <section id="right">
 
-        <div class="container" style="display: inline-block">
+        <div class="container" id="group" style="display: inline-block">
             <div class="dropdown" id="dropdown1" style="display: inline-block">
                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Switch View
                     <span class="caret"></span></button>
@@ -393,6 +404,8 @@
         </div>
 
 
+
+
             <div class="dropdown" id="dropdowns" style="display: inline-block">
 
                 <div id="gb">
@@ -409,31 +422,33 @@
 
 
 
-
-            <button type="button" class="btn btn-default btn-md" ng-click="curveFlat(assforgraph, gradebookContainer.studentContainers)" value="Flat curve">
-                Flat Curve
-            </button>
-
-            <button href="#" title="Header" data-toggle="popover" data-trigger="hover" data-content="Some content" class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(assforgraph, gradebookContainer.studentContainers)" value="Percentage of highest curve">
-                Percent of Highest Curve
-            </button>
-
-            <button type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(assforgraph, gradebookContainer.studentContainers)" value="Square root curve">
-                Square Root Curve
-            </button>
-                    <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(assforgraph)" value="Revert to original grades">
-                        <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Computes the difference of highest grade and 100, and adds the difference to each grade." class="btn btn-default btn-md" ng-click="curveFlat(assforgraph, gradebookContainer.studentContainers)" value="Flat curve">
+                        Flat Curve
                     </button>
 
 
+        <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Sets the highest to 100%, and calculates all other grades as percentage of the highest grade." class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(assforgraph, gradebookContainer.studentContainers)" value="Percentage of highest curve">
+            Percent of Highest Curve
+        </button>
 
 
 
+        <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Replaces each grade with its sq. root multiplied by ten." class="btn btn-default btn-md"  ng-click="curveByTakingRoot(assforgraph, gradebookContainer.studentContainers)" value="Square root curve">
+            Square Root Curve
+        </button>
+            Extra credit: <input type="number"  ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, assforgraph, gradebookContainer.studentContainers)" value="Add extra credit"/>
+
+            <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(assforgraph)" value="Revert to original grades">
+                <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
+            </button>
                 </div>
 
 
 
             </div>
+
+        Original average: {{ assignmentAveragesContainerArray[$index].originalAverage }}
+        Current average: {{ assignmentAveragesContainerArray[$index].currentAverage }}
 
 
     </section>

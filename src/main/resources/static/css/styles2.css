@@ -110,6 +110,8 @@ border-collapse: separate;
 
      background: white;
 
+     display:none;
+
 
 
 
@@ -169,6 +171,8 @@ top: 2%;
 right: 2%;
 
 
+
+
 }
 
 
@@ -221,8 +225,11 @@ right: 2%;
 
      background: white;
 
+     display:none;
+
 }
 #group{
+
 
 }
 
