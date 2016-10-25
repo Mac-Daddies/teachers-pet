@@ -868,7 +868,7 @@ public class Controller {
 
             Course thirdPeriod = new Course("Accelerated Advanced Algebra II", "Math", 10, teacher);
             courseRepository.save(thirdPeriod);
-            Student s41 = new Student("Carson", "Brown", "j.tracy916@gmail.com");
+            Student s41 = new Student("Carson", "Brown", "teacher.teacherspet@gmail.com");
             studentRepository.save(s41);
             StudentCourse sc41 = new StudentCourse(s41, thirdPeriod);
             studentCourseRepository.save(sc41);
