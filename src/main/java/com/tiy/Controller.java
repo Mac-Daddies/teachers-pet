@@ -133,8 +133,8 @@ public class Controller {
     }
 
 
-    @PostConstruct
-    public void init() {
+    @RequestMapping(path = "/generateDemoData", method = RequestMethod.GET)
+    public String generateDemoData() {
         Teacher teacher = new Teacher("Yehia", "Abdullah", "yehia.abdullah@tiy.com", "password", "THS");
         Teacher retrievedTeacher = teacherRepository.findByEmailAndPassword(teacher.getEmail(), teacher.getPassword());
         if (retrievedTeacher == null) {
@@ -1081,6 +1081,7 @@ public class Controller {
             studentAssignmentRepository.save(s418a42);
             originalGradeRepository.save(os418a42);
         }
+        return "redirect:/";
     }
 
 
