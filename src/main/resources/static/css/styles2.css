@@ -1,9 +1,5 @@
 .page-wrap {
-  display: -webkit-box;           /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box;              /* OLD - Firefox 19- (doesn't work very well) */
-  display: -ms-flexbox;           /* TWEENER - IE 10 */
-  display: -webkit-flex;          /* NEW - Chrome */
-  display: flex;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+                /* NEW, Spec - Opera 12.1, Firefox 20+ */
  }
 
 
@@ -21,6 +17,13 @@ body {
     padding: 2em;
 
 }
+
+
+
+
+
+
+
 
 * {
   -webkit-box-sizing: border-box;
@@ -62,6 +65,8 @@ border-collapse: separate;
 	line-height: 15.4px;
 	width: 150%; height: 150%
 	white-space:nowrap;
+
+
 }
 
 #square {
@@ -78,6 +83,10 @@ border-collapse: separate;
      background: white;
 
      position: relative;
+
+
+
+
 
 
 
@@ -121,19 +130,47 @@ border-collapse: separate;
 
 #dropdown{
     position: fixed;
-
     top: 2%;
     left: 1%;
+
+
+
+
+
 
 }
 #logout{
 
-position: fixed;
+position:fixed;
+
 
 top: 2%;
 left: 8%;
 
+
 }
+#dropdown1{
+    position: fixed;
+    top: 2%;
+    right: 7%;
+
+
+
+
+
+
+}
+#logout1{
+
+position:fixed;
+
+
+top: 2%;
+right: 2%;
+
+
+}
+
 
 
 

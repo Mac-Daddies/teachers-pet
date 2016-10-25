@@ -750,6 +750,8 @@ angular.module('TeachersPetApp', ["chart.js"])
                         console.log("Unable to get data...");
                     });
         };
+
+
     var square, rightone;
 
     square = document.getElementById("square"),
@@ -774,15 +776,17 @@ angular.module('TeachersPetApp', ["chart.js"])
 
 
 
-      square.style.width = "35%";
-      rightone.style.right = "40%";
-      square.style.position = "absolute";
+             rightone.style.display = "inherit";
+             square.style.width = "35%";
+             square.style.display = "inherit";
+             rightone.style.right = "40%";
+             square.style.position = "absolute";
 
-      rightone.style.position = "fixed";
+             rightone.style.position = "fixed";
 
 
 
-      right.style.display = "none";
+             right1.style.display = "none";
 
 
 
@@ -820,11 +824,11 @@ angular.module('TeachersPetApp', ["chart.js"])
         function book () {
 
 
-
-          square.style.width = "100%";
-          square.style.position = "absolute";
-          right.style.display= "none";
-          rightone.style.display= "none";
+                 square.style.width = "100%";
+                 square.style.display = "inherit";
+                 square.style.position = "relative";
+                 right.style.display= "none";
+                 rightone.style.display= "none";
 
 
 
@@ -873,6 +877,99 @@ angular.module('TeachersPetApp', ["chart.js"])
        }
 
        clickMe2.onclick = graph
+
+
+
+
+
+        var squares, rightones;
+
+           squares = document.getElementById("square"),
+
+           rightones = document.getElementById("rightone"),
+
+
+
+
+
+
+
+               clickThis = document.getElementById("clickThis");
+
+
+
+
+
+
+           function splitView () {
+
+
+
+             rightones.style.display = "inherit";
+             squares.style.width = "35%";
+             squares.style.display = "inherit";
+             rightones.style.right = "40%";
+             squares.style.position = "absolute";
+
+             rightones.style.position = "fixed";
+
+
+
+             right.style.display = "none";
+
+
+
+
+
+
+
+
+
+
+           }
+
+
+
+           clickThis.onclick = splitView
+
+           var right1 = document.getElementById("right"),
+
+              clickThis1 = document.getElementById("clickThis1");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               function booked () {
+
+
+
+                 squares.style.width = "100%";
+                 squares.style.display = "inherit";
+                 squares.style.position = "relative";
+                 right1.style.display= "none";
+                 rightones.style.display= "none";
+
+
+
+
+
+               }
+
+                clickThis1.onclick = booked
+
+
+
 
 
 
