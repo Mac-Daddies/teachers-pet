@@ -873,6 +873,8 @@ angular.module('TeachersPetApp', ["chart.js"])
 
             gb.style.display = "flex";
 
+            group.style.display = "inherit";
+
 
        }
 
