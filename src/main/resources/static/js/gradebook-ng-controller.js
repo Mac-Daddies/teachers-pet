@@ -847,7 +847,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 
 
 
-
+/*****************************/
        function graph () {
             square.style.display = "none";
 
@@ -875,6 +875,8 @@ angular.module('TeachersPetApp', ["chart.js"])
 
             group.style.display = "inherit";
 
+
+            getCorrectAverage($scope.assforgraph);
 
        }
 
@@ -1006,10 +1008,20 @@ angular.module('TeachersPetApp', ["chart.js"])
                     document.getElementById('pagestyle').setAttribute('href',sheet);
             }
 
+        var getCorrectAverage = function(assignment) {
+            for (var counter = 0; counter < $scope.gradebookContainer.assignmentAndAverageContainers.length; counter++) {
+                if ($scope.gradebookContainer.assignmentAndAverageContainers[counter].assignment.name === assignment.name) {
+                    $scope.originalAverageForGraphView = $scope.gradebookContainer.assignmentAndAverageContainers[counter].originalAverage;
+                    $scope.currentAverageForGraphView = $scope.gradebookContainer.assignmentAndAverageContainers[counter].currentAverage;
+                }
+            }
+        };
+
         var updateGraph = function(assignment) {
             console.log("In updateGraph function in gradebook-ng-controller");
             console.log("Did gradeDataForTable come through?");
             console.log(gradeDataForTable);
+            getCorrectAverage(assignment);
             //for now, harcode arraylists
 //           Array arrayOfOriginalGrades = [90, 75, 88, 76, 32, 51, 99, 98, 99, 75, 81, 82, 84, 90, 48, 100];
             var gradeCategories = ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-99", "100+"];
