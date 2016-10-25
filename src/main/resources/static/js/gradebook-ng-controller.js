@@ -174,6 +174,7 @@ angular.module('TeachersPetApp', ["chart.js"])
             $scope.allAssignments = allAssignments;
             $scope.numberOfAssignments = numberOfAssignments;
             $scope.gradebookContainer = gradebookContainer;
+            $scope.highAverage = gradebookContainer.highAverage;
 
        };
 

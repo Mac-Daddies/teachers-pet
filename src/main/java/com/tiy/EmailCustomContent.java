@@ -15,6 +15,9 @@ public class EmailCustomContent {
     public static void setHighAverageAmount(int newHighAverage) {
         highAverageAmount = newHighAverage;
     }
+    public int getHighAverageAmount() {
+        return highAverageAmount;
+    }
 
     public void sendEmailOneStudent(Course course, Teacher teacher, StudentContainer studentContainer, StudentAssignmentRepository studentAssignmentRepository) throws IOException {
         String emailFrom = teacher.getEmail();

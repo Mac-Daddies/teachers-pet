@@ -37,6 +37,7 @@ public class AssignmentAndStudentAssignmentContainer {
     ArrayList<StudentContainer> studentContainers;
 //    ArrayList<Assignment> assignments;
     ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers;
+    int highAverage;
 
     public AssignmentAndStudentAssignmentContainer() {
     }
@@ -47,9 +48,10 @@ public class AssignmentAndStudentAssignmentContainer {
 //    }
 
 
-    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers) {
+    public AssignmentAndStudentAssignmentContainer(ArrayList<StudentContainer> studentContainers, ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers, int highAverage) {
         this.studentContainers = studentContainers;
         this.assignmentAndAverageContainers = assignmentAndAverageContainers;
+        this.highAverage = highAverage;
     }
 
     //Getters and setters
@@ -67,5 +69,13 @@ public class AssignmentAndStudentAssignmentContainer {
 
     public void setAssignmentAndAverageContainers(ArrayList<AssignmentAndAverageContainer> assignmentAndAverageContainers) {
         this.assignmentAndAverageContainers = assignmentAndAverageContainers;
+    }
+
+    public int getHighAverage() {
+        return highAverage;
+    }
+
+    public void setHighAverage(int highAverage) {
+        this.highAverage = highAverage;
     }
 }
