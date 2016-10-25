@@ -174,10 +174,31 @@ angular.module('TeachersPetApp', ["chart.js"])
             $scope.allAssignments = allAssignments;
             $scope.numberOfAssignments = numberOfAssignments;
             $scope.gradebookContainer = gradebookContainer;
+            $scope.highAverage = gradebookContainer.highAverage;
 
        };
 
 
+
+//        var populateBlankGradesWithNegativeOnesBeforeSending = function (studentContainers) {
+//            console.log("In populateBlankGrades... method in gradebook-ng-controller");
+//            console.log("Grades right now:");
+//            console.log(studentContainers);
+//            for (var counter = 0; counter < studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    if (studentContainers[counter].studentAssignments[insideCounter].grade === "") {
+//                        console.log("Grade is empty, changing to -1 before sending back.");
+//                        studentContainers[counter].studentAssignments[insideCounter].grade = -1;
+//                    }
+////                    var dueDate = studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate;
+////                    var dateString = dueDate.substring(6, 10) + "-" + dueDate.substring(0, 2) + "-" + dueDate.substring(3, 5) + "T04:00:00.000Z";
+//                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is " + studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate);
+////                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
+//                }
+//            }
+//            console.log("Updated version to send to backend:");
+//            console.log(studentContainers);
+//        };
 
         var populateBlankGradesWithNegativeOnesBeforeSending = function (studentContainers) {
             console.log("In populateBlankGrades... method in gradebook-ng-controller");
@@ -194,10 +215,32 @@ angular.module('TeachersPetApp', ["chart.js"])
                     console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is " + studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate);
 //                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
                 }
+
+                if (studentContainers[counter].average === "") {
+                	studentContainers[counter].average = -1;
+                }
             }
             console.log("Updated version to send to backend:");
             console.log(studentContainers);
         };
+
+//        var populateBlankGradesWithNegativeOnesBeforeSendingSingleStudent = function (studentContainer) {
+//            console.log("In populateBlankGrades...SingleStudent method in gradebook-ng-controller");
+//            console.log("Grades right now:");
+//            console.log(studentContainer);
+//            for (var counter = 0; counter < studentContainer.studentAssignments.length; counter++) {
+//                if (studentContainer.studentAssignments[counter].grade === "") {
+//                    console.log("Grade is empty, changing to -1 before sending back.");
+//                    studentContainer.studentAssignments[counter].grade = -1;
+//                }
+////                    var dueDate = studentContainers[counter].studentAssignments[insideCounter].assignment.dueDate;
+////                    var dateString = dueDate.substring(6, 10) + "-" + dueDate.substring(0, 2) + "-" + dueDate.substring(3, 5) + "T04:00:00.000Z";
+//                console.log("dueDate for " + studentContainer.studentAssignments[counter].assignment.name + " is " + studentContainer.studentAssignments[counter].assignment.dueDate);
+////                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
+//            }
+//            console.log("Updated version to send to backend:");
+//            console.log(studentContainer);
+//        };
 
         var populateBlankGradesWithNegativeOnesBeforeSendingSingleStudent = function (studentContainer) {
             console.log("In populateBlankGrades...SingleStudent method in gradebook-ng-controller");
@@ -213,6 +256,11 @@ angular.module('TeachersPetApp', ["chart.js"])
                 console.log("dueDate for " + studentContainer.studentAssignments[counter].assignment.name + " is " + studentContainer.studentAssignments[counter].assignment.dueDate);
 //                    console.log("dueDate for " + studentContainers[counter].studentAssignments[insideCounter].assignment.name + " is now " + dateString);
             }
+
+            if (studentContainer.average === "") {
+            	studentContainer.average = -1;
+            }
+
             console.log("Updated version to send to backend:");
             console.log(studentContainer);
         };
@@ -701,6 +749,7 @@ angular.module('TeachersPetApp', ["chart.js"])
             } else {
                 //Make popup say not sent because no grade data entered yet.
                 $window.alert("Email could not be sent because there is no grade data for this student yet!");
+                fillGradebookContainerWithResponseData($scope.gradebookContainer);
             }
         };
 
