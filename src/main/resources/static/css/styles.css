@@ -28,18 +28,35 @@
  }
 
 .notnice{
-font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
 
-font-size: 14px;
-	font-style: large;
-	font-variant: normal;
-	font-weight: bold;
-	line-height: 15.4px;
-	text-align: center;
-	font-size: 200%;
+ font-size: 14px;
+ 	font-style: large;
+ 	font-variant: normal;
+ 	font-weight: bold;
+ 	line-height: 15.4px;
+ 	text-align: center;
+ 	font-size: 200%;
 
 
-}
+ }
+ .notnice1{
+ font-family: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;
+
+    font-size: 14px;
+ 	font-style: large;
+ 	font-variant: normal;
+ 	font-weight: bold;
+ 	line-height: 15.4px;
+ 	text-align: center;
+ 	font-size: 100%;
+ 	line-height: 120%;
+ 	word-spacing: 2px;
+
+
+
+
+ }
 
 .title{
 
