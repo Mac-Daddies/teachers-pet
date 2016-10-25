@@ -300,9 +300,10 @@
                         </div>
 
                     </div>
+                    <br><br>
                     <span ng-if="gradebookContainer.studentContainers[0] != undefined">
-                        <input type="button" class="btn btn-link btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
-                        <input type="button" class="btn btn-link btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over {{highAverage}}"/>
+                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllZeros()" value="Email all with missing assignments"/>
+                        <input type="button" class="btn btn-default btn-md" ng-click="sendEmailForAllHighAverages()" value="Email all with averages over {{highAverage}}"/>
                     </span>
                 </td>
 
