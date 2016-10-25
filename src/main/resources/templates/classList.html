@@ -130,6 +130,7 @@
 
     <!-- Modal -->
     <div class="modal fade " id="myModalsEmail" role="dialog">
+
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -145,16 +146,21 @@
                         <b> Settings for high average email: </b> <br/><br/>
                         Currently the email is set to send to the parents of any student with an average of over {{highAverage}}.
                         <form valign="top">
-                            Set new high average amount: <input type="number" style="width: 60px; display: inline-block" class="form-control" ng-model="newHighAverage"/>
-                            <input type="button" class="btn btn-info" style="display: inline-block" ng-click="setNewHighAverageAmount(newHighAverage)" value="Change"/> <br/>
+                            Set new high average amount: <input id="textfield1" type="number" style="width: 60px; display: inline-block" class="form-control" ng-model="newHighAverage"/>
+                            <input type="button" class="btn btn-info" style="display: inline-block" ng-click="setNewHighAverageAmount(newHighAverage)" value="Change"/>
+                            <input class="btn btn-link sm" type="reset" value="Reset">
+
+
                             <!--<input class="btn btn-default" type="reset" value="Reset">-->
                         </form>
                         <br/><br/><br/>
                         <b> Settings for email signature: </b> <br/><br/>
                         Current email signature: {{emailSignature}}
                         <form valign="top">
-                            Set a new email signature: <input type="text" class="form-control" ng-model="newEmailSignature"/>
-                            <input type="button" class="btn btn-info" ng-click="setNewEmailSignature(newEmailSignature)" value="Change"/> <br/>
+                            Set a new email signature: <input id="textfield2" type="text" class="form-control" ng-model="newEmailSignature"/>
+                            <input type="button" class="btn btn-info" ng-click="setNewEmailSignature(newEmailSignature)" value="Change"/>
+                            <input class="btn btn-link sm" type="reset" value="Reset">
+
                             <!--<input class="btn btn-default" type="reset" value="Reset">-->
                         </form>
 
