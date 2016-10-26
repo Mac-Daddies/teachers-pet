@@ -190,6 +190,14 @@ color: white;
 .title{
 text-decoration: underline;
 }
+.logout{
+   color: white;
+   text-align:center;
+  font-weight: bold;
+   position: relative;
+   display: block;
+   margin : 0 auto;
+}
 
 
 

@@ -202,14 +202,16 @@
                 <td></td>
                 <td ng-repeat="currentAssignment in allAssignments">
 
-                    {{currentAssignment.name}}, due {{currentAssignment.dueDate}}
+                    {{currentAssignment.name}}
+                    <br>
+                   <font color="grey"> due {{currentAssignment.dueDate}} </font>
+
                     <!--<div>-->
                         <!--<button type="button" class="btn btn-default btn-sm"  ng-click="showGraph(currentAssignment)" value="Show graph!">-->
                             <!--<span class="glyphicon glyphicon-signal" > </span> Graph-->
                         <!--</button>-->
-                        <!--<button type="button" class="btn btn-default btn-sm" ng-click="deleteAssignment(currentAssignment)" value="Delete">-->
-                            <!--<span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>-->
-                        <!--</button>-->
+                        <button  class="glyphicon glyphicon-trash" ng-click="deleteAssignment(currentAssignment)" value="Delete">
+                        </button>
                     <!--<button type="button" class="btn btn-default btn-xs" ng-click="hideGraph()" value="hide graph!"> Hide Graph </button>-->
                     <!--</div>-->
                 </td>
@@ -266,16 +268,22 @@
             <tr class="header" ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
                     <div>
-                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="glyphicon glyphicon-envelope" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
 
-                    <span class="glyphicon glyphicon-envelope" > </span> Email </button>
-                    <button type="button" class="btn btn-default " ng-click="deleteStudent(studentContainer.student)" value="Delete">
-                        <span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>
+                    <button type="button" class="glyphicon glyphicon-trash" ng-click="deleteStudent(studentContainer.student)" value="Delete">
+
                     </button>
                     </div>
+                    <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
                 </td>
+<div class="wrapper">
 
-                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input class="form-control" style="width:80px;" type="number"  ng-model="studentAssignment.grade" ng-keyup="storeGrades"/> </td>
+    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input class="form-control" style="width:80px;" type="number"  ng-model="studentAssignment.grade" ng-keyup="storeGrades"/> </td>
+</div>
             </tr>
 
             <!--<tr>-->
@@ -349,7 +357,8 @@
 
                 <td> </td>
 
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number" onfocus="clearThis(this)" ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/>
+                <td  ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
+                     Extra credit: <input type="number" ng-model="extraCreditAmount" placeholder="# points"/>  <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/>
 
                 </td>
 
@@ -487,7 +496,7 @@ $(document).ready(function(){
 <div id="rightone">
 
     <div ng-if="graphShowing">
-        <canvas id="canvases" height="600" width="1000" class="chart chart-line" chart-data="data"
+        <canvas id="canvases" height="600" width="800" class="chart chart-line" chart-data="data"
                 chart-labels="labels" chart-series="series" chart-options="options"
                 chart-dataset-override="datasetOverride" chart-click="onClick" width="700" height="400"
         />

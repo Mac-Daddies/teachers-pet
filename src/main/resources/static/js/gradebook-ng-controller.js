@@ -520,8 +520,9 @@ angular.module('TeachersPetApp', ["chart.js"])
                                     console.log("Adding data to scope");
                                     fillGradebookContainerWithResponseData(response.data);
                                     $scope.showGraph(currentAssignment);
-                                    extraCreditAmount = "";
-                                    $scope.extraCreditAmount = "";
+                                    extraCreditAmount = 0;
+                                    $scope.extraCreditAmount = 0;
+                                    $scope.extraCreditAmount = extraCreditAmount;
                                 },
                                 function errorCallback(response) {
                                     console.log("Unable to get data at addExtraCredit endpoint...");
