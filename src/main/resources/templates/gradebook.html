@@ -268,9 +268,9 @@
             <tr class="header" ng-repeat="studentContainer in gradebookContainer.studentContainers">
                 <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
                     <div>
-                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="glyphicon glyphicon-envelope" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                    <button  href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="btn-link glyphicon glyphicon-envelope" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
 
-                    <button type="button" class="glyphicon glyphicon-trash" ng-click="deleteStudent(studentContainer.student)" value="Delete">
+                    <button type="button" class="btn-link glyphicon glyphicon-trash" ng-click="deleteStudent(studentContainer.student)" value="Delete">
 
                     </button>
                     </div>
