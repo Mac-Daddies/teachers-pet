@@ -228,7 +228,7 @@ public class Controller {
             studentRepository.save(s121);
             StudentCourse sc121 = new StudentCourse(s121, firstPeriod);
             studentCourseRepository.save(sc121);
-            Student s122 = new Student("Kade", "Wilson", "teacher.teacherspet@gmail.com");
+            Student s122 = new Student("Jade", "Wilson", "teacher.teacherspet@gmail.com");
             studentRepository.save(s122);
             StudentCourse sc122 = new StudentCourse(s122, firstPeriod);
             studentCourseRepository.save(sc122);
@@ -362,8 +362,10 @@ public class Controller {
             OriginalGrade os19a12 = new OriginalGrade(s19, a12, 65);
             studentAssignmentRepository.save(s19a12);
             originalGradeRepository.save(os19a12);
-            StudentAssignment s110a12 = new StudentAssignment(s110, a12, -1);
+            StudentAssignment s110a12 = new StudentAssignment(s110, a12, 68);
+            OriginalGrade os110a12 = new OriginalGrade(s110, a12, 68);
             studentAssignmentRepository.save(s110a12);
+            originalGradeRepository.save(os110a12);
             StudentAssignment s111a12 = new StudentAssignment(s111, a12, 80);
             OriginalGrade os111a12 = new OriginalGrade(s111, a12, 80);
             studentAssignmentRepository.save(s111a12);
