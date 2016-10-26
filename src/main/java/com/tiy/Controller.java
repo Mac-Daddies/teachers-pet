@@ -408,8 +408,8 @@ public class Controller {
             OriginalGrade os121a12 = new OriginalGrade(s121, a12, 67);
             studentAssignmentRepository.save(s121a12);
             originalGradeRepository.save(os121a12);
-            StudentAssignment s122a12 = new StudentAssignment(s122, a12, 30);
-            OriginalGrade os122a12 = new OriginalGrade(s122, a12, 30);
+            StudentAssignment s122a12 = new StudentAssignment(s122, a12, 40);
+            OriginalGrade os122a12 = new OriginalGrade(s122, a12, 40);
             studentAssignmentRepository.save(s122a12);
             originalGradeRepository.save(os122a12);
 
@@ -500,8 +500,8 @@ public class Controller {
             OriginalGrade os121a13 = new OriginalGrade(s121, a13, 0);
             studentAssignmentRepository.save(s121a13);
             originalGradeRepository.save(os121a13);
-            StudentAssignment s122a13 = new StudentAssignment(s122, a13, 75);
-            OriginalGrade os122a13 = new OriginalGrade(s122, a13, 75);
+            StudentAssignment s122a13 = new StudentAssignment(s122, a13, 95);
+            OriginalGrade os122a13 = new OriginalGrade(s122, a13, 95);
             studentAssignmentRepository.save(s122a13);
             originalGradeRepository.save(os122a13);
 
@@ -591,8 +591,8 @@ public class Controller {
             OriginalGrade os121a14 = new OriginalGrade(s121, a14, 72);
             studentAssignmentRepository.save(s121a14);
             originalGradeRepository.save(os121a14);
-            StudentAssignment s122a14 = new StudentAssignment(s122, a14, 77);
-            OriginalGrade os122a14 = new OriginalGrade(s122, a14, 77);
+            StudentAssignment s122a14 = new StudentAssignment(s122, a14, 87);
+            OriginalGrade os122a14 = new OriginalGrade(s122, a14, 87);
             studentAssignmentRepository.save(s122a14);
             originalGradeRepository.save(os122a14);
 
