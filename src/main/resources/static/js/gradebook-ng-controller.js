@@ -168,8 +168,8 @@ angular.module('TeachersPetApp', ["chart.js"])
             }
 
             $scope.assignmentAveragesContainerArray = assignmentAveragesContainerArray;
-            console.log("Here is the assignmentAveragesArray that is set on the scope:");
-            console.log($scope.assignmentAveragesContainerArray);
+//            console.log("Here is the assignmentAveragesArray that is set on the scope:");
+//            console.log($scope.assignmentAveragesContainerArray);
 
             $scope.allAssignments = allAssignments;
             $scope.numberOfAssignments = numberOfAssignments;
@@ -483,7 +483,7 @@ angular.module('TeachersPetApp', ["chart.js"])
 //        };
 
         $scope.addExtraCredit = function(extraCreditAmount, currentAssignment, studentContainers) {
-            console.log("In curveByTakingRoot function in ng controller");
+            console.log("In addExtraCredit function in ng controller");
 
             // first send the grades that are in there (for if the user altered data, then pressed add extra credit w/o saving grades first)
 //            sendGradesFromTable(currentAssignment, studentContainers);
@@ -495,12 +495,12 @@ angular.module('TeachersPetApp', ["chart.js"])
                 studentContainers: studentContainers
             }
 
-            console.log("These are the grades I'm sending through:");
-            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
-                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
-                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
-                }
-            }
+//            console.log("These are the grades I'm sending through:");
+//            for (var counter = 0; counter < addGradesContainer.studentContainers.length; counter++) {
+//                for (var insideCounter = 0; insideCounter < addGradesContainer.studentContainers[counter].studentAssignments.length; insideCounter++) {
+//                    console.log(addGradesContainer.studentContainers[counter].student.firstName + "'s grade on " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].assignment.name + ": " + addGradesContainer.studentContainers[counter].studentAssignments[insideCounter].grade);
+//                }
+//            }
 
             $http.post("/addGrades.json", addGradesContainer)
                 .then(
@@ -520,6 +520,8 @@ angular.module('TeachersPetApp', ["chart.js"])
                                     console.log("Adding data to scope");
                                     fillGradebookContainerWithResponseData(response.data);
                                     $scope.showGraph(currentAssignment);
+                                    extraCreditAmount = "";
+                                    $scope.extraCreditAmount = "";
                                 },
                                 function errorCallback(response) {
                                     console.log("Unable to get data at addExtraCredit endpoint...");
