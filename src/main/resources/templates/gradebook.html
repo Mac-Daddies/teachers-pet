@@ -201,15 +201,18 @@
             <tr>
                 <td></td>
                 <td ng-repeat="currentAssignment in allAssignments">
+                    <font size="4px">
+                    {{currentAssignment.name}}
+                    </font>
+                    <br>
+                   <font color="grey"> due {{currentAssignment.dueDate}} </font>
 
-                    {{currentAssignment.name}}, due {{currentAssignment.dueDate}}
                     <!--<div>-->
                         <!--<button type="button" class="btn btn-default btn-sm"  ng-click="showGraph(currentAssignment)" value="Show graph!">-->
                             <!--<span class="glyphicon glyphicon-signal" > </span> Graph-->
                         <!--</button>-->
-                        <!--<button type="button" class="btn btn-default btn-sm" ng-click="deleteAssignment(currentAssignment)" value="Delete">-->
-                            <!--<span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>-->
-                        <!--</button>-->
+                        <button  class="btn-link glyphicon glyphicon-trash" ng-click="deleteAssignment(currentAssignment)" value="Delete">
+                        </button>
                     <!--<button type="button" class="btn btn-default btn-xs" ng-click="hideGraph()" value="hide graph!"> Hide Graph </button>-->
                     <!--</div>-->
                 </td>
@@ -264,18 +267,24 @@
             <!--</tr>-->
 
             <tr class="header" ng-repeat="studentContainer in gradebookContainer.studentContainers">
-                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} | <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
+                <td>{{ studentContainer.student.firstName }} {{ studentContainer.student.lastName }} <br> <span style="color: gray"> Average: {{ studentContainer.average }}  </span>
                     <div>
-                    <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="btn btn-default" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
+                    <button  href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Emails the student's parent with a progress report." class="btn-link glyphicon glyphicon-envelope" ng-click="sendEmailOneStudent(studentContainer)" value="Email">
 
-                    <span class="glyphicon glyphicon-envelope" > </span> Email </button>
-                    <button type="button" class="btn btn-default " ng-click="deleteStudent(studentContainer.student)" value="Delete">
-                        <span class="glyphicon glyphicon-trash" > </span> <font color="red"> Delete </font>
+                    <button type="button" class="btn-link glyphicon glyphicon-trash" ng-click="deleteStudent(studentContainer.student)" value="Delete">
+
                     </button>
                     </div>
+                    <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
                 </td>
+<div class="wrapper">
 
-                <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input class="form-control" style="width:80px;" type="number"  ng-model="studentAssignment.grade" ng-keyup="storeGrades"/> </td>
+    <td ng-repeat="studentAssignment in studentContainer.studentAssignments"> <input class="form-control" style="width:80px;" type="number"  ng-model="studentAssignment.grade" ng-keyup="storeGrades"/> </td>
+</div>
             </tr>
 
             <!--<tr>-->
@@ -320,11 +329,13 @@
 
 
 
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> <button type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades">
-                    <span class = "glyphicon glyphicon-send"> Update-Grades </span>
-                </button>
+                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
+                    <div class="cInput">
+                    <button type="button" class="btn btn-default btn-md" ng-click="addGrades(allAssignments[$index], gradebookContainer.studentContainers)" value="Send grades">
+                        <span class = "glyphicon glyphicon-send"> Update-Grades </span>
+                    </button>
+                    </div>
                 </td>
-
             </tr>
 
             <!--<tr>-->
@@ -336,21 +347,30 @@
             <tr>
                 <td> </td>
 
+
                 <!--<td ng-repeat="assignmentAndAverageContainer in gradebookContainer.assignmentAndAverageContainers"> Average: {{assignmentAndAverageContainer.average}} </td>-->
-                <td ng-repeat="average in assignmentAveragesContainerArray track by $index"> <span style="color: gray"> Uncurved average: {{average.originalAverage}} </span> <br/> Current average: {{average.currentAverage}}
+                <td ng-repeat="average in assignmentAveragesContainerArray track by $index">
+                    <div class="cInput">
+                    <span style="color: gray"> Uncurved average: {{average.originalAverage}} </span>
+                    <br/> Current average: {{average.currentAverage}} <br>
+
+
                     <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(allAssignments[$index])" value="Revert to original grades">
                         <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
                     </button>
-
+                    </div>
                 </td>
+
             </tr>
 
             <tr>
 
                 <td> </td>
 
-                <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index"> Extra credit: <input type="number" onfocus="clearThis(this)" ng-model="extraCreditAmount" placeholder="# points"/> <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/>
-
+                <td  ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
+                    <div class="cInput">
+                     Extra credit: <input type="number" ng-model="extraCreditAmount" placeholder="# points"/>  <input type="button" class="btn btn-default btn-md"  ng-click="addExtraCredit(extraCreditAmount, allAssignments[$index], gradebookContainer.studentContainers)" value="Add extra credit"/>
+                    </div>
                 </td>
 
             </tr>
@@ -359,9 +379,10 @@
                 <td> </td>
                 <div>
                 <td ng-repeat="i in getNumberOfAssignments(numberOfAssignments) track by $index">
+                    <div class="cInput">
                     <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Computes the difference of highest grade and 100, and adds the difference to each grade." class="btn btn-default btn-md" ng-click="curveFlat(allAssignments[$index], gradebookContainer.studentContainers)" value="Flat curve">
                        Flat Curve
-                    </button>
+                    </button> <br/>
 
                     <script>
 $(document).ready(function(){
@@ -374,16 +395,16 @@ $(document).ready(function(){
 
                     <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Sets the highest to 100%, and calculates all other grades as percentage of the highest grade." class="btn btn-default btn-md" ng-click="curveAsPercentageOfHighestGrade(allAssignments[$index], gradebookContainer.studentContainers)" value="Percentage of highest curve">
                         Percent of Highest Curve
-                    </button>
+                    </button> <br/>
 
 
 
                     <button href="#" title="More Info" data-toggle="popover" data-trigger="hover" data-content="Replaces each grade with its sq. root multiplied by ten." class="btn btn-default btn-md"  ng-click="curveByTakingRoot(allAssignments[$index], gradebookContainer.studentContainers)" value="Square root curve">
                         Square Root Curve
-                    </button>
-
+                    </button> <br/>
+                    </div>
                 </td>
-
+            </div>
             </tr>
             <tr>
                 <td>
@@ -487,7 +508,7 @@ $(document).ready(function(){
 <div id="rightone">
 
     <div ng-if="graphShowing">
-        <canvas id="canvases" height="600" width="1000" class="chart chart-line" chart-data="data"
+        <canvas id="canvases" height="600" width="800" class="chart chart-line" chart-data="data"
                 chart-labels="labels" chart-series="series" chart-options="options"
                 chart-dataset-override="datasetOverride" chart-click="onClick" width="700" height="400"
         />
@@ -523,6 +544,7 @@ $(document).ready(function(){
             <button type="button" class="btn btn-default btn-md"  ng-click="curveByTakingRoot(assforgraph, gradebookContainer.studentContainers)" value="Square root curve">
                 Square Root Curve
             </button>
+
             <button type="button" class="btn btn-default btn-md"  ng-click="getOriginalGrades(assforgraph)" value="Revert to original grades">
                 <span class = "glyphicon glyphicon-refresh"> Revert-Grades </span>
             </button>

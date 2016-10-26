@@ -186,11 +186,14 @@
 <!--<span ng-if="<%teacherWhoIsLoggedIn%>">-->
 <!--<span ng-if="teacherWhoIsLoggedIn">-->
     <span ng-if="loginSuccessful == false">
-        <span style="color: white; text-align: center">
-         <!--Your login was not successful. <a href="" class="btn btn-default"> <input type="button" class="btn btn-default btn-lg" ng-click="home()" value="Try again"/> </a>-->
+        <div class="wrapper">
+
+            <!--Your login was not successful. <a href="" class="btn btn-default"> <input type="button" class="btn btn-default btn-lg" ng-click="home()" value="Try again"/> </a>-->
+            <div class="logout">
          Your login was not successful. <button type="button" class="btn btn-default btn-lg" ng-click="home()"> Try Again </button>
-        <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
-        </span>
+            </div>
+                <!--Your login was not successful. <input type="button" ng-click="home()" value="Try again"/>-->
+        </div>
     </span>
 
 </span>
