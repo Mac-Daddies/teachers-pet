@@ -149,6 +149,14 @@ public class JSONController {
         return stringContainer;
     }
 
+    @RequestMapping(path = "/resetEmailSignature.json", method = RequestMethod.POST)
+    public StringContainer resetEmailSignature(@RequestBody Teacher teacher) {
+        emailCustomContent.setEmailSignature(null);
+        String emailSignature = emailCustomContent.getEmailSignature(teacher);
+        StringContainer stringContainer = new StringContainer(emailSignature);
+        return stringContainer;
+    }
+
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
         System.out.println("IN GRADEBOOK.................................................");
