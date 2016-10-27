@@ -1098,6 +1098,7 @@ public class JSONController {
         } else {
             returnString = "Error: emails not sent because there are no students yet. Add students first.";
         }
+        //put returnstring in new string container to return
         StringContainer myMessage = new StringContainer(returnString);
         System.out.println("BACK IN JSON: " + myMessage.getMessage());
 
