@@ -149,6 +149,14 @@ public class JSONController {
         return stringContainer;
     }
 
+    @RequestMapping(path = "/resetEmailSignature.json", method = RequestMethod.POST)
+    public StringContainer resetEmailSignature(@RequestBody Teacher teacher) {
+        emailCustomContent.setEmailSignature(null);
+        String emailSignature = emailCustomContent.getEmailSignature(teacher);
+        StringContainer stringContainer = new StringContainer(emailSignature);
+        return stringContainer;
+    }
+
     @RequestMapping(path = "/gradebook.json", method = RequestMethod.POST)
     public AssignmentAndStudentAssignmentContainer gradebookJSON(@RequestBody int courseId){
         System.out.println("IN GRADEBOOK.................................................");
@@ -1098,6 +1106,7 @@ public class JSONController {
         } else {
             returnString = "Error: emails not sent because there are no students yet. Add students first.";
         }
+        //put returnstring in new string container to return
         StringContainer myMessage = new StringContainer(returnString);
         System.out.println("BACK IN JSON: " + myMessage.getMessage());
 

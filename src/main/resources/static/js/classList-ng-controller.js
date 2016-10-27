@@ -109,6 +109,21 @@ angular.module('TeachersPetApp', [])
                     });
         };
 
+        $scope.resetEmailSignature = function() {
+            console.log("In resetEmailSignature function in classList-ng-controller");
+
+            $http.post("/resetEmailSignature.json", $scope.teacherWhoIsLoggedIn)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("Adding data to scope");
+                        $scope.emailSignature = response.data.message;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
         $scope.graph = function(courseId){
                         console.log("In graph function in ng controller");
                         // go to new window
