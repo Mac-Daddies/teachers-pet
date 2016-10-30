@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Created by jessicatracy on 10/18/16.
+ * Middleman between JSON controller and EmailSender. Fills email templates with info from the database for the courses/students
+ * received from the JSON controller, and calls the EmailSender to send them using SendGrid API.
  */
 public class EmailCustomContent {
     EmailSender myEmailSender = new EmailSender();

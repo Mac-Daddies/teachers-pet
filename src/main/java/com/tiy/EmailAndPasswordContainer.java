@@ -3,16 +3,16 @@ package com.tiy;
 /**
  * Created by Yehia830 on 10/10/16.
  */
-public class emailAndPasswordContainer {
+public class EmailAndPasswordContainer {
     String email;
     String password;
 
-    public emailAndPasswordContainer(String email, String password) {
+    public EmailAndPasswordContainer(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public emailAndPasswordContainer() {
+    public EmailAndPasswordContainer() {
     }
 
     public String getEmail() {

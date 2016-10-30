@@ -2,6 +2,9 @@ package com.tiy;
 
 /**
  * Created by jessicatracy on 10/14/16.
+ * Container to hold an assignment and both its average and original average, which are displayed at the bottom of the gradebook table
+ * so that teachers can decide how much the curve affected the average for that assignment.
+ * We make a list of AssignmentAndAverageContainer to return when the gradebook is updated.
  */
 public class AssignmentAndAverageContainer {
     Assignment assignment;

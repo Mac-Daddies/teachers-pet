@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by jessicatracy on 10/20/16.
+ * Used to return data for chart.js graph. Holds lists of percentages for the y-values of our ordered pairs
+ * on the distribution graphs.
  */
 public class PercentagesOfGradesAndCurvedGradesContainer {
     ArrayList<Double> percentagesOfOriginalGrades;

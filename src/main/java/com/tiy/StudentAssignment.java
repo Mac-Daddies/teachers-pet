@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by jessicatracy on 10/7/16.
+ * Links a student to all of his/her assignments AND an assignmnet to all students who have that assignment.
  */
 @Entity
 @Table(name = "studentAssignments")

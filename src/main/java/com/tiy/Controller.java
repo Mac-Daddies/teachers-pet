@@ -37,9 +37,9 @@ public class Controller {
     @Autowired
     OriginalGradeRepository originalGradeRepository;
 
+    //Brings user to main login and register page
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session) {
-//        model.addAttribute("loggedIn", false);
         if (session.getAttribute("teacherWhoIsLoggedIn") == null) {
             model.addAttribute("teacherWhoIsLoggedIn", false);
         } else {
@@ -49,36 +49,19 @@ public class Controller {
         return "home";
     }
 
+    //Screen that shows all of the teacher's classes after logging in
     @RequestMapping(path = "/classList", method = RequestMethod.GET)
     public String classList(int teacherId, Model model) {
         model.addAttribute("teacherId", teacherId);
         return "classList";
     }
 
-//    @RequestMapping(path = "/backToHome", method = RequestMethod.GET)
-//    public String backToHome(int teacherId, Model model) {
-//        model.addAttribute("teacherId", teacherId);
-//        return "home";
-//    }
-
-//    @RequestMapping(path = "/backToHome", method = RequestMethod.POST)
-//    public String backToHome(@RequestBody Teacher teacher, Model model) {
-//        model.addAttribute("teacherWhoIsLoggedIn", teacher);
-//        return "home";
-//    }
-
+    //Screen that shows a class's gradebook after that class is selected from the classlist screen
     @RequestMapping(path = "/gradebook", method = RequestMethod.GET)
     public String gradebook(int courseId,Model model){
         model.addAttribute("courseId", courseId);
         return "gradebook";
     }
-
-//    @RequestMapping(path = "/gradebook", method = RequestMethod.POST)
-//    public String gradebook(@RequestBody Course course, Model model, HttpSession session){
-//        model.addAttribute("course", course);
-////        session.setAttribute("currentCourse", course);
-//        return "gradebook";
-//    }
 
     @RequestMapping(path = "/assignment", method = RequestMethod.GET)
     public String addAss(){
@@ -96,6 +79,7 @@ public class Controller {
         return "graph";
     }
 
+    //used to manually delete a teacher from db using the teacher id (only for repopulating demo data)
     @RequestMapping(path = "/deleteTeacher", method = RequestMethod.GET)
     public String deleteTeacher(int teacherId) {
         Teacher teacher = teacherRepository.findOne(teacherId);
@@ -132,7 +116,7 @@ public class Controller {
         return "redirect:/";
     }
 
-
+    //Generates data for demo
     @RequestMapping(path = "/generateDemoData", method = RequestMethod.GET)
     public String generateDemoData() {
         Teacher teacher = new Teacher("Yehia", "Abdullah", "teacher.teacherspet@gmail.com", "password", "THS");

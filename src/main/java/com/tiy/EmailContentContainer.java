@@ -2,6 +2,7 @@ package com.tiy;
 
 /**
  * Created by jessicatracy on 10/24/16.
+ * Used for returning email settings data for the "Edit email settings" button on the classlist screen
  */
 public class EmailContentContainer {
     int highAverage;

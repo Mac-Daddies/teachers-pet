@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by jessicatracy on 10/11/16.
+ * Links together a student with the courses he/she is in AND a course with all of its students.
  */
 @Entity
 @Table(name="studentCourses")

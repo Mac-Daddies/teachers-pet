@@ -21,8 +21,6 @@ public class Student {
     @Column(nullable = false)
     String parentEmail;
 
-//    int average;
-
 
     // Constructors
     public Student() {

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 /**
  * Created by jessicatracy on 10/17/16.
+ * Holds a record of the grade information for a single student on a single assignment the first time grade info
+ * is entered.
  */
 @Entity
 @Table(name = "originalGrades")

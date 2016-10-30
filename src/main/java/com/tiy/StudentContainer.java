@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 /**
  * Created by jessicatracy on 10/11/16.
+ * Used to group a student, his/her assignments, and his/her average together in order to display in a single row on
+ * the table.
  */
 // This is for populating the gradebook.
 public class StudentContainer {
