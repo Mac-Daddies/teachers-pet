@@ -32,5 +32,7 @@ http://teachers-pet.heroku.com
 
 Make an account to add your own classes and grades, or use the login below to see the app's functionality using pre-populated
 demo data.
+
 Email: teacher.teacherspet@gmail.com
+
 Password: password
